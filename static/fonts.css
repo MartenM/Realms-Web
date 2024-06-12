@@ -1,0 +1,25 @@
+@font-face {
+    font-family: Joystix;
+    src: url("fonts/joystix_monospace.otf") format("opentype");
+
+}
+
+@font-face {
+    font-family: BnMachine;
+    src: url("fonts/BNMachine.ttf");
+}
+
+@font-face {
+    font-family: ArcadeClassic;
+    src: url("fonts/ARCADECLASSIC.TTF");
+}
+
+@font-face {
+    font-family: FFF;
+    src: url("fonts/FFFFORWA.TTF");
+}
+
+@font-face {
+    font-family: Kongtext;
+    src: url("fonts/kongtext.ttf");
+}
