@@ -48,7 +48,7 @@ jobs:
 
       - name: Transfer Docker image to remote server
         run: |
-          scp my-image.tar ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp
+          scp ${{ env.TAR_NAME }} ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp/
 
       - name: Load Docker image on remote server
         run: |
