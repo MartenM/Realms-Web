@@ -84,7 +84,7 @@
 
     .realm-browser-content {
         border: 1px solid gray;
-        min-height: 80vh;
+        height: 80vh;
         overflow-y: scroll;
     }
 

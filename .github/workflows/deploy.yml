@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ env.IMAGE_TAG }}
+        run: docker build --file Dockerfile --tag ${{ env.IMAGE_TAG }} --build-arg PUBLIC_API_URL=https://realms.martenm.nl .
 
       - name: Save Docker image
         run: docker save -o ${{ env.TAR_NAME }} ${{ env.IMAGE_TAG }}
