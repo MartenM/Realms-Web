@@ -1,7 +1,6 @@
 name: Deploy to production
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   # build:
@@ -14,7 +13,7 @@ jobs:
   #       uses: bahmutov/npm-install@v1
   #     - name: Build
   #       run: npm run build
-  
+
   # Create docker image
   deploy:
     runs-on: ubuntu-latest
@@ -25,34 +24,33 @@ jobs:
       - name: Create SSH key
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ../private.key
-          sudo chmod 600 ../private.key
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
         env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_DEPLOY_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
-          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
-      
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+
       - uses: actions/checkout@v4
-      
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_TAG }}
-        
+
       - name: Save Docker image
         run: docker save -o ${{ env.TAR_NAME }} ${{ env.IMAGE_TAG }}
 
       - name: Transfer Docker image to remote server
         run: |
-          scp -o StrictHostKeyChecking=no my-image.tar ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp
-      
+          scp -o  my-image.tar ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp
+
       - name: Load Docker image on remote server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
+          ssh -o ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
           docker load -i /home/ubuntu/temp/${{ env.TAR_NAME }}
           ENDSSH
       - name: Update service
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
+          ssh -o ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
           docker service update realms_web --image ${{ env.IMAGE_TAG }}
           ENDSSH
