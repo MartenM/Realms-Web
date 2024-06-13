@@ -32,6 +32,12 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
+      - name: Test SSH connection
+        run: |
+          ssh ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
+          echo Hello world!
+          ENDSSH
+
       - uses: actions/checkout@v4
 
       - name: Build the Docker image
@@ -42,15 +48,15 @@ jobs:
 
       - name: Transfer Docker image to remote server
         run: |
-          scp -o  my-image.tar ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp
+          scp my-image.tar ${{ secrets.SSH_CONNECTION_STRING }}:/home/ubuntu/temp
 
       - name: Load Docker image on remote server
         run: |
-          ssh -o ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
+          ssh ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
           docker load -i /home/ubuntu/temp/${{ env.TAR_NAME }}
           ENDSSH
       - name: Update service
         run: |
-          ssh -o ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
+          ssh ${{ secrets.SSH_CONNECTION_STRING }} << 'ENDSSH'
           docker service update realms_web --image ${{ env.IMAGE_TAG }}
           ENDSSH
