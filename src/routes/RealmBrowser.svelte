@@ -1,6 +1,5 @@
 <script lang="ts">
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
-    import type {PublishedWorld} from "$lib/realmTypes";
     import RealmBrowserEntry from "./RealmBrowserEntry.svelte";
     import {onMount} from "svelte";
     import PlayWorldModal from "./PlayWorldModal.svelte";
@@ -59,6 +58,7 @@
     </div>
 </div>
 
+<!--suppress CssUnusedSymbol -->
 <style>
     .realm-browser {
         background-color: rgba(0, 0, 0, 0.75);

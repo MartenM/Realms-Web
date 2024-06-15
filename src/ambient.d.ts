@@ -1,4 +1,10 @@
-export interface PublishedWorld {
+interface Profile {
+    isSet: boolean
+    pwId: string
+    name: string
+}
+
+interface PublishedWorld {
     id: string
     shortHash: string
     title: string
@@ -10,7 +16,7 @@ export interface PublishedWorld {
     plays: number,
 }
 
-export interface HighscorePlayer {
+interface HighscorePlayer {
     username: string
     trophies: number
     verified: boolean

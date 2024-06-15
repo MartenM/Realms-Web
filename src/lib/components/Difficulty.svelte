@@ -8,6 +8,13 @@
     import extreme from "$lib/images/difficulties/6.png";
     import demon from "$lib/images/difficulties/7.png";
 
+    import featured_easy from "$lib/images/difficulties/featured_2.png";
+    import featured_normal from "$lib/images/difficulties/featured_3.png";
+    import featured_hard from "$lib/images/difficulties/featured_4.png";
+    import featured_harder from "$lib/images/difficulties/featured_5.png";
+    import featured_extreme from "$lib/images/difficulties/featured_6.png";
+    import featured_demon from "$lib/images/difficulties/featured_7.png";
+
     import trophy from "$lib/images/trophy.png";
 
     export let difficulty: number;
@@ -20,25 +27,25 @@
         case 0:
         case 1:
         case 2:
-            icon = easy;
+            icon = (featured == 0 ? easy : featured_easy);
             break;
         case 3:
-            icon = normal;
+            icon = (featured == 0 ? normal : featured_normal);
             break;
         case 4:
         case 5:
-            icon = hard;
+            icon = (featured == 0 ? hard : featured_hard);
             break;
         case 6:
         case 7:
-            icon = harder;
+            icon = (featured == 0 ? harder : featured_harder);
             break;
         case 8:
         case 9:
-            icon = extreme;
+            icon = (featured == 0 ? extreme : featured_extreme);
             break;
         case 10:
-            icon = demon;
+            icon = (featured == 0 ? demon : featured_demon);
             break;
     }
 </script>
@@ -78,7 +85,7 @@
     }
 
     .trophy-display div {
-        font-family: ArcadeClassic, Serif;
+        font-family: ArcadeClassic, serif;
         font-size: 16px;
     }
 </style>

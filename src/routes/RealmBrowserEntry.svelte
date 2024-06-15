@@ -1,6 +1,5 @@
 <script lang="ts">
     import Difficulty from "$lib/components/Difficulty.svelte";
-    import type {PublishedWorld} from "$lib/realmTypes";
     import {createEventDispatcher} from "svelte";
 
     export let data: PublishedWorld;
@@ -35,7 +34,7 @@
     .btn-play {
         color: white;
         background-color: #e6a100;
-        font-family: Joystix, Serif;
+        font-family: Joystix, serif;
     }
 
 

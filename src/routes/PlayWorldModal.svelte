@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {PublishedWorld} from "$lib/realmTypes";
+
 
     export let showModal: boolean; // boolean
 
@@ -51,7 +51,7 @@
 
     .title {
         font-size: 1.2em;
-        font-family: Joystix, Serif;
+        font-family: Joystix, serif;
     }
 
     .code {
