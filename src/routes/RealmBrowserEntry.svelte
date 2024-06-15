@@ -71,7 +71,7 @@
         flex-direction: row;
         margin-top: 5px;
         font-family: ArcadeClassic, serif;
-        font-size: 0.7em;
+        font-size: 0.8em;
     }
 
     .meta-info div {
