@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type {HighscorePlayer} from "$lib/realmTypes";
     import trophy from "$lib/images/trophy.png";
+    import builder from "$lib/images/woot.png";
 
+    export let highscoreType: string;
     export let index = 0;
     export let player: HighscorePlayer;
 </script>
@@ -11,7 +12,13 @@
         <div class="index">{index + 1}.</div>
         <div class="stats">
             <div class="username">{player.username}</div>
-            <div class="amount">{player.trophies}  <img src={trophy} alt="Trophy icon"/></div>
+            <div class="amount">{player.amount}
+                {#if highscoreType === 'Trophies'}
+                    <img src={trophy} alt="Trophy icon"/>
+                {:else}
+                    <img src={builder} alt="Builder icon"/>
+                {/if}
+            </div>
         </div>
     </div>
 {:else}
@@ -19,7 +26,13 @@
         <div class="index">{index + 1}.</div>
         <div class="stats">
             <div class="username">{player.username}</div>
-            <div class="amount">{player.trophies}  <img src={trophy} alt="Trophy icon"/></div>
+            <div class="amount">{player.amount}
+                {#if highscoreType === 'Trophies'}
+                    <img src={trophy} alt="Trophy icon"/>
+                {:else}
+                    <img src={builder} alt="Builder icon"/>
+                {/if}
+            </div>
         </div>
     </div>
 {/if}
@@ -81,5 +94,9 @@
 
     .odd {
         background-color: #272727;
+    }
+
+    img {
+        margin-left: 3px;
     }
 </style>
