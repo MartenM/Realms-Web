@@ -1,6 +1,10 @@
-<div class="lds-dual-ring"></div>
+<div class="load-spinner">
+    <div class="lds-dual-ring"></div>
+</div>
 
 <style>
+    
+
     .lds-dual-ring,
     .lds-dual-ring:after {
         box-sizing: border-box;
