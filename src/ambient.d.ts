@@ -18,6 +18,11 @@ interface PublishedWorld {
 
 interface HighscorePlayer {
     username: string
-    trophies: number
+    amount: number
     verified: boolean
+}
+
+interface HighscoreConfiguration {
+    apiUrl: string,
+    type: string
 }
