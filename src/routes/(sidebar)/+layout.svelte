@@ -10,3 +10,9 @@
 	<HighscoreList></HighscoreList>
 </div>
 
+<style>
+	:global(.high-scores) {
+		overflow-y: scroll;
+		max-height: 90vh;
+	}
+</style>
