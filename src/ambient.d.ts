@@ -1,7 +1,11 @@
 interface Profile {
-    isSet: boolean
-    pwId: string
-    name: string
+    isSimple: boolean,
+    hasSession: boolean
+    username: string | null,
+}
+
+interface RealmDetails {
+
 }
 
 interface PublishedWorld {
@@ -13,6 +17,7 @@ interface PublishedWorld {
     featuredLevel: number
     ownerUsername: string
     completions: number,
+    completed: boolean,
     plays: number,
 }
 

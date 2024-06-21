@@ -8,7 +8,7 @@
 </svelte:head>
 
 <div class="about realm-box">
-	<h1>Realm Ruler</h1>
+	<h1>Realms</h1>
 
 	<p>
 		Create, compete, conquer. Share your worlds, challenge the globe!

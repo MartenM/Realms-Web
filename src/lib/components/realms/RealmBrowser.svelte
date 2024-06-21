@@ -10,13 +10,13 @@
     import {
         PUBLIC_API_URL
     } from '$env/static/public';
-    export let apiUrl: string = `/api/published_worlds/`;
+    export let apiUrl: string = `/api/worlds/`;
 
     $: fullRoute = `${PUBLIC_API_URL}${apiUrl}?limit=100`;
     
     let dataPromise: Promise<PublishedWorld[]> = new Promise(() => {});
     onMount(async () => {
-        dataPromise = fetch(fullRoute).then((res) => res.json());
+        dataPromise = fetch(fullRoute, {credentials: "include"}).then((res) => res.json());
     });
 
     let modal = false;
