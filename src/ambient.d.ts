@@ -24,7 +24,6 @@ interface PublishedWorld {
 interface HighscorePlayer {
     username: string
     amount: number
-    verified: boolean
 }
 
 interface HighscoreConfiguration {
