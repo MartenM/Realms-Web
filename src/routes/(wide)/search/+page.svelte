@@ -2,4 +2,4 @@
     import Planned from "$lib/components/Planned.svelte";
 </script>
 
-<Planned/>
+<Planned message="Feature gets priority once the initial browser get cluttered."/>

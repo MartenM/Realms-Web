@@ -16,7 +16,7 @@
 
     let dataPromise: Promise<HighscorePlayer[]> = new Promise(() => {});
     onMount(async () => {
-        dataPromise = fetch(fullRoute).then((res) => res.json());
+        dataPromise = fetch(fullRoute, {credentials: "include"}).then((res) => res.json());
     });
 </script>
 

@@ -2,7 +2,6 @@
 	import background from '$lib/images/The_Torava_Disaster.png';
 	import './styles.css';
 	import Navbar from "$lib/components/Navbar.svelte";
-	import HighscoreList from "$lib/components/highscores/HighscoreList.svelte";
 
 </script>
 
@@ -34,7 +33,13 @@
 		padding-right: 1em;
 	}
 
+	:global(h1), :global(h2), :global(h3), :global(h4), :global(h5) {
+		color: var(--realm-primary);
+		font-family: Joystix, serif;
+	}
+
 	:root {
 		--realm-primary: #ffb300;
+		--realm-background: rgba(0, 0, 0, 0.75);
 	}
 </style>

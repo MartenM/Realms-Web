@@ -18,7 +18,12 @@
         <Difficulty difficulty={data.ratedDifficulty ?? data.requestedDifficulty} rated={data.ratedDifficulty != null} featured={data.featuredLevel} />
     </div>
     <div class="meta-info">
-        <div class="title">{data.title}</div>
+        <div class="title">
+            {data.title}
+            {#if data.completed}
+                <i class='bx bx-check completed' ></i>
+            {/if}
+        </div>
         <div class="owner">{data.ownerUsername}</div>
         <div class="stats">
             <div>Completions: {data.completions}</div>
@@ -35,6 +40,11 @@
         color: white;
         background-color: #e6a100;
         font-family: Joystix, serif;
+    }
+
+    .completed {
+        color: greenyellow;
+        font-weight: bold;
     }
 
 
