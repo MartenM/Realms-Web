@@ -12,7 +12,7 @@
     } from '$env/static/public';
     export let apiUrl: string = `/api/worlds/`;
 
-    $: fullRoute = `${PUBLIC_API_URL}${apiUrl}?limit=100`;
+    $: fullRoute = `${PUBLIC_API_URL}${apiUrl}?pageSize=100`;
     
     let dataPromise: Promise<PublishedWorld[]> = new Promise(() => {});
     onMount(async () => {
