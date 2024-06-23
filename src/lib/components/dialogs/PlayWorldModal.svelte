@@ -38,7 +38,7 @@
                 <div class="title">{world?.title}</div>
             </DifficultyBackground>
             <div class="builder ">
-                <span>Build by:</span>
+                <span>Built by:</span>
                 <span><ProfileLink username="{world?.ownerUsername ?? 'marten'}" showIcon={true} >{world?.ownerUsername}</ProfileLink></span>
             </div>
         </div>
