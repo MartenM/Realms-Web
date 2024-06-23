@@ -2,7 +2,7 @@
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import RealmBrowserEntry from "./RealmBrowserEntry.svelte";
     import {onMount} from "svelte";
-    import PlayWorldModal from "./PlayWorldModal.svelte";
+    import { openPlayDialog } from "$lib/stores/playWorldDialogStore";
 
     export let title: string;
     export let subTitle: string;
@@ -27,9 +27,6 @@
 
     }
 </script>
-
-<PlayWorldModal bind:showModal={modal} world={clickedWorld}></PlayWorldModal>
-
 <div class="realm-browser">
     <!-- Header -->
     <div class="row realm-browser-header">

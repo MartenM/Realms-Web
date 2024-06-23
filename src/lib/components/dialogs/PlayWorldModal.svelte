@@ -1,12 +1,13 @@
 <script lang="ts">
-
-
-    export let showModal: boolean; // boolean
+    import { playWorldDialogStore } from "$lib/stores/playWorldDialogStore";
+    import MinimapView from "$lib/components/realms/MinimapView.svelte";
+    import DifficultyBackground from "$lib/components/realms/DifficultyBackground.svelte";
+    import ProfileLink from "$lib/components/ProfileLink.svelte";
 
     let dialog: HTMLDialogElement; // HTMLDialogElement
-    export let world: PublishedWorld | null;
+    $: world = $playWorldDialogStore.world;
 
-    $: if (dialog && showModal) dialog.showModal();
+    $: if (dialog && $playWorldDialogStore.isOpen) dialog.showModal();
     $: if (world) lastClip = null;
 
     let lastClip: string | null;
@@ -15,17 +16,36 @@
         navigator.clipboard.writeText(content);
     }
 
+    function closeDialog() {
+        playWorldDialogStore.update((value) => ({isOpen: false, world: null}))
+    }
+
+    let backgroundColour = "";
+
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
         bind:this={dialog}
-        on:close={() => (showModal = false)}
+        on:close={closeDialog}
         on:click|self={() => dialog.close()}
 >
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div on:click|stopPropagation>
-        <div class="title">Play: {world?.title}</div>
+
+        <div class="header">
+            <DifficultyBackground difficulty={$playWorldDialogStore.world?.ratedDifficulty ?? null}>
+                <div class="title">{world?.title}</div>
+            </DifficultyBackground>
+            <div class="builder ">
+                <span>Build by:</span>
+                <span><ProfileLink username="{world?.ownerUsername ?? 'marten'}" showIcon={true} >{world?.ownerUsername}</ProfileLink></span>
+            </div>
+        </div>
+        <hr />
+        <div class="minimap">
+            <MinimapView worldId={world?.id ?? null} />
+        </div>
         <hr />
         <ol>
             <li>Join<br><span class="code" on:click={() => copyToClipboard("https://pixelwalker.net/world/mknckr7oqxq24xa")}>https://pixelwalker.net/world/mknckr7oqxq24xa</span></li>
@@ -44,14 +64,39 @@
 </dialog>
 
 <style>
+    .minimap {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+    }
+
     .btn-ok {
         color: white;
         background-color: grey;
     }
 
+    .header {
+        text-align: center;
+    }
+
     .title {
-        font-size: 1.2em;
+        font-size: 2em;
         font-family: Joystix, serif;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .builder {
+        margin-top: 10px;
+        font-size: 1em;
+        font-family: Joystix, serif;
+    }
+
+    .builder span:nth-of-type(1) {
+        color: white;
+    }
+
+    .builder span:nth-of-type(2) {
+        color: gold;
     }
 
     .code {
@@ -80,7 +125,8 @@
     }
 
     dialog {
-        max-width: 32em;
+        max-width: 80em;
+        min-width: 40em;
         border-radius: 0.2em;
         border: 4px solid gold;
         padding: 0;
@@ -118,4 +164,5 @@
     button {
         display: block;
     }
+
 </style>

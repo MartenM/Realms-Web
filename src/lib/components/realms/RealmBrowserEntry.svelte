@@ -2,14 +2,19 @@
     import Difficulty from "$lib/components/Difficulty.svelte";
     import {createEventDispatcher} from "svelte";
 
+    import { openMinimap } from "$lib/stores/minimapDialogStore";
+    import { openPlayDialog } from "$lib/stores/playWorldDialogStore";
+
     export let data: PublishedWorld;
 
     const dispatch = createEventDispatcher();
 
     function playWorld() {
-        dispatch("playWorld", {
-            world: data
-        })
+        openPlayDialog(data);
+    }
+
+    function minimap() {
+        openMinimap(data.id, data.title);
     }
 </script>
 
@@ -30,8 +35,8 @@
             <div>Plays: {data.plays}</div>
         </div>
     </div>
-    <div class="play-button">
-        <button on:click={() => (playWorld())} class="btn btn-play">Play</button>
+    <div class="entry-buttons">
+        <button on:click={playWorld} class="btn btn-play">Play</button>
     </div>
 </div>
 
@@ -42,14 +47,13 @@
         font-family: Joystix, serif;
     }
 
+    .btn-play:hover {
+        background-color: gold;
+    }
+
     .completed {
         color: greenyellow;
         font-weight: bold;
-    }
-
-
-    .btn-play:hover {
-        background-color: gold;
     }
 
     .realm-browser-entry {
@@ -87,17 +91,15 @@
         margin-right: 10px;
     }
 
-    .play-button {
-        flex-shrink: 0;
-    }
-
     .rated  {
         flex-shrink: 0;
     }
 
-    .play-button {
+    .entry-buttons {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+        margin-left: 10px;
     }
 </style>

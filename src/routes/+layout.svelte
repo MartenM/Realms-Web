@@ -2,6 +2,8 @@
 	import background from '$lib/images/The_Torava_Disaster.png';
 	import './styles.css';
 	import Navbar from "$lib/components/Navbar.svelte";
+	import MinimapDialog from "$lib/components/dialogs/MinimapDialog.svelte";
+	import PlayWorldModal from "$lib/components/dialogs/PlayWorldModal.svelte";
 
 </script>
 
@@ -14,6 +16,12 @@
 
 			<slot/>
 		</div>
+
+		<!-- Dialogs -->
+		<div>
+			<PlayWorldModal/>
+			<MinimapDialog/>
+		</div>
 	</div>
 </div>
 
@@ -24,6 +32,7 @@
 		padding-top: 1em;
 	}
 
+	/*noinspection CssUnusedSymbol*/
 	:global(.realm-box) {
 		background-color: rgba(0, 0, 0, 0.75);
 		border: 1px solid gray;

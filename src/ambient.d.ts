@@ -4,10 +4,6 @@ interface Profile {
     username: string | null,
 }
 
-interface RealmDetails {
-
-}
-
 interface PublishedWorld {
     id: string
     shortHash: string
@@ -29,4 +25,15 @@ interface HighscorePlayer {
 interface HighscoreConfiguration {
     apiUrl: string,
     type: string
+}
+
+interface PlayerProfile {
+    id:            string;
+    username:      string;
+    playerGroup:   number;
+    trophies:      number;
+    builderPoints: number;
+    verified:      boolean;
+    totalPlays:    number;
+    completedWorlds: number;
 }

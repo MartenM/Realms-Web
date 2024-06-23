@@ -1,29 +1,43 @@
 <script lang="ts">
-    export let showModal: boolean; // boolean
+    import { minimapDialogStore } from "$lib/stores/minimapDialogStore";
 
-    let dialog: HTMLDialogElement; // HTMLDialogElement
+    let dialog: HTMLDialogElement;
 
-    $: if (dialog && showModal) dialog.showModal();
+    $: if (dialog && $minimapDialogStore.isOpen) dialog.showModal();
+
+    function closeDialog() {
+        minimapDialogStore.set({ isOpen: false, worldId: null, worldName: null });
+    }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
         bind:this={dialog}
-        on:close={() => (showModal = false)}
+        on:close={closeDialog}
         on:click|self={() => dialog.close()}
 >
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div on:click|stopPropagation>
-        <slot name="header" />
+        <div class="title">Minimap: {$minimapDialogStore.worldName}</div>
         <hr />
-        <slot />
+
         <hr />
         <!-- svelte-ignore a11y-autofocus -->
-        <button autofocus on:click={() => dialog.close()} class="btn btn-success">Close</button>
+        <button autofocus on:click={() => dialog.close()} class="btn btn-ok">Close</button>
     </div>
 </dialog>
 
 <style>
+    .btn-ok {
+        color: white;
+        background-color: grey;
+    }
+
+    .title {
+        font-size: 1.2em;
+        font-family: Joystix, serif;
+    }
+
     dialog {
         max-width: 32em;
         border-radius: 0.2em;
