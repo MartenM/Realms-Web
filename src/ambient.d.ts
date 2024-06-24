@@ -37,3 +37,8 @@ interface PlayerProfile {
     totalPlays:    number;
     completedWorlds: number;
 }
+
+interface DifficultyMeta {
+    icon: Image,
+    name: string,
+}

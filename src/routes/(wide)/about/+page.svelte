@@ -1,5 +1,6 @@
 <script>
 
+import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 </script>
 
 <svelte:head>
@@ -36,6 +37,8 @@
 		<li>8-9: Extreme</li>
 		<li>10: Demon</li>
 	</ul>
+
+	<DifficultyBar/>
 </div>
 
 <style>

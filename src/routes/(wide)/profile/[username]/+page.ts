@@ -1,5 +1,4 @@
 import { error } from '@sveltejs/kit';
-import type {PlayerProfile} from "../../../../ambient";
 import {
     PUBLIC_API_URL
 } from '$env/static/public';
