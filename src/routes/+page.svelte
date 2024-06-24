@@ -25,13 +25,17 @@ let usernameHint = $profileStore.username == null;
 	<RealmBrowser title={"Rated Realms"} subTitle={"Play realms and earn trophies!"} apiUrl={"/api/worlds/rated"}/>
 	<DifficultyBar/>
 </div>
-<div class="col-md-3">
+<div class="col-md-3 sidebar">
 	<HighscoreList></HighscoreList>
 </div>
 
 <style>
-	.alert-profile {
+	.sidebar {
+		max-height: 90vh;
+		overflow-y: scroll;
+	}
 
+	.alert-profile {
 		border: 1px solid gold;
 		border-radius: 0.5em;
 		margin-bottom: 10px;

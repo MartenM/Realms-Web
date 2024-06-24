@@ -6,12 +6,12 @@
 	<slot/>
 </div>
 
-<div class="col-md-3">
+<div class="col-md-3 side-bar">
 	<HighscoreList></HighscoreList>
 </div>
 
 <style>
-	:global(.high-scores) {
+	.side-bar {
 		overflow-y: scroll;
 		max-height: 90vh;
 	}

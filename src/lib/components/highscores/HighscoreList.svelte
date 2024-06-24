@@ -39,11 +39,6 @@
 
 
 <style>
-    .high-scores {
-        /*max-height: 90vh;*/
-        /*overflow-y: scroll;*/
-    }
-
     .alert-none {
         width: 100%;
         padding: 1em 0em;
