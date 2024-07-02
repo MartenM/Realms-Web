@@ -23,6 +23,11 @@
             icon: 'bx-search',
         },
         {
+            name: 'Publish',
+            route: '/publish',
+            icon: 'bx-cloud-upload',
+        },
+        {
             name: 'Settings',
             route: '/settings',
             icon: 'bx-cog',
@@ -39,7 +44,7 @@
 <nav>
     {#each navEntry as nav, index}
         <a href="{nav.route}">
-            <div class="nav-entry {$page.url.pathname === nav.route ? 'selected' : '' }">
+            <div class="nav-entry {$page.url.pathname === nav.route ? 'selected' : ('nav-' + nav.name.toLowerCase()) } ">
                 <i class="bx {nav.icon}"></i>
                 <div>{nav.name}</div>
             </div>
@@ -71,6 +76,17 @@
     .nav-entry i {
         margin-right: 0.5em;
     }
+
+    .nav-publish i {
+        /*animation: borderAnimation 4s infinite;*/
+        color: gold;
+    }
+
+    /*@keyframes borderAnimation {*/
+    /*    0% { border-color: grey; }*/
+    /*    50% { border-color: gold; }*/
+    /*    100% { border-color: grey; }*/
+    /*}*/
     
     a {
         text-decoration: none;

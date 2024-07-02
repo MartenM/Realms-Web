@@ -1,6 +1,5 @@
 <script>
 
-import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 </script>
 
 <svelte:head>
@@ -15,30 +14,19 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 		Create, compete, conquer. Share your worlds, challenge the globe!
 	</p>
 
-	<h5>Publishing a world</h5>
 	<p>
-		To publish a world to realms follow the following steps:
+		Realms is designed to make exploring and discovering worlds of varying difficulties easy.<br>
+		Additionally, it rewards players and builders for their participation with trophies or builder points.
 	</p>
-	<ol>
-		<li>Join your world and copy the world ID. (The part after /world/ in your browsers URL bar)</li>
-		<li>Join the realms lobby.</li>
-		<li>Use the command .publish |worldId| |0-10| to start the verification process.</li>
-		<li>Join your world again, and complete it!</li>
-	</ol>
-	<p>
-		The difficulties are rated from 1 up and including 10.
-	</p>
-	<ul>
-		<li>1: Very easy</li>
-		<li>2: Easy</li>
-		<li>3: Normal</li>
-		<li>4-5: Hard</li>
-		<li>6-7: Harder</li>
-		<li>8-9: Extreme</li>
-		<li>10: Demon</li>
-	</ul>
 
-	<DifficultyBar/>
+	<h5>Contact</h5>
+	<p>Questions, suggestions or something else? Contact me on Discord!</p>
+	<div class="discord">
+		<div>
+			<i class='bx bxl-discord-alt' ></i>
+			<span>@MartenM</span>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -54,5 +42,28 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 	.about h5 {
 		font-family: Joystix, serif;
 		color: var(--realm-primary);
+	}
+
+	.discord {
+		display: flex;
+		justify-content: start;
+	}
+
+	.discord div {
+		padding: 0.5em;
+		border-radius: 1em;
+		background-color: #1e5dd5;
+
+		font-weight: bold;
+
+		display: flex;
+		align-content: center;
+		justify-content: center;
+	}
+
+	.discord div i {
+		margin-right: 0.5em;
+		line-height: 1.3;
+		font-size: 18px;
 	}
 </style>
