@@ -1,4 +1,4 @@
-import {writable} from 'svelte/store';
+import {get, writable} from 'svelte/store';
 
 import {
     PUBLIC_API_URL
@@ -26,14 +26,23 @@ async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordResponse> 
     return await response.json();
 }
 
-export const loadSpeedRecords = async function (worldId: string) : Promise<void> {
+export const loadSpeedRecords = async (): Promise<boolean> => {
+    const state = get(playWorldDialogStore);
+    if (state.world == null) {
+        console.error('World is not set in the store');
+        return false;
+    }
+
     try {
-        const speedRecords = await fetchSpeedRecords(worldId);
+        const speedRecords = await fetchSpeedRecords(state.world?.id);
         playWorldDialogStore.update(state => ({
             ...state,
             speedRecords: speedRecords
         }));
     } catch (error) {
         console.error("Failed to fetch speed records", error);
+        return false;
     }
+
+    return true;
 }
