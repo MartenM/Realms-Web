@@ -42,3 +42,14 @@ interface DifficultyMeta {
     icon: Image,
     name: string,
 }
+
+interface SpeedRecord {
+    username: string;
+    face:     number;
+    time:     string;
+}
+
+interface SpeedRecordResponse {
+    records: SpeedRecord[];
+    ownRecord: SpeedRecord | null;
+}

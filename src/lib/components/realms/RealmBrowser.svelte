@@ -2,7 +2,6 @@
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import RealmBrowserEntry from "./RealmBrowserEntry.svelte";
     import {onMount} from "svelte";
-    import { openPlayDialog } from "$lib/stores/playWorldDialogStore";
 
     export let title: string;
     export let subTitle: string;

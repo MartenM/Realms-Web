@@ -3,12 +3,15 @@
     import MinimapView from "$lib/components/realms/MinimapView.svelte";
     import DifficultyBackground from "$lib/components/realms/DifficultyBackground.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
+    import WorldSpeedHighscores from "$lib/components/WorldSpeedHighscores.svelte";
 
     let dialog: HTMLDialogElement; // HTMLDialogElement
     $: world = $playWorldDialogStore.world;
 
     $: if (dialog && $playWorldDialogStore.isOpen) dialog.showModal();
     $: if (world) lastClip = null;
+
+    let currentSelection = "main";
 
     let lastClip: string | null;
     function copyToClipboard(content: string): void {
@@ -17,11 +20,9 @@
     }
 
     function closeDialog() {
-        playWorldDialogStore.update((value) => ({isOpen: false, world: null}))
+        playWorldDialogStore.update((value) => ({isOpen: false, world: null, speedRecords: null}))
+        currentSelection = "main";
     }
-
-    let backgroundColour = "";
-
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -43,20 +44,34 @@
             </div>
         </div>
         <hr />
-        <div class="minimap">
-            <MinimapView worldId={world?.id ?? null} />
+
+        <div class="content">
+            <div class="navigator">
+                <button class="btn-nav {(currentSelection === 'main' ? 'selected' : null)}" on:click={() => { currentSelection = "main" }}><i class='bx bx-info-square' ></i></button>
+                <button class="btn-nav {(currentSelection === 'speed' ? 'selected' : null)}" on:click={() => { currentSelection = "speed" }}><i class='bx bx-stopwatch'></i></button>
+            </div>
+            <div>
+                {#if currentSelection === "main"}
+                    <div class="minimap">
+                        <MinimapView worldId={world?.id ?? null} />
+                    </div>
+                    <hr />
+                    <ol>
+                        <li>Join<br><span class="code" on:click={() => copyToClipboard("https://pixelwalker.net/world/mknckr7oqxq24xa")}>https://pixelwalker.net/world/mknckr7oqxq24xa</span></li>
+                        <li>Paste the command <br><span class="code" on:click={() => copyToClipboard(`.join ${world?.shortHash}`)}>.join {world?.shortHash}</span></li>
+                        <li>Follow the instructions in the game. Enjoy!</li>
+                    </ol>
+                    {#if lastClip != null}
+                        <div class="clip-notify">Copied {lastClip} to clipboard!</div>
+                    {:else}
+                        <div class="clip-hint"><strong>Hint:</strong>  Click the code blocks to copy the text!</div>
+                    {/if}
+                {:else}
+                    <WorldSpeedHighscores/>
+                {/if}
+            </div>
         </div>
-        <hr />
-        <ol>
-            <li>Join<br><span class="code" on:click={() => copyToClipboard("https://pixelwalker.net/world/mknckr7oqxq24xa")}>https://pixelwalker.net/world/mknckr7oqxq24xa</span></li>
-            <li>Paste the command <br><span class="code" on:click={() => copyToClipboard(`.join ${world?.shortHash}`)}>.join {world?.shortHash}</span></li>
-            <li>Follow the instructions in the game. Enjoy!</li>
-        </ol>
-        {#if lastClip != null}
-        <div class="clip-notify">Copied {lastClip} to clipboard!</div>
-        {:else}
-        <div class="clip-hint"><strong>Hint:</strong>  Click the code blocks to copy the text!</div>
-        {/if}
+
         <hr />
         <!-- svelte-ignore a11y-autofocus -->
         <button autofocus on:click={() => dialog.close()} class="btn btn-ok">Close</button>
@@ -73,6 +88,35 @@
     .btn-ok {
         color: white;
         background-color: grey;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        min-height: 60vh;
+    }
+
+    .navigator {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .btn-nav {
+        flex-grow: 1;
+        margin-bottom: 0.5em;
+        background-color: gold;
+        color: grey;
+        border-color: #313131;
+    }
+
+    .selected {
+        background-color: var(--realm-primary);
+        color: white;
+    }
+
+    .btn-nav:hover {
+        background-color: #ffdf43;
+        color: white;
     }
 
     .header {
