@@ -22,7 +22,7 @@ export const openPlayDialog = function (world: PublishedWorld) : void {
 
 async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordResponse> {
     // Replace with actual data fetching logic
-    const response = await fetch(`${PUBLIC_API_URL}/api/world/2e3aa498-5694-4e0c-a5db-d8be3e2d69ea/speedruns?page=0&limit=100`);
+    const response = await fetch(`${PUBLIC_API_URL}/api/world/2e3aa498-5694-4e0c-a5db-d8be3e2d69ea/speedruns?page=0&limit=100`, {credentials: "include"});
     return await response.json();
 }
 

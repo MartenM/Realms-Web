@@ -20,10 +20,17 @@
     })
 </script>
 
+{#if ownRecord != null}
+    <div class="self-record">Your best time: <span style="font-family: Roboto">{ownRecord.time}</span></div>
+    <hr>
+{/if}
+
 <div class="high-scores-browser">
+
     {#await loadPromise}
         <LoadSpinner/>
     {:then none}
+
         {#if otherRecords != null && otherRecords.length > 0}
             {#each otherRecords as record, index}
                 <div class="speed-entry">
@@ -48,6 +55,11 @@
 </div>
 
 <style>
+    .self-record {
+        text-align: center;
+        font-family: Joystix, serif;
+    }
+
     .high-scores-browser {
         border: 1px solid gold;
         max-height: 50vh;
