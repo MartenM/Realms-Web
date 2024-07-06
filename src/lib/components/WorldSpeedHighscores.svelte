@@ -5,7 +5,7 @@
     import Smiley from "$lib/components/Smiley.svelte";
 
 
-    let loadPromise : Promise<void>;
+    let loadPromise : Promise<boolean>;
 
     $: otherRecords = $playWorldDialogStore.speedRecords?.records;
     $: ownRecord = $playWorldDialogStore.speedRecords?.ownRecord;
@@ -15,7 +15,7 @@
             var worldId = $playWorldDialogStore.world?.id;
             if (worldId == null) return;
 
-            loadPromise = loadSpeedRecords(worldId);
+            loadPromise = loadSpeedRecords();
         }
     })
 </script>
@@ -29,9 +29,10 @@
 
     {#await loadPromise}
         <LoadSpinner/>
-    {:then none}
-
-        {#if otherRecords != null && otherRecords.length > 0}
+    {:then success}
+        {#if !success}
+            <div class="alert alert-error">Something went wrong while attempting to fetch the time trails of this world.</div>
+        {:else if otherRecords != null && otherRecords.length > 0}
             {#each otherRecords as record, index}
                 <div class="speed-entry">
                     <div class="index">

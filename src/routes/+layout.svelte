@@ -1,5 +1,6 @@
 <script>
-	import background from '$lib/images/The_Torava_Disaster.png';
+	import background from '$lib/images/MidnightMeadows.png';
+
 	import './styles.css';
 	import Navbar from "$lib/components/Navbar.svelte";
 	import MinimapDialog from "$lib/components/dialogs/MinimapDialog.svelte";
@@ -7,7 +8,7 @@
 
 </script>
 
-<div class="app" style="background: rgba(0, 0, 0, .65) url({background}); background-blend-mode: darken; background-size:cover;">
+<div class="app" style="background: rgba(0, 0, 0, .65) url({background}); background-blend-mode: darken; ">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-2">
@@ -27,7 +28,7 @@
 
 <style>
 	.app {
-		height: 100vh;
+		min-height: 100vh;
 		width: 100vw;
 		padding-top: 1em;
 	}
