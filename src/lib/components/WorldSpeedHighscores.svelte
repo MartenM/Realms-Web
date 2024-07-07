@@ -31,7 +31,7 @@
         <LoadSpinner/>
     {:then success}
         {#if !success}
-            <div class="alert alert-error">Something went wrong while attempting to fetch the time trails of this world.</div>
+            <div class="alert alert-error">Something went wrong while attempting to fetch the time trials of this world.</div>
         {:else if otherRecords != null && otherRecords.length > 0}
             {#each otherRecords as record, index}
                 <div class="speed-entry">
