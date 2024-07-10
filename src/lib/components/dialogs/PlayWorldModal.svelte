@@ -8,7 +8,10 @@
     let dialog: HTMLDialogElement; // HTMLDialogElement
     $: world = $playWorldDialogStore.world;
 
-    $: if (dialog && $playWorldDialogStore.isOpen) dialog.showModal();
+    $: if (dialog && $playWorldDialogStore.isOpen) {
+        dialog.removeAttribute('open')
+        dialog.showModal()
+    }
     $: if (world) lastClip = null;
 
     let currentSelection = "main";
