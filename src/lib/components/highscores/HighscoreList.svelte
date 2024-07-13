@@ -39,12 +39,5 @@
 
 
 <style>
-    .alert-none {
-        width: 100%;
-        padding: 1em 0em;
-        text-align: center;
-        color: white;
-        border: 1px solid red;
 
-    }
 </style>

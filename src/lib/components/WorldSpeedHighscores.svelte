@@ -1,9 +1,8 @@
 <script lang="ts">
     import { playWorldDialogStore, loadSpeedRecords } from "$lib/stores/playWorldDialogStore";
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
-
 
     let loadPromise : Promise<boolean>;
 
@@ -30,9 +29,7 @@
     {#await loadPromise}
         <LoadSpinner/>
     {:then success}
-        {#if !success}
-            <div class="alert alert-error">Something went wrong while attempting to fetch the time trials of this world.</div>
-        {:else if otherRecords != null && otherRecords.length > 0}
+        {#if otherRecords != null && otherRecords.length > 0}
             {#each otherRecords as record, index}
                 <div class="speed-entry">
                     <div class="index">
@@ -51,11 +48,17 @@
             <div>No runs have been completed on this map yet.</div>
         {/if}
     {:catch error}
-        <div class="alert alert-danger">Something went wrong while fetching the worlds.<br>{error}</div>
+        <div class="error-box">
+            <div class="alert alert-none">Something went wrong while attempting to fetch the time trials of this world.</div>
+        </div>
     {/await}
 </div>
 
 <style>
+    .error-box {
+        padding: 1em;
+    }
+
     .self-record {
         text-align: center;
         font-family: Joystix, serif;

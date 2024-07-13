@@ -41,6 +41,7 @@ export const loadSpeedRecords = async (): Promise<boolean> => {
         }));
     } catch (error) {
         console.error("Failed to fetch speed records", error);
+        throw error;
         return false;
     }
 

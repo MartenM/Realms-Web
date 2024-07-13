@@ -48,6 +48,15 @@
 		font-family: Joystix, serif;
 	}
 
+	:global(.alert-none) {
+		width: 100%;
+		padding: 1em 1em;
+		text-align: center;
+		color: white;
+		border: 1px solid red;
+
+	}
+
 	:root {
 		--realm-primary: #ffb300;
 		--realm-background: rgba(0, 0, 0, 0.75);
