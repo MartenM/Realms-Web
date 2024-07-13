@@ -60,7 +60,7 @@
                     </div>
                     <hr />
                     <ol>
-                        <li>Join<br><span class="code" on:click={() => copyToClipboard("https://pixelwalker.net/world/mknckr7oqxq24xa")}>https://pixelwalker.net/world/mknckr7oqxq24xa</span></li>
+                        <li>Join<br><span class="code"><a href="https://pixelwalker.net/world/mknckr7oqxq24xa" target="_blank">https://pixelwalker.net/world/mknckr7oqxq24xa</a></span></li>
                         <li>Paste the command <br><span class="code" on:click={() => copyToClipboard(`.join ${world?.shortHash}`)}>.join {world?.shortHash}</span></li>
                         <li>Follow the instructions in the game. Enjoy!</li>
                     </ol>
@@ -82,6 +82,8 @@
 </dialog>
 
 <style>
+    a { color: inherit; }
+
     .minimap {
         display: flex;
         align-content: center;
@@ -146,14 +148,6 @@
         color: gold;
     }
 
-    .code {
-        background: black;
-        border: 1px solid grey;
-        border-radius: 4px;
-        color: gold;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
 
     .clip-notify {
         font-size: 12px;

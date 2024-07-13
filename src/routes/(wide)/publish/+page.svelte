@@ -15,7 +15,7 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 	</p>
 	<ol class="upload-steps">
 		<li>Join your world and copy the world ID. (The part after /world/ in your browsers URL bar)</li>
-		<li>Join the realms lobby <span class="code"><a href="https://pixelwalker.net/world/mknckr7oqxq24xa">https://pixelwalker.net/world/mknckr7oqxq24xa</a></span></li>
+		<li>Join the realms lobby <span class="code"><a href="https://pixelwalker.net/world/mknckr7oqxq24xa" target="_blank">https://pixelwalker.net/world/mknckr7oqxq24xa</a></span></li>
 		<li>Use the command <span class="code">.publish worldId 1-10</span> to start the verification process.</li>
 		<div class="sub-step">Check the text below to see the difficulties!</div>
 		<li>Join your world again, and complete it!</li>
@@ -37,7 +37,7 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 	</ul>
 	<DifficultyBar/>
 	<h5>Trophies & Builder points</h5>
-	<p>Trophies are rewarded to players on completing a realm. Trophies ratings are given manually to ensure that the competition and achievements stay fair. Currently there are no requirements for levels to receive trophy ratings although some levels might be left out if they are deemed to be unfair, low-effort or too short.</p>
+	<p>Trophies are rewarded to players on completing a realm. Trophies ratings are given manually to ensure that the competition and achievements stay fair.</p>
 	<p>Builder points are automatically rewarded to the builder of the world when a trophy rating is given to a certain world.</p>
 
 </div>
@@ -58,14 +58,5 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 	}
 
 	a { color: inherit; }
-
-	.code {
-		background: black;
-		border: 1px solid grey;
-		border-radius: 4px;
-		color: gold;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
 
 </style>

@@ -57,6 +57,16 @@
 
 	}
 
+	:global(.code) {
+		background: black;
+		border: 1px solid grey;
+		border-radius: 4px;
+		color: gold;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+
 	:root {
 		--realm-primary: #ffb300;
 		--realm-background: rgba(0, 0, 0, 0.75);
