@@ -39,7 +39,8 @@ import DifficultyBar from "$lib/components/DifficultyBar.svelte";
 	<h5>Trophies & Builder points</h5>
 	<p>Trophies are rewarded to players on completing a realm. Trophies ratings are given manually to ensure that the competition and achievements stay fair.</p>
 	<p>Builder points are automatically rewarded to the builder of the world when a trophy rating is given to a certain world.</p>
-
+	<h5>Updating your world</h5>
+	<p>It could be that you uploaded your world but you want to change some minor details. For this the <span class="code">.update</span> command can be used. Simply join the realms lobby and use the command to start the update process.</p>
 </div>
 
 <style>
