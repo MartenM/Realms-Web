@@ -53,3 +53,11 @@ interface SpeedRecordResponse {
     records: SpeedRecord[];
     ownRecord: SpeedRecord | null;
 }
+
+type RequestRealmResponse = {
+    pixelWalkerRoomId: string;
+    errorText:         null;
+} | {
+    pixelWalkerRoomId: null;
+    errorText:         string;
+}

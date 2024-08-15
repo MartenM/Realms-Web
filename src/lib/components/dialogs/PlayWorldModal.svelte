@@ -4,6 +4,7 @@
     import DifficultyBackground from "$lib/components/realms/DifficultyBackground.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
     import WorldSpeedHighscores from "$lib/components/WorldSpeedHighscores.svelte";
+    import PlayRealmButton from "$lib/components/PlayRealmButton.svelte";
 
     let dialog: HTMLDialogElement; // HTMLDialogElement
     $: world = $playWorldDialogStore.world;
@@ -15,6 +16,7 @@
     $: if (world) lastClip = null;
 
     let currentSelection = "main";
+    let showLegacy = false;
 
     let lastClip: string | null;
     function copyToClipboard(content: string): void {
@@ -25,6 +27,7 @@
     function closeDialog() {
         playWorldDialogStore.update((value) => ({isOpen: false, world: null, speedRecords: null}))
         currentSelection = "main";
+        showLegacy = false;
     }
 </script>
 
@@ -54,20 +57,28 @@
                 <button class="btn-nav {(currentSelection === 'speed' ? 'selected' : null)}" on:click={() => { currentSelection = "speed" }}><i class='bx bx-stopwatch'></i></button>
             </div>
             <div>
-                {#if currentSelection === "main"}
+                {#if currentSelection === "main" && world !== null}
                     <div class="minimap">
                         <MinimapView worldId={world?.id ?? null} />
                     </div>
                     <hr />
-                    <ol>
-                        <li>Join<br><span class="code"><a href="https://pixelwalker.net/world/mknckr7oqxq24xa" target="_blank">https://pixelwalker.net/world/mknckr7oqxq24xa</a></span></li>
-                        <li>Paste the command <br><span class="code" on:click={() => copyToClipboard(`.join ${world?.shortHash}`)}>.join {world?.shortHash}</span></li>
-                        <li>Follow the instructions in the game. Enjoy!</li>
-                    </ol>
-                    {#if lastClip != null}
-                        <div class="clip-notify">Copied {lastClip} to clipboard!</div>
-                    {:else}
-                        <div class="clip-hint"><strong>Hint:</strong>  Click the code blocks to copy the text!</div>
+                    <div>
+                        <PlayRealmButton worldId={world.id}/>
+                    </div>
+                    <div>
+                        <button class="btn btn-legacy" on:click={() => showLegacy = !showLegacy}>Legacy</button>
+                    </div>
+                    {#if showLegacy}
+                        <ol>
+                            <li>Join<br><span class="code"><a href="https://pixelwalker.net/world/mknckr7oqxq24xa" target="_blank">https://pixelwalker.net/world/mknckr7oqxq24xa</a></span></li>
+                            <li>Paste the command <br><span class="code" on:click={() => copyToClipboard(`.join ${world?.shortHash}`)}>.join {world?.shortHash}</span></li>
+                            <li>Follow the instructions in the game. Enjoy!</li>
+                        </ol>
+                        {#if lastClip != null}
+                            <div class="clip-notify">Copied {lastClip} to clipboard!</div>
+                        {:else}
+                            <div class="clip-hint"><strong>Hint:</strong>  Click the code blocks to copy the text!</div>
+                        {/if}
                     {/if}
                 {:else}
                     <WorldSpeedHighscores/>
@@ -163,6 +174,19 @@
         text-align: center;
         background-color: #5b5b5bc9;
         border-radius: 5px;
+    }
+
+    .btn-legacy {
+        margin-top: 10px;
+        font-size: 0.8em;
+        width: 100%;
+        padding: 0.5em;
+        background-color: #5b5b5bc9;
+        color: rgba(156, 156, 156, 0.79);
+    }
+
+    .btn-legacy:hover {
+        background-color: rgba(122, 122, 122, 0.79);
     }
 
     dialog {

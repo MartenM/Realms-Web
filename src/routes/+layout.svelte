@@ -5,7 +5,6 @@
 	import Navbar from "$lib/components/Navbar.svelte";
 	import MinimapDialog from "$lib/components/dialogs/MinimapDialog.svelte";
 	import PlayWorldModal from "$lib/components/dialogs/PlayWorldModal.svelte";
-
 </script>
 
 <div class="app" style="background: rgba(0, 0, 0, .65) url({background}); background-blend-mode: darken; ">
