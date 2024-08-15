@@ -5,7 +5,7 @@
 <div class="col-md-10">
     <div class="error-box">
         <h1>{$page.status}: {$page?.error?.message}</h1>
-        <p>Whoops, you manged to get yourself an error!</p>
+        <p>Whoops, you managed to get yourself an error!</p>
     </div>
 </div>
 
