@@ -1,6 +1,6 @@
 <script lang="ts">
     import trophy from "$lib/images/trophy.png";
-    import builder from "$lib/images/woot.png";
+    import builder from "$lib/images/builder_block.png";
 
     export let highscoreType: string;
     export let index = 0;

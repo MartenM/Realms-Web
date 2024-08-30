@@ -1,6 +1,6 @@
 <script lang="ts">
     import trophy from "$lib/images/trophy.png";
-    import builder from "$lib/images/woot.png";
+    import builder from "$lib/images/builder_block.png";
     import Planned from "$lib/components/Planned.svelte";
 
     export let data : PlayerProfile;
