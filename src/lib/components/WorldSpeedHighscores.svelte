@@ -1,20 +1,22 @@
 <script lang="ts">
-    import { playWorldDialogStore, loadSpeedRecords } from "$lib/stores/playWorldDialogStore";
+    import { fetchSpeedRecords } from "$lib/stores/playWorldDialogStore";
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
 
-    let loadPromise : Promise<boolean>;
+    export let realmData: RealmInformation;
 
-    $: otherRecords = $playWorldDialogStore.speedRecords?.records;
-    $: ownRecord = $playWorldDialogStore.speedRecords?.ownRecord;
+    let loadPromise : Promise<SpeedRecordResponse>;
+
+    $: otherRecords = realmData.speedRecords?.records;
+    $: ownRecord = realmData.speedRecords?.ownRecord;
 
     onMount(() => {
-        if ($playWorldDialogStore.speedRecords == null) {
-            var worldId = $playWorldDialogStore.world?.id;
-            if (worldId == null) return;
-
-            loadPromise = loadSpeedRecords();
+        if (realmData.speedRecords == null) {
+            loadPromise = fetchSpeedRecords(realmData.world.id);
+            loadPromise.then((res) => {
+                realmData.speedRecords = res;
+            })
         }
     })
 </script>

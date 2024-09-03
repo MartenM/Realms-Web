@@ -61,3 +61,15 @@ type RequestRealmResponse = {
     pixelWalkerRoomId: null;
     errorText:         string;
 }
+
+interface RealmInformation {
+    world: PublishedWorld;
+    speedRecords: SpeedRecordResponse | null
+}
+
+interface ToastNotification {
+    id: string,
+    type: string,
+    message: string,
+    timeout: number
+}

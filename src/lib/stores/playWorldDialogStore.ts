@@ -20,7 +20,7 @@ export const openPlayDialog = function (world: PublishedWorld) : void {
     playWorldDialogStore.update( (state) => ({ isOpen: true, world: world, speedRecords: null }));
 }
 
-async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordResponse> {
+export async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordResponse> {
     // Replace with actual data fetching logic
     const response = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}/speedruns?page=0&limit=100`, {credentials: "include"});
     return await response.json();

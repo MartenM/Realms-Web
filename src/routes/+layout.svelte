@@ -7,6 +7,11 @@
 	import PlayWorldModal from "$lib/components/dialogs/PlayWorldModal.svelte";
 </script>
 
+<svelte:head>
+	<meta content="PixelWalker Realms" property="og:site_name">
+	<meta name="theme-color" content="#fcb603">
+</svelte:head>
+
 <div class="app" style="background: rgba(0, 0, 0, .65) url({background}); background-blend-mode: darken; ">
 	<div class="container">
 		<div class="row">
