@@ -27,6 +27,12 @@
 			<span>@MartenM</span>
 		</div>
 	</div>
+
+	<br>
+
+	<h5>Stats</h5>
+	Realms collects some stats while running. You can view them <a href="/stats" style="color: orange">here</a>.
+
 </div>
 
 <style>

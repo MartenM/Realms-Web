@@ -73,3 +73,11 @@ interface ToastNotification {
     message: string,
     timeout: number
 }
+
+interface NumericalStats {
+    labels:            string[];
+    playersOnline:     number[];
+    onlineRoomCount:   number[];
+    onlineRealmsCount: number[];
+    totalTrophies:     number[];
+}
