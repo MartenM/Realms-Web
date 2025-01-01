@@ -5,6 +5,10 @@
     import { openMinimap } from "$lib/stores/minimapDialogStore";
     import { openPlayDialog } from "$lib/stores/playWorldDialogStore";
 
+    import {
+        PUBLIC_API_URL
+    } from '$env/static/public';
+
     export let data: PublishedWorld;
 
     const dispatch = createEventDispatcher();
@@ -18,7 +22,7 @@
     }
 </script>
 
-<div class="realm-browser-entry">
+<div class="realm-browser-entry" class:featured={data.featuredLevel > 0}>
     <div class="rated">
         <Difficulty difficulty={data.ratedDifficulty ?? data.requestedDifficulty} rated={data.ratedDifficulty != null} featured={data.featuredLevel} />
     </div>
@@ -38,17 +42,40 @@
     <div class="entry-buttons">
         <button on:click={playWorld} class="btn btn-play">Play</button>
     </div>
+
+    <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="World preview">
 </div>
 
 <style>
+    .realm-browser-entry {
+        overflow: hidden;
+    }
+
+    .featured {
+        box-shadow: inset 10px 0 15px -10px var(--realm-primary); /* Inset shadow on the left */
+    }
+
     .btn-play {
         color: white;
         background-color: #e6a100;
         font-family: Joystix, serif;
+        border: 1px solid #ffcf63;
     }
 
     .btn-play:hover {
         background-color: gold;
+
+        image-rendering: pixelated;
+    }
+
+    .world-preview {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        image-rendering: pixelated;
+
+        mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
     }
 
     .completed {
@@ -61,6 +88,7 @@
         flex-direction: row;
         width: 100%;
         padding: 0.5em 1em;
+        position: relative;
     }
 
     .meta-info {
@@ -101,5 +129,7 @@
         justify-content: center;
         flex-shrink: 0;
         margin-left: 10px;
+
+        z-index: 50;
     }
 </style>

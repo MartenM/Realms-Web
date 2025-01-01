@@ -2,6 +2,7 @@
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
     import Planned from "$lib/components/Planned.svelte";
+    import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
 
     export let data : PlayerProfile;
 </script>
@@ -41,8 +42,7 @@
 
     <hr>
 
-    <h5>Published worlds</h5>
-    <Planned/>
+    <RealmBrowser title={"Published worlds"} subTitle={null} apiUrl={`/api/worlds/search`} extraParameters="&builderName={data.username}"/>
 
 </div>
 

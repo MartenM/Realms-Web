@@ -41,6 +41,7 @@ interface PlayerProfile {
 interface DifficultyMeta {
     icon: Image,
     name: string,
+    trophies: number[]
 }
 
 interface SpeedRecord {
@@ -80,4 +81,12 @@ interface NumericalStats {
     onlineRoomCount:   number[];
     onlineRealmsCount: number[];
     totalTrophies:     number[];
+}
+
+interface RealmSearchQuery {
+    worldName: string;
+    builderName: string;
+    ratedOnly: boolean;
+    featuredOnly: boolean;
+    difficulties: number[]
 }
