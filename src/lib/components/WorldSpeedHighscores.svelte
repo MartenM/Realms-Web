@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
+    import InlineDifficulty from "$lib/components/InlineDifficulty.svelte";
 
     export let realmData: RealmInformation;
 
@@ -41,8 +42,15 @@
                     </div>
                     <Smiley id={record.face}/>
                     <div class="stats">
-                        <div>{record.username}</div>
-                        <div>{record.time}</div>
+                        <div class="username">{record.username}</div>
+                        <div class="stats-row">
+                            <div>{record.time}</div>
+                            <div class="extra-stats">
+                                {#if record.playerDifficulty}
+                                    <InlineDifficulty difficulty={record.playerDifficulty} rated={true} featured={0} showTrophy={true}/>
+                                {/if}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {/each}
@@ -96,12 +104,22 @@
         flex-direction: column;
     }
 
-    .stats div:nth-child(1) {
-        font-family: Joystix, serif;
+    .stats-row {
+        display: flex;
+        flex-direction: row;
+        font-weight: var(--bs-body-font-weight);
+        font-size: 16px;;
+        font-family: "Roboto", sans-serif;
     }
 
-    .stats div:nth-child(2) {
-        font-family: Roboto, serif;
+    .extra-stats {
+        display: flex;
+        flex-direction: row;
+        padding: 0 2em
+    }
+
+    .stats .username {
+        font-family: Joystix, serif;
     }
 
     .high-scores-browser .speed-entry:nth-child(1) .index {

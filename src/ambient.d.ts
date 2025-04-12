@@ -48,6 +48,7 @@ interface SpeedRecord {
     username: string;
     face:     number;
     time:     string;
+    playerDifficulty: number | null;
 }
 
 interface SpeedRecordResponse {
