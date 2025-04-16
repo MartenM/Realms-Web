@@ -42,8 +42,9 @@
     <div class="entry-buttons">
         <button on:click={playWorld} class="btn btn-play">Play</button>
     </div>
-
-    <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="World preview">
+    <div class="world-preview-container">
+        <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="World preview">
+    </div>
 </div>
 
 <style>
@@ -68,14 +69,21 @@
         image-rendering: pixelated;
     }
 
-    .world-preview {
+    .world-preview-container {
         position: absolute;
         top: 0;
         right: 0;
         width: 50%;
-        image-rendering: pixelated;
-
+        height: 100%;
         mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .world-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top left;
+        image-rendering: pixelated;
     }
 
     .completed {
