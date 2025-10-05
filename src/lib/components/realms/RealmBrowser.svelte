@@ -119,7 +119,7 @@
     }
 
     .even {
-        background-color: #3a3a3a;
+        background-color: #1a1a1a;
 
     }
 

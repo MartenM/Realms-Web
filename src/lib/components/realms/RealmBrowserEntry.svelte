@@ -20,6 +20,32 @@
     function minimap() {
         openMinimap(data.id, data.title);
     }
+
+    function secondsToLength(seconds: number) {
+        let minutes = 60;
+
+        // if (seconds <= 1 * minutes) {
+        //     return "very short"
+        // }
+
+        if (seconds <= 5 * minutes) {
+            return "short"
+        }
+
+        if (seconds <= 15 * minutes) {
+            return "normal"
+        }
+
+        if (seconds <= 25 * minutes) {
+            return "long"
+        }
+
+        if (seconds <= 35 * minutes) {
+            return "very long"
+        }
+
+        return "MARATHON";
+    }
 </script>
 
 <div class="realm-browser-entry" class:featured={data.featuredLevel > 0}>
@@ -37,6 +63,10 @@
         <div class="stats">
             <div><i class='bx bxs-flag-checkered'></i><div>{data.completions}</div></div>
             <div><i class='bx bx-play' ></i><div>{data.plays}</div></div>
+            {#if data.secondsToComplete != null}
+                <div data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class='bx bx-stopwatch' ></i> <div>{secondsToLength(data.secondsToComplete)}</div></div>
+            {/if}
+
         </div>
     </div>
     <div class="entry-buttons">
@@ -47,10 +77,6 @@
 </div>
 
 <style>
-    .realm-browser-entry {
-        overflow: hidden;
-    }
-
     .featured {
         box-shadow: inset 10px 0 15px -10px var(--realm-primary); /* Inset shadow on the left */
     }
@@ -84,6 +110,7 @@
     }
 
     .realm-browser-entry {
+        overflow: hidden;
         display: flex;
         flex-direction: row;
         width: 100%;

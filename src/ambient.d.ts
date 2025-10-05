@@ -15,6 +15,7 @@ interface PublishedWorld {
     completions: number,
     completed: boolean,
     plays: number,
+    secondsToComplete: number,
 }
 
 interface HighscorePlayer {
