@@ -38,6 +38,7 @@
 <style>
     .background {
         border: 4px solid gold;
+        border-radius: 1em;
         padding: 1em;
         color:white;
         background-color: #313131;

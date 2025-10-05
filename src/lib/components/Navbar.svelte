@@ -65,12 +65,13 @@
         align-items: center;
 
         border-radius: 1em;
-        border: 2px solid grey;
+        border: 1px solid #4d4d4d;
         margin-bottom: 10px;
     }
 
     .nav-entry.selected {
-        border: 2px solid gold;
+        border: 1px solid gold;
+        background-color: #917a0096;
     }
 
     .nav-entry i {

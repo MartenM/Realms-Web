@@ -5,6 +5,10 @@
 	import Navbar from "$lib/components/Navbar.svelte";
 	import MinimapDialog from "$lib/components/dialogs/MinimapDialog.svelte";
 	import PlayWorldModal from "$lib/components/dialogs/PlayWorldModal.svelte";
+
+    import { fade } from 'svelte/transition';
+    import { fly } from 'svelte/transition';
+    import { page } from '$app/stores';
 </script>
 
 <svelte:head>
@@ -19,7 +23,12 @@
 				<Navbar></Navbar>
 			</div>
 
-			<slot/>
+            {#key $page.url.pathname}
+                <div class="col-md-10" in:fly={{y:5, duration: 100, delay: 101 }} out:fade={{duration: 25 }}>
+                    <slot />
+                </div>
+            {/key}
+
 		</div>
 
 		<!-- Dialogs -->

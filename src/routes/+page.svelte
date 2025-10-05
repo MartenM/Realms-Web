@@ -15,18 +15,20 @@ let usernameHint = $profileStore.username == null;
 	<meta name="description" content="PixelWalker Realms Browser" />
 </svelte:head>
 
-<div class="col-md-7">
-	{#if usernameHint}
-		<div class="alert-profile">
-			<div class="alert-text">See completed worlds? Set your username <a href="/settings">here</a>!</div>
+<div class="row">
+    <div class="col-md-9">
+        {#if usernameHint}
+            <div class="alert-profile">
+                <div class="alert-text">See completed worlds? Set your username <a href="/settings">here</a>!</div>
 
-		</div>
-	{/if}
-	<RealmBrowser title={"Rated Realms"} subTitle={"Play realms and earn trophies!"} apiUrl={"/api/worlds/rated"}/>
-	<DifficultyBar/>
-</div>
-<div class="col-md-3 sidebar">
-	<HighscoreList></HighscoreList>
+            </div>
+        {/if}
+        <RealmBrowser title={"Rated Realms"} subTitle={"Play realms and earn trophies!"} apiUrl={"/api/worlds/rated"}/>
+        <DifficultyBar/>
+    </div>
+    <div class="col-md-3 sidebar">
+        <HighscoreList></HighscoreList>
+    </div>
 </div>
 
 <style>

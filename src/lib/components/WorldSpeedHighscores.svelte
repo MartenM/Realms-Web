@@ -78,6 +78,7 @@
         border: 1px solid gold;
         max-height: 50vh;
         overflow-y: scroll;
+        border-radius: 0.5em;
         /*overflow-x: hidden;*/
     }
 

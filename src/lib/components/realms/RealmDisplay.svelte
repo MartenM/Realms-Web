@@ -100,6 +100,7 @@
         background-color: gold;
         color: grey;
         border-color: #313131;
+        border-radius: 1em;
     }
 
     .selected {

@@ -11,13 +11,15 @@
 
 
 
-<div class="col-md-7">
-    <RealmBrowser title={"Published Realms"} subTitle={"Recently published realms by community members."}/>
-    <DifficultyBar/>
-</div>
+<div class="row">
+    <div class="col-md-9">
+        <RealmBrowser title={"Published Realms"} subTitle={"Recently published realms by community members."}/>
+        <DifficultyBar/>
+    </div>
 
-<div class="col-md-3 side-bar">
-    <HighscoreList configuration={builderConfiguration}></HighscoreList>
+    <div class="col-md-3 side-bar">
+        <HighscoreList configuration={builderConfiguration}></HighscoreList>
+    </div>
 </div>
 
 <style>

@@ -92,7 +92,7 @@
 <style>
     .realm-browser {
         background-color: rgba(0, 0, 0, 0.75);
-        border: 1px solid gray;
+        border: 1px solid #4f4f4f;
         border-radius: 1em;
         color: white;
         padding-left: 1em;
