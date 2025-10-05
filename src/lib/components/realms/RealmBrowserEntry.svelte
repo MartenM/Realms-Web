@@ -35,8 +35,8 @@
         </div>
         <div class="owner">{data.ownerUsername}</div>
         <div class="stats">
-            <div>Completions: {data.completions}</div>
-            <div>Plays: {data.plays}</div>
+            <div><i class='bx bxs-flag-checkered'></i><div>{data.completions}</div></div>
+            <div><i class='bx bx-play' ></i><div>{data.plays}</div></div>
         </div>
     </div>
     <div class="entry-buttons">
@@ -107,12 +107,25 @@
         font-size: 0.5em;
     }
 
-    .meta-info .stats {
+    .stats {
         display: flex;
-        flex-direction: row;
-        margin-top: 5px;
-        font-family: ArcadeClassic, serif;
-        font-size: 0.8em;
+        gap: 1.0rem; /* space between the items */
+        align-items: center; /* vertically center all items */
+        justify-content: left; /* horizontally center the whole section */
+    }
+
+    .stats > div {
+        display: flex;
+        align-items: center; /* center icon and text vertically */
+        gap: 0.2rem; /* space between icon and number */
+        font-size: 0.8rem;
+    }
+
+    .stats i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem; /* slightly larger icons */
     }
 
     .meta-info div {
