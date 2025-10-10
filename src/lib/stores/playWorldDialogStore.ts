@@ -26,6 +26,12 @@ export async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordRes
     return await response.json();
 }
 
+export async function fetchRealmPlayerComments(worldId: string): Promise<RealmPlayerComment[]> {
+    // Replace with actual data fetching logic
+    const response = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}/comments?page=0&limit=100`, {credentials: "include"});
+    return await response.json();
+}
+
 export const loadSpeedRecords = async (): Promise<boolean> => {
     const state = get(playWorldDialogStore);
     if (state.world == null) {

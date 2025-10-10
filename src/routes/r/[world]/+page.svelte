@@ -10,7 +10,8 @@
 
     let realmData: RealmInformation = {
         world: data.worldData,
-        speedRecords: null
+        speedRecords: null,
+        playerComments: null,
     }
 
     let realm = realmData.world;

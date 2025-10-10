@@ -74,12 +74,15 @@
 
     .player .stats {
         display: flex;
-        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
     }
 
     .stats .username {
         font-size: 0.8em;
         font-family: Joystix, serif;
+        max-width: 80%;
+        overflow: hidden;
     }
 
     .stats .amount {

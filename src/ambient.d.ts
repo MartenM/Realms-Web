@@ -49,7 +49,6 @@ interface SpeedRecord {
     username: string;
     face:     number;
     time:     string;
-    playerDifficulty: number | null;
 }
 
 interface SpeedRecordResponse {
@@ -67,7 +66,18 @@ type RequestRealmResponse = {
 
 interface RealmInformation {
     world: PublishedWorld;
-    speedRecords: SpeedRecordResponse | null
+    speedRecords: SpeedRecordResponse | null,
+    playerComments: RealmPlayerComment[] | null,
+}
+
+interface RealmPlayerComment {
+    playerId: string;
+    playerName: string;
+    face: number;
+    suggestedRating?: number | null; // corresponds to integer($int32)
+    liked?: boolean | null;
+    completed: boolean;
+    completedDeathless: boolean;
 }
 
 interface ToastNotification {

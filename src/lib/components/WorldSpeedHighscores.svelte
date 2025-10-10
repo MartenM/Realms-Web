@@ -3,7 +3,6 @@
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
-    import InlineDifficulty from "$lib/components/InlineDifficulty.svelte";
 
     export let realmData: RealmInformation;
 
@@ -46,16 +45,14 @@
                         <div class="stats-row">
                             <div>{record.time}</div>
                             <div class="extra-stats">
-                                {#if record.playerDifficulty}
-                                    <InlineDifficulty difficulty={record.playerDifficulty} rated={true} featured={0} showTrophy={true}/>
-                                {/if}
+
                             </div>
                         </div>
                     </div>
                 </div>
             {/each}
         {:else}
-            <div>No runs have been completed on this map yet.</div>
+            <div style="padding: 1em; align-content: center">No runs have been completed on this map yet.</div>
         {/if}
     {:catch error}
         <div class="error-box">

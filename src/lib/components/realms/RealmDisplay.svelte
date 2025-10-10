@@ -4,6 +4,7 @@
     import ProfileLink from "$lib/components/ProfileLink.svelte";
     import WorldSpeedHighscores from "$lib/components/WorldSpeedHighscores.svelte";
     import PlayRealmButton from "$lib/components/PlayRealmButton.svelte";
+    import WorldUserComments from "$lib/components/WorldUserComments.svelte";
 
     export let realmData: RealmInformation
     let world = realmData.world;
@@ -33,10 +34,13 @@
 <div class="content">
     <div class="navigator">
         <button class="btn-nav {(currentSelection === 'main' ? 'selected' : null)}" on:click={() => { currentSelection = "main" }}><i class='bx bx-info-square' ></i></button>
+        <button class="btn-nav {(currentSelection === 'comments' ? 'selected' : null)}" on:click={() => { currentSelection = "comments" }}><i class='bx bx-group'></i> </button>
         <button class="btn-nav {(currentSelection === 'speed' ? 'selected' : null)}" on:click={() => { currentSelection = "speed" }}><i class='bx bx-stopwatch'></i></button>
     </div>
     <div>
-        {#if currentSelection === "main" && world !== null}
+        {#if world == null}
+            <p>?</p>
+        {:else if currentSelection === "main"}
             <div class="minimap">
                 <MinimapView worldId={world?.id ?? null} />
             </div>
@@ -63,7 +67,9 @@
             {#if lastClip != null}
                 <div class="clip-notify">Copied {lastClip} to clipboard!</div>
             {/if}
-        {:else}
+        {:else if currentSelection == "comments"}
+            <WorldUserComments bind:realmData={realmData}/>
+        {:else if currentSelection == "speed"}
             <WorldSpeedHighscores bind:realmData={realmData}/>
         {/if}
     </div>
@@ -97,6 +103,8 @@
     .btn-nav {
         flex-grow: 1;
         margin-bottom: 0.5em;
+        margin-left: 0.1em;
+        margin-right: 0.1em;
         background-color: gold;
         color: grey;
         border-color: #313131;
