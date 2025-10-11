@@ -1,5 +1,4 @@
 <script>
-	import background from '$lib/images/MidnightMeadows.png';
 
 	import './styles.css';
 	import Navbar from "$lib/components/Navbar.svelte";
@@ -16,7 +15,7 @@
 	<meta name="theme-color" content="#fcb603">
 </svelte:head>
 
-<div class="app" style="background: rgba(0, 0, 0, .65) url({background}); background-blend-mode: darken; ">
+<div class="app">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-2">
@@ -45,6 +44,17 @@
 		width: 100vw;
 		padding-top: 1em;
 	}
+
+    .app::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65) url("/background/MidnightMeadows.png") center/cover no-repeat;
+        background-blend-mode: darken;
+        filter: blur(8px);
+        transform: scale(1.05); /* avoid edge blur clipping */
+        z-index: -1;
+    }
 
 	/*noinspection CssUnusedSymbol*/
 	:global(.realm-box) {
