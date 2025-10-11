@@ -58,7 +58,7 @@
 
         background-color: rgba(0, 0, 0, 0.75);
         color: white;
-        padding: 1em;
+        padding: 0.6em 1em;
         
         display: flex;
         flex-direction: row;
