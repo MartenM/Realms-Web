@@ -7,99 +7,94 @@
     export let player: HighscorePlayer;
 </script>
 
-{#if index < 3}
-    <div class="player place-{index + 1} {index % 2 === 0 ? 'even' : 'odd'}">
-        <div class="index">{index + 1}.</div>
-        <div class="stats">
-            <div class="username">{player.username}</div>
-            <div class="amount">{player.amount}
-                {#if highscoreType === 'Trophies'}
-                    <img src={trophy} alt="Trophy icon"/>
-                {:else}
-                    <img src={builder} alt="Builder icon"/>
-                {/if}
-            </div>
-        </div>
+<div class="player place-{index + 1} {index % 2 === 0 ? 'even' : 'odd'}">
+    <div class="index">{index + 1}</div>
+    <div class="username" title={player.username}>{player.username}</div>
+    <div class="amount">
+        {player.amount}
+        {#if highscoreType === 'Trophies'}
+            <img src={trophy} alt="Trophy icon"/>
+        {:else}
+            <img src={builder} alt="Builder icon"/>
+        {/if}
     </div>
-{:else}
-    <div class="player {index % 2 === 0 ? 'even' : 'odd'}">
-        <div class="index">{index + 1}.</div>
-        <div class="stats">
-            <div class="username">{player.username}</div>
-            <div class="amount">{player.amount}
-                {#if highscoreType === 'Trophies'}
-                    <img src={trophy} alt="Trophy icon"/>
-                {:else}
-                    <img src={builder} alt="Builder icon"/>
-                {/if}
-            </div>
-        </div>
-    </div>
-{/if}
-
+</div>
 
 <style>
+    .player {
+        display: grid;
+        grid-template-columns: 50px 1fr auto;
+        align-items: center;
+
+        padding: 5px 5px;
+        margin-bottom: 6px;
+
+        border: 2px solid transparent;
+        border-radius: 10px;
+
+        color: #fff;
+        font-family: Joystix, ArcadeClassic, serif;
+
+        background-color: #2b2b2b;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .player:hover {
+        background-color: #3e3e3e;
+        transform: scale(1.01);
+    }
+
     .place-1 {
         border-color: gold !important;
+        background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(43,43,43,1));
     }
 
     .place-2 {
         border-color: silver !important;
+        background: linear-gradient(90deg, rgba(192,192,192,0.15), rgba(43,43,43,1));
     }
 
     .place-3 {
-        border-color: saddlebrown !important;
+        border-color: #cd7f32 !important;
+        background: linear-gradient(90deg, rgba(205,127,50,0.15), rgba(43,43,43,1));
     }
 
-    .player {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        border-radius: 0.5em;
-        margin-bottom: 5px;
-
-        padding: 5px;
-
-        color: white;
-
-        border: 2px solid transparent;
-    }
-
-    .player .index {
-        font-family: ArcadeClassic, Serif;
-        font-size: 1.5em;
-        margin-right: 10px;
-    }
-
-    .player .stats {
-        display: flex;
-        flex-grow: 1;
-        justify-content: space-between;
-    }
-
-    .stats .username {
-        font-size: 0.8em;
-        font-family: Joystix, serif;
-        max-width: 80%;
-        overflow: hidden;
-    }
-
-    .stats .amount {
-        font-size: 18px;
+    .index {
+        font-size: 1.3em;
+        text-align: center;
         font-family: ArcadeClassic, serif;
     }
 
-    .even {
-        background-color: #3a3a3a;
-
+    .username {
+        font-size: 0.9em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 10px;
+        color: #eaeaea;
     }
 
-    .odd {
-        background-color: #272727;
+    .amount {
+        display: flex;
+        align-items: center;
+        font-size: 1em;
+        font-family: ArcadeClassic, serif;
+        white-space: nowrap;
     }
 
     img {
-        margin-left: 3px;
+        margin-left: 5px;
+        height: 18px;
+        width: auto;
+        vertical-align: middle;
+        filter: drop-shadow(0 0 2px rgba(255,255,255,0.4));
+    }
+
+    .even {
+        background-color: #2f2f2f;
+    }
+
+    .odd {
+        background-color: #252525;
     }
 </style>
