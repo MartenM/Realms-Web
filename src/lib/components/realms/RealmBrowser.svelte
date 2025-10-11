@@ -2,6 +2,7 @@
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import RealmBrowserEntry from "./RealmBrowserEntry.svelte";
     import {onMount} from "svelte";
+    import {fade} from "svelte/transition"
 
     export let title: string | null;
     export let subTitle: string | null;
@@ -61,7 +62,7 @@
     </div>
 
     <!-- Content browser -->
-    <div class="realm-browser-content">
+    <div class="realm-browser-content" transition:fade>
         {#await dataPromise}
             <div class="d-flex justify-content-center align-items-center pagination ">
                 <LoadSpinner/>
@@ -91,52 +92,141 @@
 <!--suppress CssUnusedSymbol -->
 <style>
     .realm-browser {
-        background-color: rgba(0, 0, 0, 0.75);
-        border: 1px solid #4f4f4f;
-        border-radius: 1em;
-        color: white;
-        padding-left: 1em;
-        padding-right: 1em;
+        background: linear-gradient(180deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.95));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        color: #f5f5f5;
+        padding: 0rem 1rem 1rem 1rem;
+        box-shadow: 0 0 24px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(6px);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    /* Header */
+    .realm-browser-header {
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
 
     .realm-browser-header .title {
         font-family: 'Joystix', serif;
-        text-align: center;
-        color: #ffb300;
-        font-size: 2em;
+        color: var(--realm-primary);
+        font-size: 2rem;
+        letter-spacing: 1px;
+        text-shadow: 0 0 4px rgba(255, 204, 51, 0.4);
     }
 
     .realm-browser-header .sub-title {
-        text-align: center;
-        color: gray;
-        font-size: 1em;
+        color: #aaa;
+        font-size: 1rem;
     }
 
+    /* Content area */
     .realm-browser-content {
-        border: 1px solid gray;
-        height: 70vh;
-        overflow-y: scroll;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.5rem;
+        height: 65vh;
+        overflow-y: auto;
+        background-color: rgba(25, 25, 25, 0.85);
+        scrollbar-width: thin;
+        scrollbar-color: #555 #222;
     }
 
+    .realm-browser-content::-webkit-scrollbar {
+        width: 8px;
+    }
+    .realm-browser-content::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    .realm-browser-content::-webkit-scrollbar-thumb {
+        background-color: #444;
+        border-radius: 4px;
+    }
+
+    /* Alternating row backgrounds */
     .even {
-        background-color: #1a1a1a;
-
-    }
-
-    .even, .odd {
-        border-bottom: 1px solid #4e4e4e;
+        background-color: rgba(30, 30, 30, 0.9);
     }
 
     .odd {
-        background-color: #272727;
+        background-color: rgba(40, 40, 40, 0.9);
     }
 
+    .even, .odd {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: background-color 0.2s ease;
+    }
+
+    .even:hover, .odd:hover {
+        background-color: rgba(80, 80, 80, 0.2);
+    }
+
+    /* Pagination */
     .pagination {
-        padding: 0.5em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.75rem;
     }
 
     .navigation-button {
-        margin: 0em 1em;
-        background-color: var(--realm-primary);
+        background-color: var(--realm-primary, #ffb300);
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 6px rgba(255, 179, 0, 0.4);
+    }
+
+    .navigation-button:hover:not(:disabled) {
+        transform: scale(1.1);
+        background-color: #ffd54f;
+        box-shadow: 0 0 12px rgba(255, 210, 77, 0.6);
+    }
+
+    .navigation-button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .current-page {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ffb300;
+        min-width: 2rem;
+        text-align: center;
+    }
+
+    /* Spinner container */
+    .realm-browser-content .pagination {
+        height: 100%;
+    }
+
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .realm-browser {
+            padding: 1rem;
+        }
+
+        .realm-browser-header .title {
+            font-size: 1.5rem;
+        }
+
+        .realm-browser-header .sub-title {
+            font-size: 0.9rem;
+        }
+
+        .navigation-button {
+            width: 2rem;
+            height: 2rem;
+        }
     }
 </style>

@@ -58,12 +58,17 @@
 
 	/*noinspection CssUnusedSymbol*/
 	:global(.realm-box) {
-		background-color: rgba(0, 0, 0, 0.75);
-		border: 1px solid gray;
-		border-radius: 1em;
-		color: white;
-		padding-left: 1em;
-		padding-right: 1em;
+        background: linear-gradient(180deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.95));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        color: #f5f5f5;
+        padding: 0rem 1rem 1rem 1rem;
+        box-shadow: 0 0 24px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(6px);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: all 0.3s ease;
 	}
 
 	:global(h1), :global(h2), :global(h3), :global(h4), :global(h5) {

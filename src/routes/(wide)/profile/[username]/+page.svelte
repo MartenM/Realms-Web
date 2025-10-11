@@ -1,97 +1,115 @@
 <script lang="ts">
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
-    import Planned from "$lib/components/Planned.svelte";
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
 
-    export let data : PlayerProfile;
+    export let data: PlayerProfile;
 </script>
-
 
 <div class="realm-box profile-box">
     <div class="header">
-        <div class="username">{data.username}</div>
-    </div>
-    <hr>
-    <div class="stats">
-        <div class="stat">
-            <div class="value" style="font-size: 1.5em;">{data.trophies}</div>
-            <div class="icon"><img src={trophy} alt="Trophies"/></div>
-
-        </div>
-        <div class="stat">
-            <div class="value" style="font-size: 1.5em;">{data.builderPoints}  </div>
-            <div class="icon"><img src={builder} alt="Builder Points"/></div>
-        </div>
-
-
+        <h1 class="username">{data.username}</h1>
     </div>
 
-    <hr>
-
-    <div class="stats">
+    <div class="stats-grid">
         <div class="stat">
-            <div class="icon">World visitors:</div>
-            <div class="value">{data.totalPlays}</div>
+            <img src={trophy} alt="Trophies" class="icon" />
+            <div class="info">
+                <div class="label">Trophies</div>
+                <div class="value">{data.trophies}</div>
+            </div>
         </div>
+
         <div class="stat">
-            <div class="icon">Completed worlds:</div>
-            <div class="value">{data.completedWorlds}</div>
+            <img src={builder} alt="Builder Points" class="icon" />
+            <div class="info">
+                <div class="label">Builder Points</div>
+                <div class="value">{data.builderPoints}</div>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="icon"><i class='bx bx-play' ></i></div>
+            <div class="info">
+                <div class="label">World Visitors</div>
+                <div class="value">{data.totalPlays}</div>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="icon"><i class='bx bxs-flag-checkered'></i></div>
+            <div class="info">
+                <div class="label">Completed Worlds</div>
+                <div class="value">{data.completedWorlds}</div>
+            </div>
         </div>
     </div>
 
-    <hr>
+    <hr />
 
-    <RealmBrowser title={"Published worlds"} subTitle={null} apiUrl={`/api/worlds/search`} extraParameters="&builderName={data.username}"/>
-
+    <RealmBrowser
+            title="Published worlds"
+            subTitle="Worlds created by {data.username}"
+            apiUrl="/api/worlds/search"
+            extraParameters={`&builderName=${data.username}`}
+    />
 </div>
 
 <style>
     .profile-box {
-        padding: 1em;
-    }
-
-    .header {
+        padding: 1.5em;
         display: flex;
-        text-align: center;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-    }
-
-    .header {
-        font-size: 3em;
-        font-family: Joystix, serif;
+        flex-direction: column;
+        gap: 1.5em;
         color: white;
-        text-shadow: -1px -1px 0 var(--realm-primary), 1px -1px 0 var(--realm-primary), -1px 1px 0 var(--realm-primary), 1px 1px 0 var(--realm-primary);
+        font-family: Joystix, serif;
     }
 
-    .stats {
-        font-size: 1em;
-        font-family: Joystix, serif;
-
+    .header {
         display: flex;
-        flex-direction: row;
         justify-content: center;
-        align-content: center;
+        align-items: center;
+    }
+
+    .username {
+        font-size: 2.5em;
+        margin: 0;
+        color:white;
+    }
+
+    /* Simple uniform stats grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1em;
+        justify-items: center;
+        text-align: center;
     }
 
     .stat {
-        margin-left: 20px;
-        margin-right: 20px;
-
         display: flex;
-        flex-direction: row;
-        align-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3em;
     }
 
     .icon {
-        padding-left: 4px;
-        padding-right: 4px;
+        width: 1.8em;
+        height: 1.8em;
+        image-rendering: pixelated;
     }
 
-    img {
-        width: 200%;
-        image-rendering: pixelated;
+    .label {
+        font-size: 0.85em;
+        color: var(--realm-primary);
+    }
+
+    .value {
+        font-size: 1.4em;
+    }
+
+    hr {
+        border: none;
+        border-top: 2px solid var(--realm-primary);
     }
 </style>

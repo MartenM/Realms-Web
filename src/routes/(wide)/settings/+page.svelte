@@ -19,8 +19,6 @@
 </div>
 
 <style>
-
-
     .settings {
         padding: 1em;
     }
