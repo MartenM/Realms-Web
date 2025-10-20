@@ -4,7 +4,7 @@
     import HighscoreList from "$lib/components/highscores/HighscoreList.svelte";
 
     let builderConfiguration = {
-        apiUrl: '/api/highscores/total_builder_points',
+        apiUrl: '/api/highscores/builder',
         type: 'BuilderPoints'
     }
 </script>

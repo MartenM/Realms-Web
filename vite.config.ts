@@ -5,12 +5,12 @@ export default defineConfig({
 	plugins: [sveltekit()],
     server: {
         proxy: {
-            // '/api': {
-            //     target: 'https://localhost:5049',
-            //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/api/, '/api'),
-            //     secure: false, // if your cert is self-signed; otherwise remove this
-            // },
+            '/api': {
+                target: 'https://realms.martenm.nl',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '/api'),
+                secure: false, // if your cert is self-signed; otherwise remove this
+            },
         },
     },
 });
