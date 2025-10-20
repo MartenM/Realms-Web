@@ -8,7 +8,7 @@
     } from '$env/static/public';
 
     export let configuration: HighscoreConfiguration = {
-        apiUrl: '/api/highscores/total_trophies',
+        apiUrl: '/api/highscores/trophies',
         type: 'Trophies'
     };
 

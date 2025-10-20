@@ -1,6 +1,7 @@
 <script lang="ts">
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
+    import clock from "$lib/images/clock.png";
 
     export let highscoreType: string;
     export let index = 0;
@@ -14,8 +15,10 @@
         {player.amount}
         {#if highscoreType === 'Trophies'}
             <img src={trophy} alt="Trophy icon"/>
-        {:else}
+        {:else if highscoreType === 'BuilderPoints'}
             <img src={builder} alt="Builder icon"/>
+        {:else if highscoreType === 'SpeedrunPoints'}
+            <img src={clock} alt="Speedrun icon"/>
         {/if}
     </div>
 </div>

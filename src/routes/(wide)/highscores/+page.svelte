@@ -3,13 +3,13 @@
 import HighscoreList from "$lib/components/highscores/HighscoreList.svelte";
 
 let builderConfiguration = {
-    apiUrl: '/api/highscores/total_builder_points',
+    apiUrl: '/api/highscores/builder',
     type: 'BuilderPoints'
 }
 
 let speedRunner = {
-    apiUrl: '/api/highscores/total_speedrunner',
-    type: 'BuilderPoints'
+    apiUrl: '/api/highscores/speedrun',
+    type: 'SpeedrunPoints'
 }
 
 </script>
@@ -36,7 +36,7 @@ let speedRunner = {
     <div class="col-md-3">
         <div class="banner">
             Speedrunner
-            <p>Amount of fastest world completions</p>
+            <p>Points gathered by finishing top 10.</p>
         </div>
         <div class="content">
             <HighscoreList configuration={speedRunner}></HighscoreList>
@@ -57,6 +57,7 @@ let speedRunner = {
         font-family: Arial;
         font-size: 0.6em;
         color: white;
+        margin: 0;
     }
 
     .content {
