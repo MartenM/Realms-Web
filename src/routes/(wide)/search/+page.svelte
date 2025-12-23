@@ -23,6 +23,14 @@
         return params.toString(); // Return the query string
     }
 
+    // Ranked or Featured => always Rated
+    $: if (searchQuery.rankedOnly || searchQuery.featuredOnly) {
+        searchQuery.ratedOnly = true;
+    }
+
+    // Whether Rated checkbox should be locked
+    $: ratedLocked = searchQuery.rankedOnly || searchQuery.featuredOnly;
+
     function search() {
         const currentUrl = new URL(window.location.href);
 
@@ -53,6 +61,7 @@
         builderName: "",
         ratedOnly: false,
         featuredOnly: false,
+        rankedOnly: false,
         difficulties: []
     }
 
@@ -77,16 +86,23 @@
                 <hr/>
 
                 <div class="form-check">
-                    <input bind:checked={searchQuery.ratedOnly} class="form-check-input" type="checkbox" id="featured-only">
+                    <input bind:checked={searchQuery.ratedOnly} disabled="{ratedLocked}" class="form-check-input" type="checkbox" id="featured-only">
                     <label class="form-check-label" for="featured-only">
-                        Rated worlds only
+                        Rated
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input bind:checked={searchQuery.rankedOnly} class="form-check-input" type="checkbox" id="featured-only">
+                    <label class="form-check-label" for="featured-only">
+                        Ranked <span style="font-size: 10px; color: gray">(Speedrun leaderboard)</span>
                     </label>
                 </div>
 
                 <div class="form-check">
                     <input bind:checked={searchQuery.featuredOnly} class="form-check-input" type="checkbox" id="featured-only">
                     <label class="form-check-label" for="featured-only">
-                        Featured worlds only
+                        Featured
                     </label>
                 </div>
 

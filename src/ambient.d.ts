@@ -11,6 +11,7 @@ interface PublishedWorld {
     requestedDifficulty: number | null
     ratedDifficulty: number
     featuredLevel: number
+    ranked: boolean,
     ownerUsername: string
     completions: number,
     completed: boolean,
@@ -100,5 +101,6 @@ interface RealmSearchQuery {
     builderName: string;
     ratedOnly: boolean;
     featuredOnly: boolean;
+    rankedOnly: boolean;
     difficulties: number[]
 }
