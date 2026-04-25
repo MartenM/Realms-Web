@@ -1,7 +1,11 @@
 <script lang="ts">
+    import { profileStore } from "$lib/stores/profileStore";
+
     import { page } from '$app/stores';
 
-    let navEntry = [
+    $: username = $profileStore.username;
+
+    const baseNavEntry = [
         {
             name: 'Rated',
             route: '/',
@@ -26,7 +30,11 @@
             name: 'Publish',
             route: '/publish',
             icon: 'bx-cloud-upload',
-        },
+        }
+
+    ];
+
+    const baseNavEntryMisc = [
         {
             name: 'Settings',
             route: '/settings',
@@ -37,6 +45,18 @@
             route: '/about',
             icon: 'bx-info-circle',
         }
+    ];
+
+    $: navEntry = [
+        ...baseNavEntry,
+        ...(username && username.trim() !== ''
+            ? [{
+                name: 'Profile',
+                route: `/profile/${username}`,
+                icon: 'bx-user',
+            }]
+            : []),
+        ...baseNavEntryMisc
     ];
 </script>
 
