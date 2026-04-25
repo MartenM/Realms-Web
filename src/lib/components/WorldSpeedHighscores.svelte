@@ -23,7 +23,7 @@
 </script>
 
 {#if ownRecord != null}
-    <div class="self-record">Your best time: <span style="font-family: Roboto">{ownRecord.time}</span></div>
+    <div class="self-record">Your best time: <span style="font-family: Roboto">{ownRecord.durationAsString}</span></div>
     <hr>
 {/if}
 
@@ -44,7 +44,7 @@
                     <div class="stats">
                         <div class="username"><ProfileLink username="{record.username}"/></div>
                         <div class="stats-row">
-                            <div>{record.time}</div>
+                            <div>{record.durationAsString}</div>
                             <div class="extra-stats">
 
                             </div>

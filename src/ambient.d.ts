@@ -50,7 +50,7 @@ interface DifficultyMeta {
 interface SpeedRecord {
     username: string;
     smiley:     string;
-    time:     string;
+    durationAsString:     string;
 }
 
 interface SpeedRecordResponse {
