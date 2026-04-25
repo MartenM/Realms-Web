@@ -32,7 +32,7 @@
         {#if playerComments != null && playerComments.length > 0}
             {#each playerComments as comment, index}
                 <div class="speed-entry">
-                    <Smiley id={comment.face}/>
+                    <Smiley id={comment.smiley}/>
                     <div class="stats">
                         <div class="username">{comment.playerName}</div>
 

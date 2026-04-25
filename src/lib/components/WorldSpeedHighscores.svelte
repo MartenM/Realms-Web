@@ -39,7 +39,7 @@
                             {index + 1}.
                         </div>
                     </div>
-                    <Smiley id={record.face}/>
+                    <Smiley id={record.smiley}/>
                     <div class="stats">
                         <div class="username">{record.username}</div>
                         <div class="stats-row">

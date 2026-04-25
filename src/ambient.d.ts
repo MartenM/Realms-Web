@@ -48,7 +48,7 @@ interface DifficultyMeta {
 
 interface SpeedRecord {
     username: string;
-    face:     number;
+    smiley:     string;
     time:     string;
 }
 
@@ -74,7 +74,7 @@ interface RealmInformation {
 interface RealmPlayerComment {
     playerId: string;
     playerName: string;
-    face: number;
+    smiley: string;
     suggestedRating?: number | null; // corresponds to integer($int32)
     liked?: boolean | null;
     completed: boolean;
