@@ -5,7 +5,7 @@
 </script>
 
 <a href="/profile/{username}">
-    <slot/>
+    {username}
     {#if showIcon}
         <i class='bx bx-link-external' ></i>
     {/if}

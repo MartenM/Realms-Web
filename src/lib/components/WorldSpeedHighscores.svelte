@@ -3,6 +3,7 @@
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
+    import ProfileLink from "$lib/components/ProfileLink.svelte";
 
     export let realmData: RealmInformation;
 
@@ -41,7 +42,7 @@
                     </div>
                     <Smiley id={record.smiley}/>
                     <div class="stats">
-                        <div class="username">{record.username}</div>
+                        <div class="username"><ProfileLink username="{record.username}"/></div>
                         <div class="stats-row">
                             <div>{record.time}</div>
                             <div class="extra-stats">

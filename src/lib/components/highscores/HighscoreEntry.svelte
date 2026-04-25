@@ -2,6 +2,7 @@
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
     import clock from "$lib/images/clock.png";
+    import ProfileLink from "$lib/components/ProfileLink.svelte";
 
     export let highscoreType: string;
     export let index = 0;
@@ -10,7 +11,7 @@
 
 <div class="player place-{index + 1} {index % 2 === 0 ? 'even' : 'odd'}">
     <div class="index">{index + 1}</div>
-    <div class="username" title={player.username}>{player.username}</div>
+    <div class="username" title={player.username}><ProfileLink username="{player.username}"/></div>
     <div class="amount">
         {player.amount}
         {#if highscoreType === 'Trophies'}

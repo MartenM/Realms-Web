@@ -39,21 +39,18 @@
 </div>
 
 <style>
-	.app {
-		min-height: 100vh;
-		width: 100vw;
-		padding-top: 1em;
-	}
+    body {
+        background-color: #2b2b2b;
+    }
 
-    .app::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.65) url("/background/MidnightMeadows.png") center/cover no-repeat;
-        background-blend-mode: darken;
-        filter: blur(8px);
-        transform: scale(1.05); /* avoid edge blur clipping */
-        z-index: -1;
+    .app {
+        min-height: 100vh;
+        width: 100%; /* <-- fix */
+        padding-top: 1em;
+
+        background:
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url("/background/MidnightMeadows.png") center / cover no-repeat;
     }
 
 	/*noinspection CssUnusedSymbol*/

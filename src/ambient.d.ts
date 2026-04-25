@@ -32,6 +32,7 @@ interface HighscoreConfiguration {
 interface PlayerProfile {
     id:            string;
     username:      string;
+    smiley:        string;
     playerGroup:   number;
     trophies:      number;
     builderPoints: number;

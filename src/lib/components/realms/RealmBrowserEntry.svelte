@@ -8,6 +8,8 @@
     import {
         PUBLIC_API_URL
     } from '$env/static/public';
+    import UsernameBox from "../../../routes/(wide)/settings/UsernameBox.svelte";
+    import ProfileLink from "$lib/components/ProfileLink.svelte";
 
     export let data: PublishedWorld;
 
@@ -59,7 +61,7 @@
                 <i class='bx bx-check completed' ></i>
             {/if}
         </div>
-        <div class="owner">{data.ownerUsername}</div>
+        <div class="owner"><ProfileLink username="{data.ownerUsername}"/></div>
         <div class="stats">
             <div><i class='bx bxs-flag-checkered'></i><div>{data.completions}</div></div>
             <div><i class='bx bx-play' ></i><div>{data.plays}</div></div>
@@ -73,7 +75,7 @@
         <button on:click={playWorld} class="btn btn-play">Play</button>
     </div>
 
-    <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="World preview">
+    <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="">
 </div>
 
 <style>

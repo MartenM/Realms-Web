@@ -2,12 +2,14 @@
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
+    import Smiley from "$lib/components/Smiley.svelte";
 
     export let data: PlayerProfile;
 </script>
 
 <div class="realm-box profile-box">
     <div class="header">
+        <Smiley id="{data.smiley}"/>
         <h1 class="username">{data.username}</h1>
     </div>
 
@@ -67,6 +69,7 @@
 
     .header {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }

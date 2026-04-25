@@ -7,6 +7,7 @@
     import InlineDifficulty from "$lib/components/InlineDifficulty.svelte";
 
     import easy from "$lib/images/difficulties/2.png";
+    import ProfileLink from "$lib/components/ProfileLink.svelte";
 
     export let realmData: RealmInformation;
 
@@ -34,7 +35,7 @@
                 <div class="speed-entry">
                     <Smiley id={comment.smiley}/>
                     <div class="stats">
-                        <div class="username">{comment.playerName}</div>
+                        <div class="username"><ProfileLink username="{comment.playerName}"/></div>
 
                         {#if comment.suggestedRating}
                             <div class="rating">

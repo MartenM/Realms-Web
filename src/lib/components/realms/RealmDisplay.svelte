@@ -26,7 +26,7 @@
     </DifficultyBackground>
     <div class="builder ">
         <span>Built by:</span>
-        <span><ProfileLink username="{world.ownerUsername}" showIcon={true} >{world.ownerUsername}</ProfileLink></span>
+        <span><ProfileLink username="{world.ownerUsername}" showIcon={true}/></span>
     </div>
 </div>
 <hr />
