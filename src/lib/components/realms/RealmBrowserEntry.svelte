@@ -10,6 +10,7 @@
     } from '$env/static/public';
     import UsernameBox from "../../../routes/(wide)/settings/UsernameBox.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
+    import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
 
     export let data: PublishedWorld;
 
@@ -62,14 +63,7 @@
             {/if}
         </div>
         <div class="owner"><ProfileLink username="{data.ownerUsername}"/></div>
-        <div class="stats">
-            <div><i class='bx bxs-flag-checkered'></i><div>{data.completions}</div></div>
-            <div><i class='bx bx-play' ></i><div>{data.plays}</div></div>
-            {#if data.secondsToComplete != null}
-                <div data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class='bx bx-stopwatch' ></i> <div>{secondsToLength(data.secondsToComplete)}</div></div>
-            {/if}
-
-        </div>
+        <WorldStatsDisplay data={data}/>
     </div>
     <div class="entry-buttons">
         <button on:click={playWorld} class="btn btn-play">Play</button>
@@ -134,27 +128,6 @@
     .meta-info .owner {
         font-family: Kongtext, serif;
         font-size: 0.5em;
-    }
-
-    .stats {
-        display: flex;
-        gap: 1.0rem; /* space between the items */
-        align-items: center; /* vertically center all items */
-        justify-content: left; /* horizontally center the whole section */
-    }
-
-    .stats > div {
-        display: flex;
-        align-items: center; /* center icon and text vertically */
-        gap: 0.2rem; /* space between icon and number */
-        font-size: 0.8rem;
-    }
-
-    .stats i {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem; /* slightly larger icons */
     }
 
     .meta-info div {

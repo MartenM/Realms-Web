@@ -5,6 +5,9 @@
     import WorldSpeedHighscores from "$lib/components/WorldSpeedHighscores.svelte";
     import PlayRealmButton from "$lib/components/PlayRealmButton.svelte";
     import WorldUserComments from "$lib/components/WorldUserComments.svelte";
+    import trophy from "$lib/images/trophy.png";
+    import clock from "$lib/images/clock.png";
+    import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
 
     export let realmData: RealmInformation
     let world = realmData.world;
@@ -18,6 +21,32 @@
         navigator.clipboard.writeText(content);
     }
 
+    function secondsToLength(seconds: number) {
+        let minutes = 60;
+
+        // if (seconds <= 1 * minutes) {
+        //     return "very short"
+        // }
+
+        if (seconds <= 5 * minutes) {
+            return "short"
+        }
+
+        if (seconds <= 15 * minutes) {
+            return "normal"
+        }
+
+        if (seconds <= 25 * minutes) {
+            return "long"
+        }
+
+        if (seconds <= 35 * minutes) {
+            return "very long"
+        }
+
+        return "MARATHON";
+    }
+
 </script>
 
 <div class="header">
@@ -27,6 +56,9 @@
     <div class="builder ">
         <span>Built by:</span>
         <span><ProfileLink username="{world.ownerUsername}" showIcon={true}/></span>
+    </div>
+    <div class="stats">
+        <WorldStatsDisplay data={world}/>
     </div>
 </div>
 <hr />
@@ -87,6 +119,13 @@
     .btn-ok {
         color: white;
         background-color: grey;
+    }
+
+    .stats {
+        padding-top: 10px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
     }
 
     .content {
