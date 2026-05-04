@@ -17,6 +17,11 @@
             icon: 'bx-time',
         },
         {
+            name: 'Contest',
+            route: '/contest/summer-contest',
+            icon: 'bx-medal',
+        },
+        {
             name: 'Highscores',
             route: '/highscores',
             icon: 'bx-list-ol',
@@ -101,6 +106,22 @@
     .nav-publish i {
         /*animation: borderAnimation 4s infinite;*/
         color: gold;
+    }
+
+    .nav-contest i {
+        color: gold;
+        animation: contestGlow 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes contestGlow {
+        from {
+            text-shadow: 0 0 4px gold;
+            transform: scale(1.1);
+        }
+        to {
+            text-shadow: 0 0 12px gold, 0 0 20px orange;
+            transform: scale(1.4);
+        }
     }
 
     /*@keyframes borderAnimation {*/

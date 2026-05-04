@@ -13,7 +13,7 @@
 
 <!-- Render the smiley image based on the ID -->
 {#if id !== undefined && id !== ""}
-    <img src='/image/smileys/{id}.png' alt={`Smiley ${id}`}/>
+    <img src='/image/smileys/{id.toLowerCase()}.png' alt={`Smiley ${id.toLowerCase()}`}/>
 {:else}
     <img src='/image/smileys/smiley.png' alt={`Smiley smiley`}/>
 {/if}
