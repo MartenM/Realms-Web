@@ -1,10 +1,17 @@
 <script lang="ts">
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
     import DifficultyBar from "$lib/components/DifficultyBar.svelte";
+    import {PUBLIC_API_URL} from "$env/static/public";
 
     export let data;
 </script>
 
+<svelte:head>
+    {#if data.contest !== undefined}
+        <meta content="{data.contest.title}" property="og:title">
+        <meta content="{data.contest.message}" property="og:description">
+    {/if}
+</svelte:head>
 
 
 <div class="row">
