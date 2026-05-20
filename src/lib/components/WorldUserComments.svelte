@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {fetchRealmPlayerComments, fetchSpeedRecords} from "$lib/stores/playWorldDialogStore";
+    import {fetchRealmPlayerComments} from "$lib/stores/playWorldDialogStore";
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
@@ -8,8 +8,13 @@
 
     import easy from "$lib/images/difficulties/2.png";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
+    import type { FullWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
-    export let realmData: RealmInformation;
+    export let realmData: {
+        world: FullWorldResponse;
+        speedRecords: WorldSpeedRecordsResponse | null;
+        playerComments: RealmPlayerComment[] | null;
+    };
 
     let loadPromise : Promise<RealmPlayerComment[]>;
 

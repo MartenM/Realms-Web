@@ -1,12 +1,11 @@
 <script lang="ts">
     import { afterUpdate } from 'svelte';
+    import { createApiFetch } from '$lib/api/client';
 
     export let worldId : string | null;
 
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
-    $: imageUrl = `${PUBLIC_API_URL}/api/world/${worldId}/minimap`;
+    const apiFetch = createApiFetch();
+    $: imageUrl = `/api/world/${worldId}/minimap`;
 
     let fetchPromise : Promise<string>;
     async function fetchImage() {

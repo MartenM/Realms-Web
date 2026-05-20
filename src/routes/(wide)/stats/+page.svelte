@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import { Chart } from "chart.js/auto";
-    import {PUBLIC_API_URL} from "$env/static/public";
+    import { createApiFetch } from '$lib/api/client';
 
     let chart1: HTMLCanvasElement;
     let chart2: HTMLCanvasElement;
@@ -26,8 +26,10 @@
         }
     }
 
+    const apiFetch = createApiFetch();
+
     async function loadData() {
-        const response = await fetch(`${PUBLIC_API_URL}/api/stats/numerical_stats?startTime=2024-01-01&endTime=2024-10-28`, {credentials: "include"});
+        const response = await apiFetch(`/api/stats/numerical_stats?startTime=2024-01-01&endTime=2024-10-28`);
         var data: NumericalStats = await response.json();
 
         roomsChart.data.labels = data.labels;

@@ -1,21 +1,16 @@
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
+import { createApiClient } from '$lib/api/client';
+import type { FullWorldResponse } from '$lib/api/ApiClient';
 
-import {
-    PUBLIC_API_URL
-} from '$env/static/public';
+export const load: PageLoad = async ({ params, fetch }) => {
 
-export const load: PageLoad = async ({ params }) => {
-
-    var worldId = params.world;
-    var worldDataRequest = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}`);
-    if (!worldDataRequest.ok) {
-        error(404, 'Not found');
-    }
-
-    const publishedWorld: PublishedWorld = await worldDataRequest.json();
-
-    return {
-        worldData: publishedWorld,
+    const worldId = params.world;
+    const api = createApiClient({ fetch });
+    try {
+        const worldData: FullWorldResponse = await api.world(worldId);
+        return { worldData };
+    } catch (err) {
+        throw error(404, 'Not found');
     }
 };

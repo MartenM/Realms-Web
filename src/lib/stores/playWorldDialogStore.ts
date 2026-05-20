@@ -1,14 +1,11 @@
 import {get, writable} from 'svelte/store';
-import type { SimpleWorldResponse } from '$lib/api/ApiClient';
-
-import {
-    PUBLIC_API_URL
-} from '$env/static/public';
+import { createApiClient } from '$lib/api/client';
+import type { SimpleWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
 export interface PlayWorldDialogType {
     isOpen: boolean;
     world: SimpleWorldResponse | null;
-    speedRecords: SpeedRecordResponse | null
+    speedRecords: WorldSpeedRecordsResponse | null
 }
 
 export const playWorldDialogStore = writable<PlayWorldDialogType>({
@@ -21,16 +18,14 @@ export const openPlayDialog = function (world: SimpleWorldResponse) : void {
     playWorldDialogStore.update( (state) => ({ isOpen: true, world: world, speedRecords: null }));
 }
 
-export async function fetchSpeedRecords(worldId: string): Promise<SpeedRecordResponse> {
-    // Replace with actual data fetching logic
-    const response = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}/speedruns?page=0&limit=100`, {credentials: "include"});
-    return await response.json();
+export async function fetchSpeedRecords(worldId: string): Promise<WorldSpeedRecordsResponse> {
+    const api = createApiClient();
+    return api.speedruns(worldId, 0, 100);
 }
 
 export async function fetchRealmPlayerComments(worldId: string): Promise<RealmPlayerComment[]> {
-    // Replace with actual data fetching logic
-    const response = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}/comments?page=0&limit=100`, {credentials: "include"});
-    return await response.json();
+    const api = createApiClient();
+    return api.comments(worldId, 0, 100);
 }
 
 export const loadSpeedRecords = async (): Promise<boolean> => {

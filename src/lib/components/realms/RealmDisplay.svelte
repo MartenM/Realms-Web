@@ -8,8 +8,13 @@
     import trophy from "$lib/images/trophy.png";
     import clock from "$lib/images/clock.png";
     import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
+    import type { FullWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
-    export let realmData: RealmInformation
+    export let realmData: {
+        world: FullWorldResponse;
+        speedRecords: WorldSpeedRecordsResponse | null;
+        playerComments: RealmPlayerComment[] | null;
+    }
     let world = realmData.world;
 
     let currentSelection = "main";

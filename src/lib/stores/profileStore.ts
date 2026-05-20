@@ -1,9 +1,7 @@
 import {get, writable} from 'svelte/store';
 import { browser } from "$app/environment"
-
-import {
-    PUBLIC_API_URL
-} from '$env/static/public';
+import { createApiClient } from '$lib/api/client';
+import { SessionUpdate } from '$lib/api/ApiClient';
 
 const loadFromStorage = function () : Profile {
     let storage = browser ? localStorage.getItem("profile") : null;
@@ -28,21 +26,9 @@ const storeMethods = () => {
     const updateSession = async () => {
         // Update session:
         console.log("[ProfileStore] Updating session");
-        const res = await fetch(`${PUBLIC_API_URL}/api/session/username`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "username": get(store).username
-            }),
-            credentials: "include"
-        });
-
-        if (res.ok) {
-            var data = JSON.parse(await res.json());
-            console.log("Session update " + data)
-        }
+        const api = createApiClient();
+        const username = get(store).username ?? undefined;
+        await api.username(new SessionUpdate({ username }));
     }
 
     const setUsername = async (newUsername: string | null) => {

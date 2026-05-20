@@ -2,10 +2,6 @@
     import type { PageData } from './$types';
     import RealmDisplay from "$lib/components/realms/RealmDisplay.svelte";
 
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
-
     export let data: PageData;
 
     let realmData: RealmInformation = {
@@ -25,7 +21,7 @@
     {:else}
         <meta content="Builder: {realm.ownerUsername} - Difficulty: {realm.requestedDifficulty} (Requested)" property="og:description">
     {/if}
-    <meta content='{PUBLIC_API_URL}/api/world/{realm.id}/minimap' property='og:image'>
+    <meta content='/api/world/{realm.id}/minimap' property='og:image'>
     <meta name="twitter:card" content="summary_large_image">
 
 </svelte:head>

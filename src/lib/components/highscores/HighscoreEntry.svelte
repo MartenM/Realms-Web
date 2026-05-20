@@ -4,9 +4,11 @@
     import clock from "$lib/images/clock.png";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
 
+    import type { HighscoreResponse } from '$lib/api/ApiClient';
+
     export let highscoreType: string;
     export let index = 0;
-    export let player: HighscorePlayer;
+    export let player: HighscoreResponse;
 </script>
 
 <div class="player place-{index + 1} {index % 2 === 0 ? 'even' : 'odd'}">

@@ -1,10 +1,11 @@
 <script lang="ts">
 
-    import {PUBLIC_API_URL} from "$env/static/public";
+    import { createApiFetch } from '$lib/api/client';
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
 
     export let worldId: string;
 
+    const apiFetch = createApiFetch();
     let requestResponse: RequestRealmResponse | null;
     let isLoading = false;
     let errorText: string | null = null;
@@ -14,7 +15,7 @@
 
         isLoading = true;
 
-        fetch(`${PUBLIC_API_URL}/api/world/${worldId}/play`, {method: "POST", credentials: "include"})
+        apiFetch(`/api/world/${worldId}/play`, {method: "POST"})
             .then((res) => res.json())
             .then(x => {
                 x = x as RequestRealmResponse

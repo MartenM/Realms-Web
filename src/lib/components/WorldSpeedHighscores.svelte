@@ -4,10 +4,15 @@
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
+    import type { FullWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
-    export let realmData: RealmInformation;
+    export let realmData: {
+        world: FullWorldResponse;
+        speedRecords: WorldSpeedRecordsResponse | null;
+        playerComments: RealmPlayerComment[] | null;
+    };
 
-    let loadPromise : Promise<SpeedRecordResponse>;
+    let loadPromise : Promise<WorldSpeedRecordsResponse>;
 
     $: otherRecords = realmData.speedRecords?.records;
     $: ownRecord = realmData.speedRecords?.ownRecord;

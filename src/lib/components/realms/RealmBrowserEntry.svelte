@@ -5,9 +5,6 @@
     import { openMinimap } from "$lib/stores/minimapDialogStore";
     import { openPlayDialog } from "$lib/stores/playWorldDialogStore";
 
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
     import UsernameBox from "../../../routes/(wide)/settings/UsernameBox.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
     import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
@@ -70,7 +67,7 @@
         <button on:click={playWorld} class="btn btn-play">Play</button>
     </div>
 
-    <img class="world-preview" src="{PUBLIC_API_URL}/api/world/{data.id}/minimap" alt="">
+    <img class="world-preview" src="/api/world/{data.id}/minimap" alt="">
 </div>
 
 <style>

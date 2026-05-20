@@ -2,21 +2,20 @@
     import {onMount} from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import HighscoreEntry from "./HighscoreEntry.svelte";
-
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
+    import { createApiFetch } from '$lib/api/client';
+    import type { HighscoreResponse } from '$lib/api/ApiClient';
 
     export let configuration: HighscoreConfiguration = {
         apiUrl: '/api/highscores/trophies',
         type: 'Trophies'
     };
 
-    $: fullRoute = `${PUBLIC_API_URL}${configuration.apiUrl}?limit=100`;
+    const apiFetch = createApiFetch();
+    $: fullRoute = `${configuration.apiUrl}?limit=100`;
 
-    let dataPromise: Promise<HighscorePlayer[]> = new Promise(() => {});
+    let dataPromise: Promise<HighscoreResponse[]> = new Promise(() => {});
     onMount(async () => {
-        dataPromise = fetch(fullRoute, {credentials: "include"}).then((res) => res.json());
+        dataPromise = apiFetch(fullRoute).then((res) => res.json() as Promise<HighscoreResponse[]>);
     });
 </script>
 

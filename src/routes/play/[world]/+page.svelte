@@ -3,18 +3,15 @@
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import MinimapView from "$lib/components/realms/MinimapView.svelte";
     import {onMount} from "svelte";
+    import { createApiFetch } from '$lib/api/client';
 
     export let data: PageData;
 
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
-
-    import {browser} from "$app/environment";
+    const apiFetch = createApiFetch();
 
     let requestRealmPromise: Promise<RequestRealmResponse> = new Promise(() => {});
     onMount(async () => {
-        requestRealmPromise = fetch(`${PUBLIC_API_URL}/api/world/${data.worldData.id}/play`, {method: "POST", credentials: "include"})
+        requestRealmPromise = apiFetch(`/api/world/${data.worldData.id}/play`, {method: "POST"})
             .then((res) => res.json())
             .then(x => x as RequestRealmResponse)
             .catch();

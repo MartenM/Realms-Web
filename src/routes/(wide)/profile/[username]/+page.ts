@@ -1,18 +1,16 @@
 import { error } from '@sveltejs/kit';
-import {
-    PUBLIC_API_URL
-} from '$env/static/public';
+import { createApiFetch } from '$lib/api/client';
 
 export async function load({ params }) {
     let username = params.username;
+    const apiFetch = createApiFetch();
 
-    let profile: Promise<PlayerProfile> = fetch(
-        `${PUBLIC_API_URL}/api/profile/?username=${username}`,
-        {credentials: "include"}).then((res) => res.json());
+    const profile = await apiFetch(`/api/profile/?username=${username}`, { credentials: 'include' })
+        .then((res) => res.json() as Promise<PlayerProfile>);
 
     if (profile != null) {
         return profile;
     }
 
-    error(404, 'Not found');
+    throw error(404, 'Not found');
 }

@@ -1,20 +1,15 @@
 import { error } from '@sveltejs/kit';
+import { createApiClient } from '$lib/api/client';
+import type { FullWorldResponse } from '$lib/api/ApiClient';
 
-import {
-    PUBLIC_API_URL
-} from '$env/static/public';
-
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
 
     var worldId = params.world;
-    var worldDataRequest = await fetch(`${PUBLIC_API_URL}/api/world/${worldId}`);
-    if (!worldDataRequest.ok) {
-        error(404, 'The specified world could not be found...');
-    }
-
-    const publishedWorld: PublishedWorld = await worldDataRequest.json();
-
-    return {
-        worldData: publishedWorld,
+    const api = createApiClient({ fetch });
+    try {
+        const worldData: FullWorldResponse = await api.world(worldId);
+        return { worldData };
+    } catch (err) {
+        throw error(404, 'The specified world could not be found...');
     }
 };
