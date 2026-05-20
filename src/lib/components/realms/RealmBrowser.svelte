@@ -3,13 +3,11 @@
     import RealmBrowserEntry from "./RealmBrowserEntry.svelte";
     import {onMount} from "svelte";
     import {fade} from "svelte/transition"
+    import { createApiFetch } from '$lib/api/client';
+    import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
     export let title: string | null;
     export let subTitle: string | null;
-
-    import {
-        PUBLIC_API_URL
-    } from '$env/static/public';
     export let apiUrl: string = `/api/worlds/`;
     export let extraParameters: string = "";
 
@@ -33,18 +31,20 @@
         hasNextPage = true;
     }
 
+    const apiFetch = createApiFetch();
+
     function doRequest() {
-        let fullRoute = `${PUBLIC_API_URL}${apiUrl}?pageSize=${pageSize}&page=${currentPage}${extraParameters}`
-        dataPromise = fetch(fullRoute, {credentials: "include"}).then((res) => res.json());
+        let fullRoute = `${apiUrl}?pageSize=${pageSize}&page=${currentPage}${extraParameters}`;
+        dataPromise = apiFetch(fullRoute).then((res) => res.json() as Promise<SimpleWorldResponse[]>);
     }
     
-    let dataPromise: Promise<PublishedWorld[]> = new Promise(() => {});
+    let dataPromise: Promise<SimpleWorldResponse[]> = new Promise(() => {});
     onMount(async () => {
         doRequest();
     });
 
     let modal = false;
-    let clickedWorld: PublishedWorld | null;
+    let clickedWorld: SimpleWorldResponse | null;
     function onPlay(event: any) : void {
         clickedWorld = event.detail.world;
         modal = true;

@@ -1,7 +1,8 @@
 <script lang="ts">
     import clock from "$lib/images/clock.png";
+    import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
-    export let data: PublishedWorld;
+    export let data: SimpleWorldResponse;
 
     function secondsToLength(seconds: number) {
         let minutes = 60;

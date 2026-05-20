@@ -11,8 +11,9 @@
     import UsernameBox from "../../../routes/(wide)/settings/UsernameBox.svelte";
     import ProfileLink from "$lib/components/ProfileLink.svelte";
     import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
+    import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
-    export let data: PublishedWorld;
+    export let data: SimpleWorldResponse;
 
     const dispatch = createEventDispatcher();
 

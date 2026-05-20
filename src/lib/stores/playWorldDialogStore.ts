@@ -1,4 +1,5 @@
 import {get, writable} from 'svelte/store';
+import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
 import {
     PUBLIC_API_URL
@@ -6,7 +7,7 @@ import {
 
 export interface PlayWorldDialogType {
     isOpen: boolean;
-    world: PublishedWorld | null;
+    world: SimpleWorldResponse | null;
     speedRecords: SpeedRecordResponse | null
 }
 
@@ -16,7 +17,7 @@ export const playWorldDialogStore = writable<PlayWorldDialogType>({
     speedRecords: null
 });
 
-export const openPlayDialog = function (world: PublishedWorld) : void {
+export const openPlayDialog = function (world: SimpleWorldResponse) : void {
     playWorldDialogStore.update( (state) => ({ isOpen: true, world: world, speedRecords: null }));
 }
 
@@ -40,7 +41,12 @@ export const loadSpeedRecords = async (): Promise<boolean> => {
     }
 
     try {
-        const speedRecords = await fetchSpeedRecords(state.world?.id);
+        const worldId = state.world?.id;
+        if (!worldId) {
+            console.error('World id is missing');
+            return false;
+        }
+        const speedRecords = await fetchSpeedRecords(worldId);
         playWorldDialogStore.update(state => ({
             ...state,
             speedRecords: speedRecords
