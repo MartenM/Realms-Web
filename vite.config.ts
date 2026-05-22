@@ -6,7 +6,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://realms.martenm.nl',
+                target: 'https://localhost:7139',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/api'),
                 secure: false, // if your cert is self-signed; otherwise remove this

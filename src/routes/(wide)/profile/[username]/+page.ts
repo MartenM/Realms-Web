@@ -1,15 +1,15 @@
 import { error } from '@sveltejs/kit';
-import { createApiFetch } from '$lib/api/client';
+import {createApiClient} from '$lib/api/client';
 
 export async function load({ params }) {
     let username = params.username;
-    const apiFetch = createApiFetch();
+    const apiFetch = createApiClient();
 
-    const profile = await apiFetch(`/api/profile/?username=${username}`, { credentials: 'include' })
-        .then((res) => res.json() as Promise<PlayerProfile>);
-
+    const profile = await apiFetch.profileGET(undefined, username);
     if (profile != null) {
-        return profile;
+        return {
+            profile
+        };
     }
 
     throw error(404, 'Not found');

@@ -6,6 +6,7 @@ import HighscoreList from "$lib/components/highscores/HighscoreList.svelte";
 
 import { profileStore } from "$lib/stores/profileStore";
 import DifficultyBar from "$lib/components/DifficultyBar.svelte";
+import ActivityEventsDisplay from "$lib/components/activity/ActivityEventsDisplay.svelte";
 
 let usernameHint = $profileStore.username == null;
 </script>
@@ -23,6 +24,7 @@ let usernameHint = $profileStore.username == null;
 
             </div>
         {/if}
+        <ActivityEventsDisplay/>
         <RealmBrowser title={"Rated Realms"} subTitle={"Play realms and earn trophies!"} apiUrl={"/api/worlds/rated"}/>
         <DifficultyBar/>
     </div>

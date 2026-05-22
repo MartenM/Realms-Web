@@ -20,7 +20,7 @@ export class Client {
     /**
      * @return OK
      */
-    anonymous(): Promise<string> {
+    gET(): Promise<string> {
         let url_ = this.baseUrl + "/";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -32,11 +32,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processAnonymous(_response);
+            return this.processGET(_response);
         });
     }
 
-    protected processAnonymous(response: Response): Promise<string> {
+    protected processGET(response: Response): Promise<string> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -58,7 +58,7 @@ export class Client {
     /**
      * @return OK
      */
-    last(amount: number): Promise<ActivityEventDto[]> {
+    eventsLastGET(amount: number): Promise<ActivityEventDto[]> {
         let url_ = this.baseUrl + "/api/events/last/{amount}";
         if (amount === undefined || amount === null)
             throw new globalThis.Error("The parameter 'amount' must be defined.");
@@ -73,11 +73,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processLast(_response);
+            return this.processEventsLastGET(_response);
         });
     }
 
-    protected processLast(response: Response): Promise<ActivityEventDto[]> {
+    protected processEventsLastGET(response: Response): Promise<ActivityEventDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -105,7 +105,7 @@ export class Client {
     /**
      * @return OK
      */
-    download(worldId: string): Promise<void> {
+    adminWorldDownloadGET(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/admin/world/{worldId}/download";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -119,11 +119,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDownload(_response);
+            return this.processAdminWorldDownloadGET(_response);
         });
     }
 
-    protected processDownload(response: Response): Promise<void> {
+    protected processAdminWorldDownloadGET(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -141,7 +141,7 @@ export class Client {
     /**
      * @return OK
      */
-    trophies(): Promise<HighscoreResponse[]> {
+    highscoresTrophiesGET(): Promise<HighscoreResponse[]> {
         let url_ = this.baseUrl + "/api/highscores/trophies";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -153,11 +153,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processTrophies(_response);
+            return this.processHighscoresTrophiesGET(_response);
         });
     }
 
-    protected processTrophies(response: Response): Promise<HighscoreResponse[]> {
+    protected processHighscoresTrophiesGET(response: Response): Promise<HighscoreResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -185,7 +185,7 @@ export class Client {
     /**
      * @return OK
      */
-    speedrun(): Promise<HighscoreResponse[]> {
+    highscoresSpeedrunGET(): Promise<HighscoreResponse[]> {
         let url_ = this.baseUrl + "/api/highscores/speedrun";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -197,11 +197,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSpeedrun(_response);
+            return this.processHighscoresSpeedrunGET(_response);
         });
     }
 
-    protected processSpeedrun(response: Response): Promise<HighscoreResponse[]> {
+    protected processHighscoresSpeedrunGET(response: Response): Promise<HighscoreResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -229,7 +229,7 @@ export class Client {
     /**
      * @return OK
      */
-    builder(): Promise<HighscoreResponse[]> {
+    highscoresBuilderGET(): Promise<HighscoreResponse[]> {
         let url_ = this.baseUrl + "/api/highscores/builder";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -241,11 +241,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processBuilder(_response);
+            return this.processHighscoresBuilderGET(_response);
         });
     }
 
-    protected processBuilder(response: Response): Promise<HighscoreResponse[]> {
+    protected processHighscoresBuilderGET(response: Response): Promise<HighscoreResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -275,7 +275,7 @@ export class Client {
      * @param username (optional) 
      * @return OK
      */
-    profile(id: string | undefined, username: string | undefined): Promise<void> {
+    profileGET(id: string | undefined, username: string | undefined): Promise<FullProfileResponse> {
         let url_ = this.baseUrl + "/api/profile?";
         if (id === null)
             throw new globalThis.Error("The parameter 'id' cannot be null.");
@@ -290,27 +290,31 @@ export class Client {
         let options_: RequestInit = {
             method: "GET",
             headers: {
+                "Accept": "application/json"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processProfile(_response);
+            return this.processProfileGET(_response);
         });
     }
 
-    protected processProfile(response: Response): Promise<void> {
+    protected processProfileGET(response: Response): Promise<FullProfileResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FullProfileResponse.fromJS(resultData200);
+            return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<FullProfileResponse>(null as any);
     }
 
     /**
@@ -318,7 +322,7 @@ export class Client {
      * @param pageSize (optional) 
      * @return OK
      */
-    worlds(profileId: string, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    profileWorldsGET(profileId: string, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/profile/{profileId}/worlds?";
         if (profileId === undefined || profileId === null)
             throw new globalThis.Error("The parameter 'profileId' must be defined.");
@@ -341,11 +345,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processWorlds(_response);
+            return this.processProfileWorldsGET(_response);
         });
     }
 
-    protected processWorlds(response: Response): Promise<SimpleWorldResponse[]> {
+    protected processProfileWorldsGET(response: Response): Promise<SimpleWorldResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -373,7 +377,7 @@ export class Client {
     /**
      * @return OK
      */
-    username(body: SessionUpdate): Promise<boolean> {
+    sessionUsernamePOST(body: SessionUpdate): Promise<boolean> {
         let url_ = this.baseUrl + "/api/session/username";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -389,11 +393,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUsername(_response);
+            return this.processSessionUsernamePOST(_response);
         });
     }
 
-    protected processUsername(response: Response): Promise<boolean> {
+    protected processSessionUsernamePOST(response: Response): Promise<boolean> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -415,7 +419,7 @@ export class Client {
     /**
      * @return OK
      */
-    world(worldId: string): Promise<FullWorldResponse> {
+    worldGET(worldId: string): Promise<FullWorldResponse> {
         let url_ = this.baseUrl + "/api/world/{worldId}";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -430,11 +434,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processWorld(_response);
+            return this.processWorldGET(_response);
         });
     }
 
-    protected processWorld(response: Response): Promise<FullWorldResponse> {
+    protected processWorldGET(response: Response): Promise<FullWorldResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -455,7 +459,7 @@ export class Client {
     /**
      * @return OK
      */
-    minimap(worldId: string): Promise<void> {
+    worldMinimapGET(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/world/{worldId}/minimap";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -469,11 +473,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processMinimap(_response);
+            return this.processWorldMinimapGET(_response);
         });
     }
 
-    protected processMinimap(response: Response): Promise<void> {
+    protected processWorldMinimapGET(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -493,7 +497,7 @@ export class Client {
      * @param limit (optional) 
      * @return OK
      */
-    speedruns(worldId: string, page: number | undefined, limit: number | undefined): Promise<WorldSpeedRecordsResponse> {
+    worldSpeedrunsGET(worldId: string, page: number | undefined, limit: number | undefined): Promise<WorldSpeedRecordsResponse> {
         let url_ = this.baseUrl + "/api/world/{worldId}/speedruns?";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -516,11 +520,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSpeedruns(_response);
+            return this.processWorldSpeedrunsGET(_response);
         });
     }
 
-    protected processSpeedruns(response: Response): Promise<WorldSpeedRecordsResponse> {
+    protected processWorldSpeedrunsGET(response: Response): Promise<WorldSpeedRecordsResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -543,7 +547,7 @@ export class Client {
      * @param limit (optional) 
      * @return OK
      */
-    comments(worldId: string, page: number | undefined, limit: number | undefined): Promise<RealmPlayerComment[]> {
+    worldCommentsGET(worldId: string, page: number | undefined, limit: number | undefined): Promise<RealmPlayerComment[]> {
         let url_ = this.baseUrl + "/api/world/{worldId}/comments?";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -566,11 +570,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processComments(_response);
+            return this.processWorldCommentsGET(_response);
         });
     }
 
-    protected processComments(response: Response): Promise<RealmPlayerComment[]> {
+    protected processWorldCommentsGET(response: Response): Promise<RealmPlayerComment[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -598,7 +602,7 @@ export class Client {
     /**
      * @return OK
      */
-    play(worldId: string): Promise<void> {
+    worldPlayPOST(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/world/{worldId}/play";
         if (worldId === undefined || worldId === null)
             throw new globalThis.Error("The parameter 'worldId' must be defined.");
@@ -612,11 +616,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPlay(_response);
+            return this.processWorldPlayPOST(_response);
         });
     }
 
-    protected processPlay(response: Response): Promise<void> {
+    protected processWorldPlayPOST(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -636,7 +640,7 @@ export class Client {
      * @param pageSize (optional) 
      * @return OK
      */
-    worlds2(page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    worldsGET(page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/worlds?";
         if (page === null)
             throw new globalThis.Error("The parameter 'page' cannot be null.");
@@ -656,11 +660,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processWorlds2(_response);
+            return this.processWorldsGET(_response);
         });
     }
 
-    protected processWorlds2(response: Response): Promise<SimpleWorldResponse[]> {
+    protected processWorldsGET(response: Response): Promise<SimpleWorldResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -690,7 +694,7 @@ export class Client {
      * @param pageSize (optional) 
      * @return OK
      */
-    rated(page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    worldsRatedGET(page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/worlds/rated?";
         if (page === null)
             throw new globalThis.Error("The parameter 'page' cannot be null.");
@@ -710,11 +714,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processRated(_response);
+            return this.processWorldsRatedGET(_response);
         });
     }
 
-    protected processRated(response: Response): Promise<SimpleWorldResponse[]> {
+    protected processWorldsRatedGET(response: Response): Promise<SimpleWorldResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -751,7 +755,7 @@ export class Client {
      * @param pageSize (optional) 
      * @return OK
      */
-    search(worldName: string | undefined, builderName: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    worldsSearchGET(worldName: string | undefined, builderName: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/worlds/search?";
         if (worldName === null)
             throw new globalThis.Error("The parameter 'worldName' cannot be null.");
@@ -799,11 +803,11 @@ export class Client {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processSearch(_response);
+            return this.processWorldsSearchGET(_response);
         });
     }
 
-    protected processSearch(response: Response): Promise<SimpleWorldResponse[]> {
+    protected processWorldsSearchGET(response: Response): Promise<SimpleWorldResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -831,6 +835,7 @@ export class Client {
 
 export class ActivityEventDto implements IActivityEventDto {
     eventType?: string;
+    createdAt?: Date;
     extraVariables?: { [key: string]: string; };
 
     [key: string]: any;
@@ -851,6 +856,7 @@ export class ActivityEventDto implements IActivityEventDto {
                     this[property] = _data[property];
             }
             this.eventType = _data["eventType"];
+            this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : undefined as any;
             if (_data["extraVariables"]) {
                 this.extraVariables = {} as any;
                 for (let key in _data["extraVariables"]) {
@@ -875,6 +881,7 @@ export class ActivityEventDto implements IActivityEventDto {
                 data[property] = this[property];
         }
         data["eventType"] = this.eventType;
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : undefined as any;
         if (this.extraVariables) {
             data["extraVariables"] = {};
             for (let key in this.extraVariables) {
@@ -888,7 +895,88 @@ export class ActivityEventDto implements IActivityEventDto {
 
 export interface IActivityEventDto {
     eventType?: string;
+    createdAt?: Date;
     extraVariables?: { [key: string]: string; };
+
+    [key: string]: any;
+}
+
+export class FullProfileResponse implements IFullProfileResponse {
+    id?: string;
+    username?: string;
+    smiley?: string;
+    playerGroup?: number;
+    trophies?: number;
+    builderPoints?: number;
+    verified?: boolean;
+    totalPlays!: number;
+    completedWorlds!: number;
+
+    [key: string]: any;
+
+    constructor(data?: IFullProfileResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.username = _data["username"];
+            this.smiley = _data["smiley"];
+            this.playerGroup = _data["playerGroup"];
+            this.trophies = _data["trophies"];
+            this.builderPoints = _data["builderPoints"];
+            this.verified = _data["verified"];
+            this.totalPlays = _data["totalPlays"];
+            this.completedWorlds = _data["completedWorlds"];
+        }
+    }
+
+    static fromJS(data: any): FullProfileResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new FullProfileResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["smiley"] = this.smiley;
+        data["playerGroup"] = this.playerGroup;
+        data["trophies"] = this.trophies;
+        data["builderPoints"] = this.builderPoints;
+        data["verified"] = this.verified;
+        data["totalPlays"] = this.totalPlays;
+        data["completedWorlds"] = this.completedWorlds;
+        return data;
+    }
+}
+
+export interface IFullProfileResponse {
+    id?: string;
+    username?: string;
+    smiley?: string;
+    playerGroup?: number;
+    trophies?: number;
+    builderPoints?: number;
+    verified?: boolean;
+    totalPlays: number;
+    completedWorlds: number;
 
     [key: string]: any;
 }

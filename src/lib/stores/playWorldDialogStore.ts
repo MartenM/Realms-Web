@@ -20,12 +20,12 @@ export const openPlayDialog = function (world: SimpleWorldResponse) : void {
 
 export async function fetchSpeedRecords(worldId: string): Promise<WorldSpeedRecordsResponse> {
     const api = createApiClient();
-    return api.speedruns(worldId, 0, 100);
+    return api.worldSpeedrunsGET(worldId, 0, 100);
 }
 
 export async function fetchRealmPlayerComments(worldId: string): Promise<RealmPlayerComment[]> {
     const api = createApiClient();
-    return api.comments(worldId, 0, 100);
+    return api.worldCommentsGET(worldId, 0, 100);
 }
 
 export const loadSpeedRecords = async (): Promise<boolean> => {

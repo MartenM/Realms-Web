@@ -4,13 +4,14 @@
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
 
-    export let data: PlayerProfile;
+    export let data;
+    const { profile } = data;
 </script>
 
 <div class="realm-box profile-box">
     <div class="header">
-        <Smiley id="{data.smiley}"/>
-        <h1 class="username">{data.username}</h1>
+        <Smiley id="{profile.smiley}"/>
+        <h1 class="username">{profile.username}</h1>
     </div>
 
     <div class="stats-grid">
@@ -18,7 +19,7 @@
             <img src={trophy} alt="Trophies" class="icon" />
             <div class="info">
                 <div class="label">Trophies</div>
-                <div class="value">{data.trophies}</div>
+                <div class="value">{profile.trophies}</div>
             </div>
         </div>
 
@@ -26,7 +27,7 @@
             <img src={builder} alt="Builder Points" class="icon" />
             <div class="info">
                 <div class="label">Builder Points</div>
-                <div class="value">{data.builderPoints}</div>
+                <div class="value">{profile.builderPoints}</div>
             </div>
         </div>
 
@@ -34,7 +35,7 @@
             <div class="icon"><i class='bx bx-play' ></i></div>
             <div class="info">
                 <div class="label">World Visitors</div>
-                <div class="value">{data.totalPlays}</div>
+                <div class="value">{profile.totalPlays}</div>
             </div>
         </div>
 
@@ -42,7 +43,7 @@
             <div class="icon"><i class='bx bxs-flag-checkered'></i></div>
             <div class="info">
                 <div class="label">Completed Worlds</div>
-                <div class="value">{data.completedWorlds}</div>
+                <div class="value">{profile.completedWorlds}</div>
             </div>
         </div>
     </div>
@@ -51,9 +52,9 @@
 
     <RealmBrowser
             title="Published worlds"
-            subTitle="Worlds created by {data.username}"
+            subTitle="Worlds created by {profile.username}"
             apiUrl="/api/worlds/search"
-            extraParameters={`&builderName=${data.username}`}
+            extraParameters={`&builderName=${profile.username}`}
     />
 </div>
 
