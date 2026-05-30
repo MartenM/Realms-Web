@@ -7,6 +7,7 @@ export const load: PageLoad = async ({ params, fetch }) => {
 
     var worldId = params.world;
     const api = createApiClient({ fetch });
+
     try {
         const worldData: FullWorldResponse = await api.worldGET(worldId);
         return { worldData };

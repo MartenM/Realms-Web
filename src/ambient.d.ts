@@ -1,3 +1,5 @@
+import type {FullWorldResponse} from "$lib/api/ApiClient";
+
 interface Profile {
     isSimple: boolean,
     hasSession: boolean
@@ -17,11 +19,6 @@ interface PublishedWorld {
     completed: boolean,
     plays: number,
     secondsToComplete: number,
-}
-
-interface HighscorePlayer {
-    username: string
-    amount: number
 }
 
 interface HighscoreConfiguration {
@@ -67,7 +64,7 @@ type RequestRealmResponse = {
 }
 
 interface RealmInformation {
-    world: PublishedWorld;
+    world: FullWorldResponse;
     speedRecords: SpeedRecordResponse | null,
     playerComments: RealmPlayerComment[] | null,
 }
