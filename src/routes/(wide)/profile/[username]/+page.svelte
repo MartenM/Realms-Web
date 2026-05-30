@@ -8,6 +8,14 @@
     const { profile } = data;
 </script>
 
+<svelte:head>
+    <meta content="{profile.username}" property="og:title">
+
+    <meta content="{profile.ownerUsername} - Trophies: {profile.trophies} - Builder points: {profile.builderPoints}" property="og:description">
+    <meta content='/image/smileys/{profile.smiley?.toLowerCase()}.png' property='og:image'>
+    <meta name="twitter:card" content="summary_large_image">
+</svelte:head>
+
 <div class="realm-box profile-box">
     <div class="header">
         <Smiley id="{profile.smiley}"/>
