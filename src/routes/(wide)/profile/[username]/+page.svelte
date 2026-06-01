@@ -11,7 +11,7 @@
 <svelte:head>
     <meta content="{profile.username}" property="og:title">
 
-    <meta content="{profile.ownerUsername} - Trophies: {profile.trophies} - Builder points: {profile.builderPoints}" property="og:description">
+    <meta content="{profile.username} - Trophies: {profile.trophies} - Builder points: {profile.builderPoints}" property="og:description">
     <meta content='/image/smileys/{profile.smiley?.toLowerCase()}.png' property='og:image'>
     <meta name="twitter:card" content="summary_large_image">
 </svelte:head>
