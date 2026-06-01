@@ -28,7 +28,7 @@ const storeMethods = () => {
         console.log("[ProfileStore] Updating session");
         const api = createApiClient();
         const username = get(store).username ?? undefined;
-        await api.username(new SessionUpdate({ username }));
+        await api.sessionUsernamePOST(new SessionUpdate({ username }));
     }
 
     const setUsername = async (newUsername: string | null) => {
