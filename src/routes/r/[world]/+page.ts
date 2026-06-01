@@ -1,17 +1,19 @@
 import { error } from '@sveltejs/kit';
 import { createApiClient } from '$lib/api/client';
-import type { FullWorldResponse } from '$lib/api/ApiClient';
-import type {PageLoad} from "../../../../.svelte-kit/types/src/routes/r/[world]/$types";
-
-export const load: PageLoad = async ({ params, fetch }) => {
-
+import {ApiException, type FullWorldResponse} from '$lib/api/ApiClient';
+export async function load({ params }) {
     var worldId = params.world;
-    const api = createApiClient({ fetch });
+    const api = createApiClient();
 
     try {
         const worldData: FullWorldResponse = await api.worldGET(worldId);
         return { worldData };
     } catch (err) {
-        throw error(404, 'The specified world could not be found...');
+        if (err instanceof ApiException) {
+            if (err.status === 404) {
+                throw error(404, 'The specified world could not be found...');
+            }
+        }
+        throw error(500, 'Something went wrong internally...');
     }
 };
