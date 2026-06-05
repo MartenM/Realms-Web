@@ -20,8 +20,7 @@ let usernameHint = $profileStore.username == null;
     <div class="col-md-9">
         {#if usernameHint}
             <div class="alert-profile">
-                <div class="alert-text">See completed worlds? Set your username <a href="/settings">here</a>!</div>
-
+                <div class="alert-text">See completed worlds? Authenticate your profile <a href="/settings">here</a>.</div>
             </div>
         {/if}
         <ActivityEventsDisplay/>

@@ -1,9 +1,10 @@
 import type {FullWorldResponse} from "$lib/api/ApiClient";
 
 interface Profile {
-    isSimple: boolean,
-    hasSession: boolean
-    username: string | null,
+    isAuthenticated: boolean;
+    username: string | null;
+    id?: string | null;
+    smiley?: string | null;
 }
 
 interface PublishedWorld {

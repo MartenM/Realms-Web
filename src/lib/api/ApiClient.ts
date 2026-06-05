@@ -141,6 +141,88 @@ export class Client {
     /**
      * @return OK
      */
+    authPOST(body: RequestAuthenticationDto): Promise<AuthenticatedDto> {
+        let url_ = this.baseUrl + "/api/auth";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAuthPOST(_response);
+        });
+    }
+
+    protected processAuthPOST(response: Response): Promise<AuthenticatedDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthenticatedDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuthenticatedDto>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    authRefreshPOST(body: RefreshAuthenticationDto): Promise<AuthenticatedDto> {
+        let url_ = this.baseUrl + "/api/auth/refresh";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAuthRefreshPOST(_response);
+        });
+    }
+
+    protected processAuthRefreshPOST(response: Response): Promise<AuthenticatedDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthenticatedDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AuthenticatedDto>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     highscoresTrophiesGET(): Promise<HighscoreResponse[]> {
         let url_ = this.baseUrl + "/api/highscores/trophies";
         url_ = url_.replace(/[?&]$/, "");
@@ -901,6 +983,62 @@ export interface IActivityEventDto {
     [key: string]: any;
 }
 
+export class AuthenticatedDto implements IAuthenticatedDto {
+    success?: boolean;
+    refreshToken?: string;
+    jwtToken?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IAuthenticatedDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.success = _data["success"];
+            this.refreshToken = _data["refreshToken"];
+            this.jwtToken = _data["jwtToken"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticatedDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticatedDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["success"] = this.success;
+        data["refreshToken"] = this.refreshToken;
+        data["jwtToken"] = this.jwtToken;
+        return data;
+    }
+}
+
+export interface IAuthenticatedDto {
+    success?: boolean;
+    refreshToken?: string;
+    jwtToken?: string;
+
+    [key: string]: any;
+}
+
 export class FullProfileResponse implements IFullProfileResponse {
     id?: string;
     username?: string;
@@ -1209,6 +1347,102 @@ export interface IRealmPlayerComment {
     liked: boolean | undefined;
     completed: boolean;
     completedDeathless: boolean;
+
+    [key: string]: any;
+}
+
+export class RefreshAuthenticationDto implements IRefreshAuthenticationDto {
+    token?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IRefreshAuthenticationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any): RefreshAuthenticationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RefreshAuthenticationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["token"] = this.token;
+        return data;
+    }
+}
+
+export interface IRefreshAuthenticationDto {
+    token?: string;
+
+    [key: string]: any;
+}
+
+export class RequestAuthenticationDto implements IRequestAuthenticationDto {
+    code?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IRequestAuthenticationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.code = _data["code"];
+        }
+    }
+
+    static fromJS(data: any): RequestAuthenticationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RequestAuthenticationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["code"] = this.code;
+        return data;
+    }
+}
+
+export interface IRequestAuthenticationDto {
+    code?: string;
 
     [key: string]: any;
 }
