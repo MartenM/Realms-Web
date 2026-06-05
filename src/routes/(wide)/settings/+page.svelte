@@ -7,7 +7,7 @@
     <h4>Settings</h4>
     <hr>
     <div class="row">
-       <div class="col-md-5">
+       <div class="col-md-12">
            <UsernameBox/>
        </div>
     </div>
