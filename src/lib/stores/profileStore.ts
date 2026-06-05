@@ -2,6 +2,7 @@ import {get, writable} from 'svelte/store';
 import { browser } from "$app/environment"
 import { createApiClient } from '$lib/api/client';
 import { SessionUpdate } from '$lib/api/ApiClient';
+import type {Profile} from "../../ambient";
 
 const loadFromStorage = function () : Profile {
     let storage = browser ? localStorage.getItem("profile") : null;
