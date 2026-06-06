@@ -62,7 +62,7 @@
             title="Published worlds"
             subTitle="Worlds created by {profile.username}"
             apiUrl="/api/worlds/search"
-            extraParameters={`&builderName=${profile.username}`}
+            extraParameters={`&builderName=${profile.username}&builderNameOperator=EQUALS`}
     />
 </div>
 
