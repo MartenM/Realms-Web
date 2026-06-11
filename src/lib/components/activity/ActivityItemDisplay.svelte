@@ -86,6 +86,26 @@
 
         return formatSignedDuration(newMs - previousMs);
     }
+
+    function getActivityIconClass(eventType: string): string {
+        if (eventType === 'RealmRated') {
+            return 'bx bx-trophy';
+        }
+
+        if (eventType === 'RealmPublished') {
+            return 'bx bx-world';
+        }
+
+        if (eventType === 'PlayerRealmCompleted') {
+            return 'bx bx-check-circle';
+        }
+
+        if (eventType === 'RealmSpeedrunBeaten') {
+            return 'bx bx-stopwatch';
+        }
+
+        return 'bx bx-bell';
+    }
 </script>
 
 
@@ -93,24 +113,32 @@
     <div class="activity-message">
         {#if hasExtraVariables(currentEvent)}
             {#if currentEvent.eventType === "RealmRated"}
-                <div>
-                    <RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /> has been rated!
+                <div class="activity-line">
+                    <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
+                    <span class="activity-content"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /> has been rated!</span>
                 </div>
-
+            {:else if currentEvent.eventType === 'RealmPublished'}
+                <div class="activity-line">
+                    <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
+                    <span class="activity-content"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /> was published!</span>
+                </div>
             {:else if currentEvent.eventType === 'PlayerRealmCompleted'}
-                <div>
-                    <ProfileLink username={currentEvent.extraVariables['player_name']}/> has completed <RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" />
+                <div class="activity-line">
+                    <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
+                    <span class="activity-content"><ProfileLink username={currentEvent.extraVariables['player_name']}/> has completed <RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /></span>
                 </div>
             {:else if currentEvent.eventType === 'RealmSpeedrunBeaten'}
-                <div>
-                    <ProfileLink username={currentEvent.extraVariables['player_name']}/> has beaten the fastest time on <RealmLink realmId={currentEvent.extraVariables['realm_hash']} realmName={currentEvent.extraVariables['realm_name']} /> with {currentEvent.extraVariables['new_record']}{#if getSpeedrunDelta()}
-                        {' '}
-                        ({getSpeedrunDelta()})
-                    {/if}
+                <div class="activity-line">
+                    <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
+                    <span class="activity-content"><ProfileLink username={currentEvent.extraVariables['player_name']}/> has beaten the fastest time on <RealmLink realmId={currentEvent.extraVariables['realm_hash']} realmName={currentEvent.extraVariables['realm_name']} />: {currentEvent.extraVariables['new_record']}{#if getSpeedrunDelta()}
+                            {' '}
+                            ({getSpeedrunDelta()})
+                        {/if}</span>
                 </div>
             {:else if currentEvent.eventType === 'RealmBullet'}
-                <div>
-                    Realm bullet event
+                <div class="activity-line">
+                    <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
+                    <span class="activity-content">Realm bullet event</span>
                 </div>
             {/if}
         {/if}
@@ -137,6 +165,30 @@
         text-align: left;
         min-width: 0; /* prevents overflow issues in flex */
         opacity: 0.8;
+    }
+
+    .activity-line {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        column-gap: 0.45rem;
+        min-width: 0;
+        line-height: 1.35;
+    }
+
+    .activity-line i {
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .activity-content {
+        min-width: 0;
     }
 
     .activity-time {
