@@ -39,6 +39,53 @@
 
         return `${days} day${days !== 1 ? 's' : ''}`;
     }
+
+    function parseDurationToMs(value: string): number | null {
+        const match = value.match(/^(\d+):([0-5]\d):([0-5]\d)(?:\.(\d+))?$/);
+
+        if (!match) {
+            return null;
+        }
+
+        const hours = Number(match[1]);
+        const minutes = Number(match[2]);
+        const seconds = Number(match[3]);
+        const fraction = match[4] ? Number(`0.${match[4]}`) : 0;
+
+        return (((hours * 60 + minutes) * 60) + seconds + fraction) * 1000;
+    }
+
+    function formatDuration(ms: number): string {
+        const totalMilliseconds = Math.max(0, Math.round(ms));
+        const hours = Math.floor(totalMilliseconds / 3_600_000);
+        const minutes = Math.floor((totalMilliseconds % 3_600_000) / 60_000);
+        const seconds = Math.floor((totalMilliseconds % 60_000) / 1000);
+        const tenths = Math.floor((totalMilliseconds % 1000) / 100);
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${tenths}`;
+    }
+
+    function formatSignedDuration(ms: number): string {
+        return `${ms < 0 ? '-' : '+'}${formatDuration(Math.abs(ms))}`;
+    }
+
+    function getSpeedrunDelta(): string | null {
+        const previousRecord = currentEvent.extraVariables?.['previous_record'];
+        const newRecord = currentEvent.extraVariables?.['new_record'];
+
+        if (!previousRecord || !newRecord) {
+            return null;
+        }
+
+        const previousMs = parseDurationToMs(previousRecord);
+        const newMs = parseDurationToMs(newRecord);
+
+        if (previousMs === null || newMs === null) {
+            return null;
+        }
+
+        return formatSignedDuration(newMs - previousMs);
+    }
 </script>
 
 
@@ -53,6 +100,13 @@
             {:else if currentEvent.eventType === 'PlayerRealmCompleted'}
                 <div>
                     <ProfileLink username={currentEvent.extraVariables['player_name']}/> has completed <RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" />
+                </div>
+            {:else if currentEvent.eventType === 'RealmSpeedrunBeaten'}
+                <div>
+                    <ProfileLink username={currentEvent.extraVariables['player_name']}/> has beaten the fastest time on <RealmLink realmId={currentEvent.extraVariables['realm_hash']} realmName={currentEvent.extraVariables['realm_name']} /> with {currentEvent.extraVariables['new_record']}{#if getSpeedrunDelta()}
+                        {' '}
+                        ({getSpeedrunDelta()})
+                    {/if}
                 </div>
             {:else if currentEvent.eventType === 'RealmBullet'}
                 <div>
