@@ -6,6 +6,7 @@
     export let data: SimpleWorldResponse;
     export let selected: boolean = false;
     export let loading: boolean = false;
+    export let disabled: boolean = false;
 
     const dispatch = createEventDispatcher();
 
@@ -16,7 +17,7 @@
 
 <div class:selected={selected}>
     <SimpleListWorldDisplay data={data} showWorldStats={false} showFeaturedClass={false}>
-        <button slot="actions" on:click={vote} class="btn btn-play" type="button" disabled={loading}>
+        <button slot="actions" on:click={vote} class="btn btn-play" type="button" disabled={loading || disabled}>
             {#if loading}
                 Saving...
             {:else if selected}

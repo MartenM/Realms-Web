@@ -16,6 +16,7 @@
     let votedWorldIds = new Set<string>();
     let worlds: SimpleWorldResponse[] = [];
     let votesUsed = 0;
+    $: votesLocked = votesUsed >= maxVotes;
 
     $: votedWorldIds = new Set(voteData?.existingVotes ?? []);
     $: worlds = (voteData?.worlds ?? []).slice().sort((left, right) => {
@@ -133,12 +134,17 @@
             <div class="state state-success">{statusMessage}</div>
         {/if}
 
+        {#if votesLocked}
+            <div class="state state-warning">You have used all available votes.</div>
+        {/if}
+
         <div class="world-list">
             {#each worlds as world}
                 <RealmVoteDisplay
                     data={world}
                     selected={votedWorldIds.has(world.id ?? '')}
                     loading={loadingWorldId === (world.id ?? null)}
+                    disabled={votesLocked && !votedWorldIds.has(world.id ?? '')}
                     on:vote={() => castVote(world)}
                 />
             {/each}
@@ -243,6 +249,11 @@
     .state-success {
         background: rgba(0, 92, 35, 0.35);
         border-color: rgba(95, 255, 160, 0.35);
+    }
+
+    .state-warning {
+        background: rgba(124, 93, 0, 0.35);
+        border-color: rgba(255, 196, 0, 0.35);
     }
 
     @media (max-width: 768px) {
