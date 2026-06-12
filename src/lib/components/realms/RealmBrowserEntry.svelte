@@ -11,6 +11,8 @@
     import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
     export let data: SimpleWorldResponse;
+    export let selected: boolean = false;
+    export let showPlayButton: boolean = true;
 
     const dispatch = createEventDispatcher();
 
@@ -49,7 +51,7 @@
     }
 </script>
 
-<div class="realm-browser-entry" class:featured={data.featuredLevel > 0}>
+<div class="realm-browser-entry" class:featured={data.featuredLevel > 0} class:selected={selected}>
     <div class="rated">
         <Difficulty difficulty={data.ratedDifficulty ?? data.requestedDifficulty} rated={data.ratedDifficulty != null} featured={data.featuredLevel} />
     </div>
@@ -64,7 +66,11 @@
         <WorldStatsDisplay data={data}/>
     </div>
     <div class="entry-buttons">
-        <button on:click={playWorld} class="btn btn-play">Play</button>
+        <slot name="actions">
+            {#if showPlayButton}
+                <button on:click={playWorld} class="btn btn-play">Play</button>
+            {/if}
+        </slot>
     </div>
 
     <img class="world-preview" src="/api/world/{data.id}/minimap" alt="">
@@ -73,6 +79,10 @@
 <style>
     .featured {
         box-shadow: inset 10px 0 15px -10px var(--realm-primary); /* Inset shadow on the left */
+    }
+
+    .selected {
+        background: rgba(255, 179, 0, 0.08);
     }
 
     .btn-play {

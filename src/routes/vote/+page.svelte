@@ -2,9 +2,7 @@
     import { createApiClient } from "$lib/api/client";
     import { profileStore } from "$lib/stores/profileStore";
     import type { AvailableVoteWorlds, SimpleWorldResponse } from "$lib/api/ApiClient";
-    import RealmLink from "$lib/components/RealmLink.svelte";
-    import ProfileLink from "$lib/components/ProfileLink.svelte";
-    import InlineDifficulty from "$lib/components/InlineDifficulty.svelte";
+    import RealmBrowserEntry from "$lib/components/realms/RealmBrowserEntry.svelte";
 
     const api = createApiClient();
 
@@ -136,23 +134,9 @@
         {/if}
 
         <div class="world-list">
-            {#each worlds as world, index}
-                <article class:active={votedWorldIds.has(world.id ?? '')} class="world-card">
-                    <div class="world-main">
-                        <div class="world-title-row">
-                            <h5><RealmLink realmId={world.id ?? world.shortHash ?? ''} realmName={world.title ?? 'Untitled world'} /></h5>
-                            {#if votedWorldIds.has(world.id ?? '')}
-                                <span class="vote-pill">Voted</span>
-                            {/if}
-                        </div>
-
-                        <div class="world-meta">
-                            <span>By: <ProfileLink username={world.ownerUsername} /></span>
-                            <span><InlineDifficulty difficulty={world.ratedDifficulty ?? world.requestedDifficulty ?? 0} featured={world.featuredLevel ?? 0} rated={world.ratedDifficulty != null} /></span>
-                        </div>
-                    </div>
-
-                    <div class="world-action">
+            {#each worlds as world}
+                <RealmBrowserEntry data={world} selected={votedWorldIds.has(world.id ?? '')} showPlayButton={false}>
+                    <svelte:fragment slot="actions">
                         <button
                             class="vote-button"
                             type="button"
@@ -167,8 +151,8 @@
                                 Vote
                             {/if}
                         </button>
-                    </div>
-                </article>
+                    </svelte:fragment>
+                </RealmBrowserEntry>
             {/each}
         </div>
 
@@ -187,66 +171,7 @@
     .page-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
 
-    .lead {
-        margin: 0.25rem 0 0;
-        color: #d0d0d0;
-    }
-
-    .vote-summary {
-        min-width: 9rem;
-        padding: 0.75rem 1rem;
-        border-radius: 0.85rem;
-        background: rgba(255, 179, 0, 0.12);
-        border: 1px solid rgba(255, 179, 0, 0.25);
-        text-align: right;
-    }
-
-    .summary-label {
-        display: block;
-        font-size: 0.8rem;
-        color: #d9c089;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-    }
-
-    .summary-value {
-        font-family: Joystix, serif;
-        font-size: 1.1rem;
-        color: white;
-    }
-
-    .auth-callout {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        padding: 1rem;
-        border-radius: 0.9rem;
-        border: 1px solid rgba(255, 215, 0, 0.35);
-        background: rgba(0, 0, 0, 0.35);
-    }
-
-    .settings-link,
-    .settings-link:hover {
-        color: #111;
-        text-decoration: none;
-        background: var(--realm-primary);
-        padding: 0.65rem 1rem;
-        border-radius: 0.75rem;
-        font-weight: 700;
-    }
-
-    .world-list {
-        display: grid;
-        gap: 0.9rem;
-    }
-
-    .world-card {
         display: flex;
         justify-content: space-between;
         gap: 1rem;
