@@ -2,7 +2,7 @@
     import { createApiClient } from "$lib/api/client";
     import { profileStore } from "$lib/stores/profileStore";
     import type { AvailableVoteWorlds, SimpleWorldResponse } from "$lib/api/ApiClient";
-    import RealmBrowserEntry from "$lib/components/realms/RealmBrowserEntry.svelte";
+    import RealmVoteDisplay from "$lib/components/realms/RealmVoteDisplay.svelte";
 
     const api = createApiClient();
 
@@ -135,24 +135,12 @@
 
         <div class="world-list">
             {#each worlds as world}
-                <RealmBrowserEntry data={world} selected={votedWorldIds.has(world.id ?? '')} showPlayButton={false}>
-                    <svelte:fragment slot="actions">
-                        <button
-                            class="vote-button"
-                            type="button"
-                            disabled={loadingWorldId === (world.id ?? null)}
-                            on:click={() => castVote(world)}
-                        >
-                            {#if loadingWorldId === (world.id ?? null)}
-                                Saving...
-                            {:else if votedWorldIds.has(world.id ?? '')}
-                                Remove vote
-                            {:else}
-                                Vote
-                            {/if}
-                        </button>
-                    </svelte:fragment>
-                </RealmBrowserEntry>
+                <RealmVoteDisplay
+                    data={world}
+                    selected={votedWorldIds.has(world.id ?? '')}
+                    loading={loadingWorldId === (world.id ?? null)}
+                    on:vote={() => castVote(world)}
+                />
             {/each}
         </div>
 
@@ -171,63 +159,60 @@
     .page-header {
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
 
+    .vote-summary {
+        min-width: 9rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.85rem;
+        background: rgba(255, 179, 0, 0.12);
+        border: 1px solid rgba(255, 179, 0, 0.25);
+        text-align: right;
+    }
+
+    .summary-label {
+        display: block;
+        font-size: 0.8rem;
+        color: #d9c089;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .summary-value {
+        font-family: Joystix, serif;
+        font-size: 1.1rem;
+        color: white;
+    }
+
+    .auth-callout {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 1rem;
         padding: 1rem;
-        border-radius: 1rem;
-        background: rgba(0, 0, 0, 0.28);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.9rem;
+        border: 1px solid rgba(255, 215, 0, 0.35);
+        background: rgba(0, 0, 0, 0.35);
     }
 
-    .world-card.active {
-        border-color: rgba(255, 179, 0, 0.45);
-        box-shadow: 0 0 0 1px rgba(255, 179, 0, 0.08) inset;
+    .settings-link,
+    .settings-link:hover {
+        color: #111;
+        text-decoration: none;
+        background: var(--realm-primary);
+        padding: 0.65rem 1rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
     }
 
-    .world-main {
-        flex: 1;
-        min-width: 0;
+    .world-list {
+        display: grid;
+        gap: 0.9rem;
     }
 
-    .world-title-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-    }
-
-    .world-title-row h3 {
-        margin: 0;
-    }
-
-    .vote-pill {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.2rem 0.55rem;
-        border-radius: 999px;
-        background: rgba(255, 179, 0, 0.16);
-        border: 1px solid rgba(255, 179, 0, 0.3);
-        color: #ffdd8a;
-        font-size: 0.8rem;
-    }
-
-    .world-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.85rem;
-        margin-top: 0.55rem;
-        color: #d1d1d1;
-        font-size: 0.95rem;
-    }
-
-    .world-action {
-        display: flex;
-        align-items: center;
-    }
-
-    .vote-button,
     .refresh-button {
         border: none;
         border-radius: 0.75rem;
@@ -237,11 +222,6 @@
         color: #111;
         font-weight: 700;
         white-space: nowrap;
-    }
-
-    .vote-button:disabled {
-        opacity: 0.7;
-        cursor: wait;
     }
 
     .state {
@@ -266,8 +246,7 @@
     }
 
     @media (max-width: 768px) {
-        .auth-callout,
-        .world-card {
+        .auth-callout {
             flex-direction: column;
             align-items: stretch;
         }
