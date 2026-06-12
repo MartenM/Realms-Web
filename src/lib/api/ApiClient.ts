@@ -501,6 +501,122 @@ export class Client {
     /**
      * @return OK
      */
+    votesGET(): Promise<AvailableVoteWorlds> {
+        let url_ = this.baseUrl + "/api/votes";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processVotesGET(_response);
+        });
+    }
+
+    protected processVotesGET(response: Response): Promise<AvailableVoteWorlds> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AvailableVoteWorlds.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AvailableVoteWorlds>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    votesMaxGET(): Promise<number> {
+        let url_ = this.baseUrl + "/api/votes/max";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processVotesMaxGET(_response);
+        });
+    }
+
+    protected processVotesMaxGET(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    votesPOST(worldId: string): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/votes/{worldId}";
+        if (worldId === undefined || worldId === null)
+            throw new globalThis.Error("The parameter 'worldId' must be defined.");
+        url_ = url_.replace("{worldId}", encodeURIComponent("" + worldId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processVotesPOST(_response);
+        });
+    }
+
+    protected processVotesPOST(response: Response): Promise<boolean> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<boolean>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     worldGET(worldId: string): Promise<FullWorldResponse> {
         let url_ = this.baseUrl + "/api/world/{worldId}";
         if (worldId === undefined || worldId === null)
@@ -827,7 +943,9 @@ export class Client {
 
     /**
      * @param worldName (optional) 
+     * @param worldNameOperator (optional) 
      * @param builderName (optional) 
+     * @param builderNameOperator (optional) 
      * @param ratedOnly (optional) 
      * @param featuredOnly (optional) 
      * @param rankedOnly (optional) 
@@ -837,16 +955,24 @@ export class Client {
      * @param pageSize (optional) 
      * @return OK
      */
-    worldsSearchGET(worldName: string | undefined, builderName: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    worldsSearchGET(worldName: string | undefined, worldNameOperator: string | undefined, builderName: string | undefined, builderNameOperator: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/worlds/search?";
         if (worldName === null)
             throw new globalThis.Error("The parameter 'worldName' cannot be null.");
         else if (worldName !== undefined)
             url_ += "WorldName=" + encodeURIComponent("" + worldName) + "&";
+        if (worldNameOperator === null)
+            throw new globalThis.Error("The parameter 'worldNameOperator' cannot be null.");
+        else if (worldNameOperator !== undefined)
+            url_ += "WorldNameOperator=" + encodeURIComponent("" + worldNameOperator) + "&";
         if (builderName === null)
             throw new globalThis.Error("The parameter 'builderName' cannot be null.");
         else if (builderName !== undefined)
             url_ += "BuilderName=" + encodeURIComponent("" + builderName) + "&";
+        if (builderNameOperator === null)
+            throw new globalThis.Error("The parameter 'builderNameOperator' cannot be null.");
+        else if (builderNameOperator !== undefined)
+            url_ += "BuilderNameOperator=" + encodeURIComponent("" + builderNameOperator) + "&";
         if (ratedOnly === null)
             throw new globalThis.Error("The parameter 'ratedOnly' cannot be null.");
         else if (ratedOnly !== undefined)
@@ -1035,6 +1161,74 @@ export interface IAuthenticatedDto {
     success?: boolean;
     refreshToken?: string;
     jwtToken?: string;
+
+    [key: string]: any;
+}
+
+export class AvailableVoteWorlds implements IAvailableVoteWorlds {
+    worlds?: SimpleWorldResponse[];
+    existingVotes?: string[];
+
+    [key: string]: any;
+
+    constructor(data?: IAvailableVoteWorlds) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            if (Array.isArray(_data["worlds"])) {
+                this.worlds = [] as any;
+                for (let item of _data["worlds"])
+                    this.worlds!.push(SimpleWorldResponse.fromJS(item));
+            }
+            if (Array.isArray(_data["existingVotes"])) {
+                this.existingVotes = [] as any;
+                for (let item of _data["existingVotes"])
+                    this.existingVotes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): AvailableVoteWorlds {
+        data = typeof data === 'object' ? data : {};
+        let result = new AvailableVoteWorlds();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        if (Array.isArray(this.worlds)) {
+            data["worlds"] = [];
+            for (let item of this.worlds)
+                data["worlds"].push(item ? item.toJSON() : undefined as any);
+        }
+        if (Array.isArray(this.existingVotes)) {
+            data["existingVotes"] = [];
+            for (let item of this.existingVotes)
+                data["existingVotes"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IAvailableVoteWorlds {
+    worlds?: SimpleWorldResponse[];
+    existingVotes?: string[];
 
     [key: string]: any;
 }
