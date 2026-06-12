@@ -14,17 +14,19 @@
     }
 </script>
 
-<SimpleListWorldDisplay data={data} selected={selected} showWorldStats={false} showFeaturedClass={false}>
-    <button slot="actions" on:click={vote} class="btn btn-play" type="button" disabled={loading}>
-        {#if loading}
-            Saving...
-        {:else if selected}
-            Remove vote
-        {:else}
-            Vote
-        {/if}
-    </button>
-</SimpleListWorldDisplay>
+<div class:selected={selected}>
+    <SimpleListWorldDisplay data={data} showWorldStats={false} showFeaturedClass={false}>
+        <button slot="actions" on:click={vote} class="btn btn-play" type="button" disabled={loading}>
+            {#if loading}
+                Saving...
+            {:else if selected}
+                Remove vote
+            {:else}
+                Vote
+            {/if}
+        </button>
+    </SimpleListWorldDisplay>
+</div>
 
 <style>
     :global(.realm-browser-entry .btn-play) {
@@ -42,5 +44,11 @@
     :global(.realm-browser-entry .btn-play:disabled) {
         opacity: 0.7;
         cursor: wait;
+    }
+
+    .selected {
+        background: rgba(255, 179, 0, 0.08);
+        border: 1px solid rgba(255, 179, 0, 0.589);
+        border-radius: 0.5em;
     }
 </style>

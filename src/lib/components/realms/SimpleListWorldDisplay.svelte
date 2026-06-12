@@ -5,7 +5,6 @@
     import type { SimpleWorldResponse } from '$lib/api/ApiClient';
 
     export let data: SimpleWorldResponse;
-    export let selected: boolean = false;
     export let showWorldStats: boolean = true;
     export let showFeaturedClass: boolean = true;
 
@@ -15,7 +14,7 @@
     $: worldId = data.id ?? '';
 </script>
 
-<div class="realm-browser-entry" class:featured={showFeaturedClass && featuredLevel > 0} class:selected={selected}>
+<div class="realm-browser-entry" class:featured={showFeaturedClass && featuredLevel > 0}>
     <div class="rated">
         <Difficulty difficulty={ratedDifficulty} rated={isRated} featured={featuredLevel} />
     </div>
@@ -41,12 +40,6 @@
 <style>
     .featured {
         box-shadow: inset 10px 0 15px -10px var(--realm-primary);
-    }
-
-    .selected {
-        background: rgba(255, 179, 0, 0.08);
-        border: 1px solid rgba(255, 179, 0, 0.589);
-        border-radius: 0.5em;
     }
 
     .world-preview {
