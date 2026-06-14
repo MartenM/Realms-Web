@@ -13,11 +13,32 @@
     function vote() {
         dispatch('vote');
     }
+
+    function play(id: string | undefined) {
+        if (id) {
+            window.location.href = `/r/${id}`;
+        }
+    }
 </script>
 
-<div class:selected={selected}>
-    <SimpleListWorldDisplay data={data} showWorldStats={false} showFeaturedClass={false}>
-        <button slot="actions" on:click={vote} class="btn btn-play" type="button" disabled={loading || disabled}>
+<div
+    class:selected={selected}
+    on:click={() => play(data.id)}
+    role="button"
+    tabindex="0"
+>
+    <SimpleListWorldDisplay
+        data={data}
+        showWorldStats={false}
+        showFeaturedClass={false}
+    >
+        <button
+            slot="actions"
+            on:click|stopPropagation={vote}
+            class="btn btn-play"
+            type="button"
+            disabled={loading || disabled}
+        >
             {#if loading}
                 Saving...
             {:else if selected}
