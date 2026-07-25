@@ -9,8 +9,12 @@ export async function load({ params }) {
     const profile = await apiFetch.profileGET(undefined, username);
 
     if (profile != null) {
+        const trophyProgression = (await apiFetch.profileTrophyProgressionGET(profile.id!))
+            .filter(p => p.trophiesGained !== 0);
+
         return {
-            profile
+            profile,
+            trophyProgression
         };
     }
 

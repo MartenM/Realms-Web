@@ -1,11 +1,89 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+    import { Chart } from "chart.js/auto";
+    import zoomPlugin from "chartjs-plugin-zoom";
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
 
     export let data;
-    const { profile } = data;
+    const { profile, trophyProgression } = data;
+
+    let trophyChartCanvas: HTMLCanvasElement;
+    let trophyChart: Chart;
+
+    Chart.register(zoomPlugin);
+
+    onMount(() => {
+        if (!trophyProgression || trophyProgression.length === 0) return;
+
+        const labels = trophyProgression.map(p => new Date(p.date).toLocaleDateString());
+
+        const chartOptions = {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        includeBounds: true,
+                        maxRotation: 50,
+                        minRotation: 50,
+                        maxTicksLimit: 5,
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context: any) => {
+                            const point = trophyProgression[context.dataIndex];
+                            return `${point.totalTrophies} trophies (+${point.trophiesGained} in ${point.worldTitle})`;
+                        }
+                    }
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x' as const,
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true,
+                        },
+                        pinch: {
+                            enabled: true,
+                        },
+                        mode: 'x' as const,
+                    },
+                    limits: {
+                        x: {
+                            min: 'original' as const,
+                            max: 'original' as const,
+                        }
+                    }
+                }
+            }
+        };
+
+        trophyChart = new Chart(trophyChartCanvas.getContext('2d')!, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: "Trophies",
+                    data: trophyProgression.map(p => p.totalTrophies),
+                    borderColor: '#FFD700',
+                    backgroundColor: 'rgba(255, 215, 0, 0.4)',
+                    fill: true,
+                }]
+            },
+            options: chartOptions,
+        });
+    });
+
+    function resetZoom() {
+        trophyChart?.resetZoom();
+    }
 </script>
 
 <svelte:head>
@@ -55,6 +133,16 @@
             </div>
         </div>
     </div>
+
+    {#if trophyProgression && trophyProgression.length > 0}
+        <div class="chart-section">
+            <h5>Trophy Progression</h5>
+            <div class="chart-container">
+                <canvas bind:this={trophyChartCanvas}></canvas>
+                <button type="button" class="reset-zoom" on:click={resetZoom}>Reset zoom</button>
+            </div>
+        </div>
+    {/if}
 
     <hr />
 
@@ -123,5 +211,33 @@
     hr {
         border: none;
         border-top: 2px solid var(--realm-primary);
+    }
+
+    .chart-section {
+        text-align: center;
+    }
+
+    .reset-zoom {
+        position: absolute;
+        right: 0.75em;
+        bottom: 0.75em;
+        font-family: Joystix, serif;
+        font-size: 0.75em;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--realm-primary);
+        border-radius: 0.3em;
+        padding: 0.3em 0.7em;
+        cursor: pointer;
+    }
+
+    .reset-zoom:hover {
+        background: var(--realm-primary);
+    }
+
+    .chart-container {
+        position: relative;
+        height: 30vh;
+        width: 100%;
     }
 </style>
