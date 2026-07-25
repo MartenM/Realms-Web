@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { Chart } from "chart.js/auto";
-    import zoomPlugin from "chartjs-plugin-zoom";
     import trophy from "$lib/images/trophy.png";
     import builder from "$lib/images/builder_block.png";
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
@@ -13,10 +12,11 @@
     let trophyChartCanvas: HTMLCanvasElement;
     let trophyChart: Chart;
 
-    Chart.register(zoomPlugin);
-
-    onMount(() => {
+    onMount(async () => {
         if (!trophyProgression || trophyProgression.length === 0) return;
+
+        const { default: zoomPlugin } = await import("chartjs-plugin-zoom");
+        Chart.register(zoomPlugin);
 
         const labels = trophyProgression.map(p => new Date(p.date).toLocaleDateString());
 
