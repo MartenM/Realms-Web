@@ -16,11 +16,11 @@
             route: '/recent',
             icon: 'bx-time',
         },
-        {
-            name: 'Contest',
-            route: '/contest/summer-contest',
-            icon: 'bx-medal',
-        },
+        // {
+        //     name: 'Contest',
+        //     route: '/contest/summer-contest',
+        //     icon: 'bx-medal',
+        // },
         {
             name: 'Highscores',
             route: '/highscores',
