@@ -86,15 +86,15 @@
                 <hr/>
 
                 <div class="form-check">
-                    <input bind:checked={searchQuery.ratedOnly} disabled="{ratedLocked}" class="form-check-input" type="checkbox" id="featured-only">
-                    <label class="form-check-label" for="featured-only">
+                    <input bind:checked={searchQuery.ratedOnly} disabled="{ratedLocked}" class="form-check-input" type="checkbox" id="rated-only">
+                    <label class="form-check-label" for="rated-only">
                         Rated
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input bind:checked={searchQuery.rankedOnly} class="form-check-input" type="checkbox" id="featured-only">
-                    <label class="form-check-label" for="featured-only">
+                    <input bind:checked={searchQuery.rankedOnly} class="form-check-input" type="checkbox" id="ranked-only">
+                    <label class="form-check-label" for="ranked-only">
                         Ranked <span style="font-size: 10px; color: gray">(Speedrun leaderboard)</span>
                     </label>
                 </div>
