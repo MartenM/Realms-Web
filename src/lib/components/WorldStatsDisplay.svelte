@@ -4,6 +4,8 @@
 
     export let data: SimpleWorldResponse;
 
+    $: likeSum = (data.likes ?? 0) - (data.dislikes ?? 0);
+
     function secondsToLength(seconds: number) {
         let minutes = 60;
 
@@ -30,6 +32,7 @@
 <div class="stats">
     <div><i class='bx bxs-flag-checkered'></i><div>{data.completions}</div></div>
     <div><i class='bx bx-play' ></i><div>{data.plays}</div></div>
+    <div><i class='bx bx-like' ></i><div>{likeSum}</div></div>
     {#if data.secondsToComplete != null}
         <div data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class='bx bx-stopwatch' ></i> <div>{secondsToLength(data.secondsToComplete)}</div></div>
     {/if}

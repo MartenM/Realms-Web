@@ -115,22 +115,22 @@
             {#if currentEvent.eventType === "RealmRated"}
                 <div class="activity-line">
                     <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
-                    <span class="activity-content"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /> has been rated!</span>
+                    <span class="activity-content"><span class="realm-link"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /></span> has been rated!</span>
                 </div>
             {:else if currentEvent.eventType === 'RealmPublished'}
                 <div class="activity-line">
                     <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
-                    <span class="activity-content"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /> was published!</span>
+                    <span class="activity-content"><span class="realm-link"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /></span> was published!</span>
                 </div>
             {:else if currentEvent.eventType === 'PlayerRealmCompleted'}
                 <div class="activity-line">
                     <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
-                    <span class="activity-content"><ProfileLink username={currentEvent.extraVariables['player_name']}/> has completed <RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /></span>
+                    <span class="activity-content"><span class="player-link"><ProfileLink username={currentEvent.extraVariables['player_name']}/></span> has completed <span class="realm-link"><RealmLink realmId="{currentEvent.extraVariables['realm_hash']}" realmName="{currentEvent.extraVariables['realm_name']}" /></span></span>
                 </div>
             {:else if currentEvent.eventType === 'RealmSpeedrunBeaten'}
                 <div class="activity-line">
                     <i class={getActivityIconClass(currentEvent.eventType)} aria-hidden="true"></i>
-                    <span class="activity-content"><ProfileLink username={currentEvent.extraVariables['player_name']}/> has beaten the fastest time on <RealmLink realmId={currentEvent.extraVariables['realm_hash']} realmName={currentEvent.extraVariables['realm_name']} />: {currentEvent.extraVariables['new_record']}{#if getSpeedrunDelta()}
+                    <span class="activity-content"><span class="player-link"><ProfileLink username={currentEvent.extraVariables['player_name']}/></span> has beaten the fastest time on <span class="realm-link"><RealmLink realmId={currentEvent.extraVariables['realm_hash']} realmName={currentEvent.extraVariables['realm_name']} /></span>: {currentEvent.extraVariables['new_record']}{#if getSpeedrunDelta()}
                             {' '}
                             ({getSpeedrunDelta()})
                         {/if}</span>
@@ -189,6 +189,31 @@
 
     .activity-content {
         min-width: 0;
+    }
+
+    .activity-content :global(a) {
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid transparent;
+        transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .realm-link :global(a) {
+        color: #ff9d00;
+    }
+
+    .realm-link :global(a:hover) {
+        color: #ffb733;
+        border-bottom-color: currentColor;
+    }
+
+    .player-link :global(a) {
+        color: white;
+    }
+
+    .player-link :global(a:hover) {
+        color:  rgb(255, 250, 181);
+        border-bottom-color: currentColor;
     }
 
     .activity-time {

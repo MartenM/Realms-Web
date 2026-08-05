@@ -8,6 +8,7 @@
     import trophy from "$lib/images/trophy.png";
     import clock from "$lib/images/clock.png";
     import WorldStatsDisplay from "$lib/components/WorldStatsDisplay.svelte";
+    import LikeDislikeButtons from "$lib/components/realms/LikeDislikeButtons.svelte";
     import type { FullWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
     export let realmData: {
@@ -85,6 +86,7 @@
             <div>
                 <PlayRealmButton worldId={world.id}/>
             </div>
+            <LikeDislikeButtons bind:world={world}/>
             <div class="button-row">
                 <button class="btn btn-row btn-share" on:click={() => copyToClipboard(`${window.location.origin}/r/${world.shortHash}`)}>Copy share URL</button>
                 <div style="width: 10px"></div>

@@ -847,6 +847,50 @@ export class Client {
     /**
      * @return OK
      */
+    worldLikePOST(worldId: string, body: SetWorldLikeRequest): Promise<WorldLikeResponse> {
+        let url_ = this.baseUrl + "/api/world/{worldId}/like";
+        if (worldId === undefined || worldId === null)
+            throw new globalThis.Error("The parameter 'worldId' must be defined.");
+        url_ = url_.replace("{worldId}", encodeURIComponent("" + worldId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processWorldLikePOST(_response);
+        });
+    }
+
+    protected processWorldLikePOST(response: Response): Promise<WorldLikeResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = WorldLikeResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WorldLikeResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     worldPlayPOST(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/world/{worldId}/play";
         if (worldId === undefined || worldId === null)
@@ -1373,6 +1417,8 @@ export class FullWorldResponse implements IFullWorldResponse {
     plays?: number;
     ranked?: boolean;
     likes!: number;
+    dislikes!: number;
+    ownLiked!: boolean | undefined;
     ownerUsername!: string;
     completions!: number;
     completed!: boolean;
@@ -1407,6 +1453,8 @@ export class FullWorldResponse implements IFullWorldResponse {
             this.plays = _data["plays"];
             this.ranked = _data["ranked"];
             this.likes = _data["likes"];
+            this.dislikes = _data["dislikes"];
+            this.ownLiked = _data["ownLiked"];
             this.ownerUsername = _data["ownerUsername"];
             this.completions = _data["completions"];
             this.completed = _data["completed"];
@@ -1439,6 +1487,8 @@ export class FullWorldResponse implements IFullWorldResponse {
         data["plays"] = this.plays;
         data["ranked"] = this.ranked;
         data["likes"] = this.likes;
+        data["dislikes"] = this.dislikes;
+        data["ownLiked"] = this.ownLiked;
         data["ownerUsername"] = this.ownerUsername;
         data["completions"] = this.completions;
         data["completed"] = this.completed;
@@ -1460,6 +1510,8 @@ export interface IFullWorldResponse {
     plays?: number;
     ranked?: boolean;
     likes: number;
+    dislikes: number;
+    ownLiked: boolean | undefined;
     ownerUsername: string;
     completions: number;
     completed: boolean;
@@ -1736,6 +1788,54 @@ export interface ISessionUpdate {
     [key: string]: any;
 }
 
+export class SetWorldLikeRequest implements ISetWorldLikeRequest {
+    liked!: boolean | undefined;
+
+    [key: string]: any;
+
+    constructor(data?: ISetWorldLikeRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.liked = _data["liked"];
+        }
+    }
+
+    static fromJS(data: any): SetWorldLikeRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetWorldLikeRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["liked"] = this.liked;
+        return data;
+    }
+}
+
+export interface ISetWorldLikeRequest {
+    liked: boolean | undefined;
+
+    [key: string]: any;
+}
+
 export class SimpleWorldResponse implements ISimpleWorldResponse {
     id?: string;
     shortHash?: string;
@@ -1748,6 +1848,8 @@ export class SimpleWorldResponse implements ISimpleWorldResponse {
     plays?: number;
     ranked?: boolean;
     likes!: number;
+    dislikes!: number;
+    ownLiked!: boolean | undefined;
     ownerUsername!: string;
     completions!: number;
     completed!: boolean;
@@ -1781,6 +1883,8 @@ export class SimpleWorldResponse implements ISimpleWorldResponse {
             this.plays = _data["plays"];
             this.ranked = _data["ranked"];
             this.likes = _data["likes"];
+            this.dislikes = _data["dislikes"];
+            this.ownLiked = _data["ownLiked"];
             this.ownerUsername = _data["ownerUsername"];
             this.completions = _data["completions"];
             this.completed = _data["completed"];
@@ -1812,6 +1916,8 @@ export class SimpleWorldResponse implements ISimpleWorldResponse {
         data["plays"] = this.plays;
         data["ranked"] = this.ranked;
         data["likes"] = this.likes;
+        data["dislikes"] = this.dislikes;
+        data["ownLiked"] = this.ownLiked;
         data["ownerUsername"] = this.ownerUsername;
         data["completions"] = this.completions;
         data["completed"] = this.completed;
@@ -1832,6 +1938,8 @@ export interface ISimpleWorldResponse {
     plays?: number;
     ranked?: boolean;
     likes: number;
+    dislikes: number;
+    ownLiked: boolean | undefined;
     ownerUsername: string;
     completions: number;
     completed: boolean;
@@ -1900,6 +2008,62 @@ export interface ITrophyProgressionPoint {
     worldTitle: string;
     trophiesGained: number;
     totalTrophies: number;
+
+    [key: string]: any;
+}
+
+export class WorldLikeResponse implements IWorldLikeResponse {
+    liked!: boolean | undefined;
+    likes!: number;
+    dislikes!: number;
+
+    [key: string]: any;
+
+    constructor(data?: IWorldLikeResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.liked = _data["liked"];
+            this.likes = _data["likes"];
+            this.dislikes = _data["dislikes"];
+        }
+    }
+
+    static fromJS(data: any): WorldLikeResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorldLikeResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["liked"] = this.liked;
+        data["likes"] = this.likes;
+        data["dislikes"] = this.dislikes;
+        return data;
+    }
+}
+
+export interface IWorldLikeResponse {
+    liked: boolean | undefined;
+    likes: number;
+    dislikes: number;
 
     [key: string]: any;
 }
