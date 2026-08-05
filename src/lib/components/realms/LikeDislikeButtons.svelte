@@ -10,7 +10,7 @@
     let isLoading = false;
 
     async function setLiked(liked: boolean) {
-        if (isLoading || !world.id) {
+        if (isLoading || !world.id || !$profileStore.isAuthenticated) {
             return;
         }
 
@@ -31,25 +31,27 @@
     }
 </script>
 
-<div class="button-row">
-    <button
-        class="btn btn-row btn-like"
-        class:active={world.ownLiked === true}
-        disabled={isLoading}
-        on:click={() => setLiked(true)}
-    >
-        <i class='bx bxs-like'></i> Like
-    </button>
-    <div style="width: 10px"></div>
-    <button
-        class="btn btn-row btn-dislike"
-        class:active={world.ownLiked === false}
-        disabled={isLoading}
-        on:click={() => setLiked(false)}
-    >
-        <i class='bx bxs-dislike'></i> Dislike
-    </button>
-</div>
+{#if $profileStore.isAuthenticated}
+    <div class="button-row">
+        <button
+            class="btn btn-row btn-like"
+            class:active={world.ownLiked === true}
+            disabled={isLoading}
+            on:click={() => setLiked(true)}
+        >
+            <i class='bx bxs-like'></i> Like
+        </button>
+        <div style="width: 10px"></div>
+        <button
+            class="btn btn-row btn-dislike"
+            class:active={world.ownLiked === false}
+            disabled={isLoading}
+            on:click={() => setLiked(false)}
+        >
+            <i class='bx bxs-dislike'></i> Dislike
+        </button>
+    </div>
+{/if}
 
 <style>
     .button-row {
