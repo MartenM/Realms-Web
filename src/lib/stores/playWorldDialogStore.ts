@@ -1,6 +1,7 @@
 import {get, writable} from 'svelte/store';
 import { createApiClient } from '$lib/api/client';
-import type { SimpleWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
+import { SetWorldCommentRequest } from '$lib/api/ApiClient';
+import type { SimpleWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment, WorldCommentResponse } from '$lib/api/ApiClient';
 
 export interface PlayWorldDialogType {
     isOpen: boolean;
@@ -26,6 +27,11 @@ export async function fetchSpeedRecords(worldId: string): Promise<WorldSpeedReco
 export async function fetchRealmPlayerComments(worldId: string): Promise<RealmPlayerComment[]> {
     const api = createApiClient();
     return api.worldCommentsGET(worldId, 0, 100);
+}
+
+export async function postRealmComment(worldId: string, comment: string): Promise<WorldCommentResponse> {
+    const api = createApiClient();
+    return api.worldCommentPOST(worldId, new SetWorldCommentRequest({ comment }));
 }
 
 export const loadSpeedRecords = async (): Promise<boolean> => {

@@ -36,8 +36,7 @@
 
 <style>
     dialog {
-        max-width: 80em;
-        min-width: 40em;
+        width: min(40em, 95vw);
         border-radius: 0.2em;
         border: 4px solid gold;
         border-radius: 1em;

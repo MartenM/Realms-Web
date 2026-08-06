@@ -891,6 +891,50 @@ export class Client {
     /**
      * @return OK
      */
+    worldCommentPOST(worldId: string, body: SetWorldCommentRequest): Promise<WorldCommentResponse> {
+        let url_ = this.baseUrl + "/api/world/{worldId}/comment";
+        if (worldId === undefined || worldId === null)
+            throw new globalThis.Error("The parameter 'worldId' must be defined.");
+        url_ = url_.replace("{worldId}", encodeURIComponent("" + worldId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processWorldCommentPOST(_response);
+        });
+    }
+
+    protected processWorldCommentPOST(response: Response): Promise<WorldCommentResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = WorldCommentResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WorldCommentResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     worldPlayPOST(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/world/{worldId}/play";
         if (worldId === undefined || worldId === null)
@@ -1578,6 +1622,7 @@ export class RealmPlayerComment implements IRealmPlayerComment {
     smiley!: string;
     suggestedRating!: number | undefined;
     liked!: boolean | undefined;
+    comment!: string | undefined;
     completed!: boolean;
     completedDeathless!: boolean;
 
@@ -1603,6 +1648,7 @@ export class RealmPlayerComment implements IRealmPlayerComment {
             this.smiley = _data["smiley"];
             this.suggestedRating = _data["suggestedRating"];
             this.liked = _data["liked"];
+            this.comment = _data["comment"];
             this.completed = _data["completed"];
             this.completedDeathless = _data["completedDeathless"];
         }
@@ -1626,6 +1672,7 @@ export class RealmPlayerComment implements IRealmPlayerComment {
         data["smiley"] = this.smiley;
         data["suggestedRating"] = this.suggestedRating;
         data["liked"] = this.liked;
+        data["comment"] = this.comment;
         data["completed"] = this.completed;
         data["completedDeathless"] = this.completedDeathless;
         return data;
@@ -1638,6 +1685,7 @@ export interface IRealmPlayerComment {
     smiley: string;
     suggestedRating: number | undefined;
     liked: boolean | undefined;
+    comment: string | undefined;
     completed: boolean;
     completedDeathless: boolean;
 
@@ -1784,6 +1832,54 @@ export class SessionUpdate implements ISessionUpdate {
 
 export interface ISessionUpdate {
     username?: string | undefined;
+
+    [key: string]: any;
+}
+
+export class SetWorldCommentRequest implements ISetWorldCommentRequest {
+    comment?: string | undefined;
+
+    [key: string]: any;
+
+    constructor(data?: ISetWorldCommentRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.comment = _data["comment"];
+        }
+    }
+
+    static fromJS(data: any): SetWorldCommentRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetWorldCommentRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["comment"] = this.comment;
+        return data;
+    }
+}
+
+export interface ISetWorldCommentRequest {
+    comment?: string | undefined;
 
     [key: string]: any;
 }
@@ -2008,6 +2104,54 @@ export interface ITrophyProgressionPoint {
     worldTitle: string;
     trophiesGained: number;
     totalTrophies: number;
+
+    [key: string]: any;
+}
+
+export class WorldCommentResponse implements IWorldCommentResponse {
+    comment!: string | undefined;
+
+    [key: string]: any;
+
+    constructor(data?: IWorldCommentResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.comment = _data["comment"];
+        }
+    }
+
+    static fromJS(data: any): WorldCommentResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorldCommentResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["comment"] = this.comment;
+        return data;
+    }
+}
+
+export interface IWorldCommentResponse {
+    comment: string | undefined;
 
     [key: string]: any;
 }
