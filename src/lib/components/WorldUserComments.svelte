@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {fetchRealmPlayerComments, postRealmComment} from "$lib/stores/playWorldDialogStore";
+    import {fetchRealmPlayerComments, postRealmComment, deleteRealmComment} from "$lib/stores/playWorldDialogStore";
     import { onMount } from "svelte";
     import LoadSpinner from "$lib/components/LoadSpinner.svelte";
     import Smiley from "$lib/components/Smiley.svelte";
@@ -10,6 +10,8 @@
     import ProfileLink from "$lib/components/ProfileLink.svelte";
     import { profileStore } from "$lib/stores/profileStore";
     import { extractApiErrorMessage } from "$lib/api/errors";
+    import AuthorizeRole from "$lib/components/AuthorizeRole.svelte";
+    import { PlayerGroup } from "$lib/auth/PlayerGroup";
     import type { FullWorldResponse, WorldSpeedRecordsResponse, RealmPlayerComment } from '$lib/api/ApiClient';
 
     const COMMENT_MAX_LENGTH = 500;
@@ -24,6 +26,7 @@
     let commentDraft = "";
     let isSubmitting = false;
     let submitError: string | null = null;
+    let deletingPlayerId: string | null = null;
 
     $: playerComments = realmData.playerComments;
 
@@ -53,6 +56,22 @@
             submitError = extractApiErrorMessage(error, "Something went wrong while posting your comment.");
         } finally {
             isSubmitting = false;
+        }
+    }
+
+    async function deleteComment(playerId: string) {
+        if (deletingPlayerId != null) {
+            return;
+        }
+
+        deletingPlayerId = playerId;
+        try {
+            await deleteRealmComment(realmData.world.id, playerId);
+            realmData.playerComments = await fetchRealmPlayerComments(realmData.world.id);
+        } catch (error) {
+            console.error("Failed to delete comment", error);
+        } finally {
+            deletingPlayerId = null;
         }
     }
 </script>
@@ -95,6 +114,17 @@
                             <div class="comment-text">{comment.comment}</div>
                         {/if}
                     </div>
+                    <AuthorizeRole role={PlayerGroup.Admin}>
+                        <button
+                            type="button"
+                            class="btn-delete-comment"
+                            title="Delete comment"
+                            disabled={deletingPlayerId === comment.playerId}
+                            on:click={() => deleteComment(comment.playerId)}
+                        >
+                            <i class='bx bx-trash'></i>
+                        </button>
+                    </AuthorizeRole>
                 </div>
 
             {/each}
@@ -218,6 +248,24 @@
 
     .completed i {
         color: #5cff5c;
+    }
+
+    .btn-delete-comment {
+        align-self: flex-start;
+        background: transparent;
+        border: none;
+        color: #ff8a8a;
+        padding: 0.25em;
+        cursor: pointer;
+    }
+
+    .btn-delete-comment:hover:not(:disabled) {
+        color: #ff5c5c;
+    }
+
+    .btn-delete-comment:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .comment-text {

@@ -1,5 +1,7 @@
 <script lang="ts">
     import { profileStore } from "$lib/stores/profileStore";
+    import AuthorizeRole from "$lib/components/AuthorizeRole.svelte";
+    import { PlayerGroup } from "$lib/auth/PlayerGroup";
 
     let code = '';
     let message = '';
@@ -36,6 +38,9 @@
 {#if $profileStore.isAuthenticated}
     <div class="auth-status">
         <p>Authenticated as <strong>{$profileStore.username}</strong>.</p>
+        <AuthorizeRole role={PlayerGroup.Admin}>
+            <p>Role: <strong>{$profileStore.role}</strong></p>
+        </AuthorizeRole>
         <button type="button" class="btn btn-save" on:click={signOut}>Sign out</button>
     </div>
 {:else}

@@ -1,6 +1,7 @@
 <script lang="ts">
     import UsernameBox from "./UsernameBox.svelte";
     import Planned from "$lib/components/Planned.svelte";
+    import CurrentSettings from "./CurrentSettings.svelte";
 </script>
 
 <div class="realm-box settings">

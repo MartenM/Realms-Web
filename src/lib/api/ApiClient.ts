@@ -935,6 +935,45 @@ export class Client {
     /**
      * @return OK
      */
+    worldCommentDELETE(worldId: string, playerId: string): Promise<void> {
+        let url_ = this.baseUrl + "/api/world/{worldId}/comment/{playerId}";
+        if (worldId === undefined || worldId === null)
+            throw new globalThis.Error("The parameter 'worldId' must be defined.");
+        url_ = url_.replace("{worldId}", encodeURIComponent("" + worldId));
+        if (playerId === undefined || playerId === null)
+            throw new globalThis.Error("The parameter 'playerId' must be defined.");
+        url_ = url_.replace("{playerId}", encodeURIComponent("" + playerId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processWorldCommentDELETE(_response);
+        });
+    }
+
+    protected processWorldCommentDELETE(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     worldPlayPOST(worldId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/world/{worldId}/play";
         if (worldId === undefined || worldId === null)
@@ -1086,11 +1125,13 @@ export class Client {
      * @param rankedOnly (optional) 
      * @param difficulties (optional) 
      * @param contestId (optional) 
+     * @param sortBy (optional) 
+     * @param sortDescending (optional) 
      * @param page (optional) 
      * @param pageSize (optional) 
      * @return OK
      */
-    worldsSearchGET(worldName: string | undefined, worldNameOperator: string | undefined, builderName: string | undefined, builderNameOperator: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
+    worldsSearchGET(worldName: string | undefined, worldNameOperator: string | undefined, builderName: string | undefined, builderNameOperator: string | undefined, ratedOnly: boolean | undefined, featuredOnly: boolean | undefined, rankedOnly: boolean | undefined, difficulties: number[] | undefined, contestId: string | undefined, sortBy: number | undefined, sortDescending: boolean | undefined, page: number | undefined, pageSize: number | undefined): Promise<SimpleWorldResponse[]> {
         let url_ = this.baseUrl + "/api/worlds/search?";
         if (worldName === null)
             throw new globalThis.Error("The parameter 'worldName' cannot be null.");
@@ -1128,6 +1169,14 @@ export class Client {
             throw new globalThis.Error("The parameter 'contestId' cannot be null.");
         else if (contestId !== undefined)
             url_ += "ContestId=" + encodeURIComponent("" + contestId) + "&";
+        if (sortBy === null)
+            throw new globalThis.Error("The parameter 'sortBy' cannot be null.");
+        else if (sortBy !== undefined)
+            url_ += "SortBy=" + encodeURIComponent("" + sortBy) + "&";
+        if (sortDescending === null)
+            throw new globalThis.Error("The parameter 'sortDescending' cannot be null.");
+        else if (sortDescending !== undefined)
+            url_ += "SortDescending=" + encodeURIComponent("" + sortDescending) + "&";
         if (page === null)
             throw new globalThis.Error("The parameter 'page' cannot be null.");
         else if (page !== undefined)

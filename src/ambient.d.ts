@@ -5,6 +5,7 @@ interface Profile {
     username: string | null;
     id?: string | null;
     smiley?: string | null;
+    role?: string | null;
 }
 
 interface PublishedWorld {
@@ -95,6 +96,8 @@ interface NumericalStats {
     totalTrophies:     number[];
 }
 
+type SortOption = 0 | 1 | 2 | 3 | 4;
+
 interface RealmSearchQuery {
     worldName: string;
     builderName: string;
@@ -102,4 +105,6 @@ interface RealmSearchQuery {
     featuredOnly: boolean;
     rankedOnly: boolean;
     difficulties: number[]
+    sortBy: SortOption;
+    sortDescending: boolean;
 }

@@ -34,6 +34,11 @@ export async function postRealmComment(worldId: string, comment: string): Promis
     return api.worldCommentPOST(worldId, new SetWorldCommentRequest({ comment }));
 }
 
+export async function deleteRealmComment(worldId: string, playerId: string): Promise<void> {
+    const api = createApiClient();
+    return api.worldCommentDELETE(worldId, playerId);
+}
+
 export const loadSpeedRecords = async (): Promise<boolean> => {
     const state = get(playWorldDialogStore);
     if (state.world == null) {

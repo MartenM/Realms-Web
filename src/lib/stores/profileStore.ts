@@ -12,6 +12,7 @@ const defaultProfile: Profile = {
     username: null,
     id: null,
     smiley: null,
+    role: null,
 };
 
 type StoredAuthState = {
@@ -47,12 +48,14 @@ function getProfileFromToken(token: string): Profile {
     const username = payload?.name || null;
     const id = payload?.sub || payload?.id || null;
     const smiley = payload?.smiley || null;
+    const role = payload?.roles || null;
 
     return {
         isAuthenticated: !!username,
         username,
         id,
         smiley,
+        role,
     };
 }
 
@@ -67,7 +70,7 @@ function loadAuthState() {
             jwtToken: stored.jwtToken ?? null,
             refreshToken: stored.refreshToken ?? null,
             expiresAt: stored.expiresAt ?? null,
-            profile: stored.profile ?? defaultProfile,
+            profile: stored.jwtToken ? getProfileFromToken(stored.jwtToken) : defaultProfile,
         };
     } catch {
         authState = {
