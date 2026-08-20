@@ -1,7 +1,6 @@
 <script lang="ts">
     import DifficultySelector from "$lib/components/DifficultySelector.svelte";
     import {goto} from "$app/navigation";
-    import {onMount} from "svelte";
     import {page} from "$app/stores";
     import RealmBrowser from "$lib/components/realms/RealmBrowser.svelte";
     import DifficultyBar from "$lib/components/DifficultyBar.svelte";
@@ -39,21 +38,21 @@
         currentUrl.searchParams.set('query', JSON.stringify(searchQuery)); // Add or update a query parameter
 
         goto(currentUrl.toString());
-        isSearching = true;
     }
 
-    onMount(() => {
-        let queryParams = $page.url.searchParams; // Get the URL search parameters (query params)
+    // Keep the shown search results in sync with the URL, including when
+    // navigating back to a bare /search (e.g. via the navbar) while results
+    // are already showing, since SvelteKit reuses this component instance.
+    $: {
+        let query = $page.url.searchParams.get('query');
 
-        // Example of accessing specific query parameters
-        let query = queryParams.get('query'); // Get the value of 'myParam'
-
-        if (query == null) return;
-        if (query.length < 2) return;
-
-        searchQuery = JSON.parse(query);
-        isSearching = true;
-    })
+        if (query != null && query.length >= 2) {
+            searchQuery = JSON.parse(query);
+            isSearching = true;
+        } else {
+            isSearching = false;
+        }
+    }
 
     let isSearching = false;
     let searchQuery: RealmSearchQuery = {
@@ -62,10 +61,20 @@
         ratedOnly: false,
         featuredOnly: false,
         rankedOnly: false,
-        difficulties: []
+        difficulties: [],
+        sortBy: 0,
+        sortDescending: true
     }
 
     let selectedMetas: DifficultyMeta[] = []
+
+    const sortOptions: { value: SortOption, label: string }[] = [
+        {value: 0, label: "Publish date"},
+        {value: 1, label: "Likes"},
+        {value: 2, label: "Plays"},
+        {value: 3, label: "Unique finishes"},
+        {value: 4, label: "Length"}
+    ];
 </script>
 
 <div class="realm-box search">
@@ -108,6 +117,22 @@
 
                 <hr/>
 
+                <label for="sort-chips">Sort by:</label>
+                <div id="sort-chips" class="chip-row">
+                    {#each sortOptions as option}
+                        <button
+                            type="button"
+                            class="chip"
+                            class:selected={searchQuery.sortBy === option.value}
+                            on:click={() => searchQuery.sortBy = option.value}
+                        >
+                            {option.label}
+                        </button>
+                    {/each}
+                </div>
+
+                <hr/>
+
                 <DifficultySelector bind:selectedMetas={selectedMetas}/>
 
                 <button class="btn btn-search" on:click={search}>Search</button>
@@ -128,6 +153,34 @@
     .btn-search {
         background-color: var(--realm-primary);
         width: 100%;
+    }
+
+    .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .chip {
+        border: 1px solid var(--realm-primary);
+        background-color: transparent;
+        color: var(--realm-primary);
+        border-radius: 999px;
+        padding: 0.3em 1em;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+        background-color: rgba(255, 179, 0, 0.15);
+    }
+
+    .chip.selected {
+        background-color: var(--realm-primary);
+        color: #000;
     }
 </style>
 

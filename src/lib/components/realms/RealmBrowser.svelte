@@ -62,7 +62,7 @@
     </div>
 
     <!-- Content browser -->
-    <div class="realm-browser-content" transition:fade>
+    <div class="realm-browser-content" in:fade>
         {#await dataPromise}
             <div class="d-flex justify-content-center align-items-center pagination ">
                 <LoadSpinner/>
